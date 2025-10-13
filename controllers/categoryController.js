@@ -1,0 +1,91 @@
+import { AppError } from "../middlewares/errorHandler.js";
+import { Category } from "../models/Index.js";
+
+
+async function getAllCategories(req, res, next){
+    try {
+        const categories = await Category.find();
+        return res.status(200).json(categories);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function getCategoryById(req, res, next) {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) throw new AppError("Category not found", 404);
+        res.status(200).json(category);
+    } catch (err) {
+        next(err)
+    }
+}
+
+async function createCategory(req, res) {
+    try {
+        const { name, description } = req.body;
+
+        if (!name || !description) throw new AppError("Name and Description are required", 400);
+
+        const existingCat = await Category.findOne({ name });
+        if (existingCat) throw new AppError("Name already in use", 400);
+
+        const category = await Category.create({ name, description });
+
+        res.status(201).json(category);
+    } catch (err) {
+        next(err)
+    }
+}
+
+
+async function updateCategory(req, res, next) {
+    try {
+        const { id } = req.params;
+        let { name, description } = req.body;
+
+        const category = await Category.findById(id);
+        if (!category) throw new AppError("Category not found", 404);
+
+        if (name) {
+
+            name = name.trim();
+            if (!name) throw new AppError("Name cannot be empty", 400);
+
+            const existingCat = await Category.findOne({ name });
+            if (existingCat && existingCat._id.toString() !== id) throw new AppError("Name already in use", 400);
+            
+            category.name = name;
+        }
+        if (description) {
+            description = description.trim();
+
+            if (!description) throw new AppError("Description cannot be empty", 404);
+
+            category.description = description;
+        }
+
+        await category.save();
+
+        res.status(200).json(category);
+    } catch (err) {
+        next(err);
+    }
+}
+
+async function deleteCategory(req, res, next) {
+    try {
+        const { id } = req.params;
+        const category = await Category.findById(id);
+        if (!category) throw new AppError("Category not found", 404);
+
+        category.deletedAt = new Date();
+        await category.save();
+
+        res.status(200).json({ message: 'Category soft-deleted successfully' });
+    } catch (err) {
+        next(err);
+    }
+}
+export { getAllCategories, getCategoryById, createCategory, updateCategory, deleteCategory }
