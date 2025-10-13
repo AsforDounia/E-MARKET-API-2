@@ -3,11 +3,20 @@ import Category from './Category.js';
 import ProductCategory from './ProductCategory.js';
 import User from './User.js';
 import TokenBlacklist from './TokenBlacklist.js';
+import Cart from "./Cart.js";
+import CartItem from "./CartItem.js";
+import Order from "./Order.js";
+import OrderItem from "./OrderItem.js";
+
 
 export {
     Product,
     Category,
     ProductCategory,
     User,
-    TokenBlacklist
+    TokenBlacklist,
+    Cart,
+    CartItem,
+    Order,
+    OrderItem,
 };
