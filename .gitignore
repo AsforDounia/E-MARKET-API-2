@@ -2,5 +2,4 @@ node_modules
 .env
 .idea
 node_modules
-package.json
 package-lock.json
