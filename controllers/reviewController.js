@@ -82,4 +82,28 @@ const updateReview = async (req, res, next) => {
     }
 };
 
-export { addReview, getProductReviews, updateReview }
+
+const deleteReview = async (req, res, next) => {
+    try {
+        const { reviewId } = req.params;
+
+        const review = await Review.findOne({ _id: reviewId, deletedAt: null });
+
+        if (!review) throw new AppError('Review not found', 404);
+
+        if (review.userId.toString() !== req.user.id && req.user.role !== 'admin') {
+            throw new AppError('You are not authorized to delete this review', 403);
+        }
+
+        review.deletedAt = new Date();
+        await review.save();
+
+        res.status(200).json({
+            message: 'Review deleted successfully',
+            review
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+export { addReview, getProductReviews, updateReview, deleteReview }

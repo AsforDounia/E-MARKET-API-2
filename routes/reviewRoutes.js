@@ -11,5 +11,6 @@ import {createReviewSchema, updateReviewSchema} from "../middlewares/validation/
 reviewRoutes.post('/', validate(createReviewSchema), authenticate, reviewController.addReview);
 reviewRoutes.get('/:productId', reviewController.getProductReviews);
 reviewRoutes.put('/:reviewId', validate(updateReviewSchema), authenticate, reviewController.updateReview);
+reviewRoutes.delete('/:reviewId', authenticate, reviewController.deleteReview);
 
 export default reviewRoutes;
