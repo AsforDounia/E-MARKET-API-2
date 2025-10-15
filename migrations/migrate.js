@@ -32,7 +32,6 @@ const migrations = [
         name: 'create_product_categories_collection',
         up: async () => {
             await mongoose.connection.db.createCollection('product_categories');
-            await mongoose.connection.db.collection('product_categories').createIndex({ product: 1, category: 1 });
         }
     }
 ];

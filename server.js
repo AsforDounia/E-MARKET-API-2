@@ -10,8 +10,7 @@ import notFound from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { swaggerUi, specs } from './swagger/swagger.js';
 import {authorize} from "./middlewares/auth.js";
-
-
+import orderRoutes from './routes/orderRoutes.js';
 
 
 
@@ -19,6 +18,7 @@ const app = express();
 
 // Connexion à MongoDB
 connectDB();
+
 
 // Middleware pour parser JSON
 app.use(express.json());
@@ -48,6 +48,9 @@ app.use("/auth", authRoutes);
 
 // Utiliser les routes du panier
 app.use("/cart", cartRoutes);
+
+//  Utiliser les routes du commandes
+app.use("/orders", orderRoutes);
 
 
 
