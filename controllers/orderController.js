@@ -93,4 +93,18 @@ const getOrders = async (req, res, next) => {
     }
 };
 
+
+export const getOrderById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const order = await Order.findById(id);
+        if (!order) throw new AppError('Order not found', 404);
+
+        const items = await OrderItem.find({ orderId: id }).populate('productId', 'title imageUrls');
+        res.status(200).json({ order: { ...order.toObject(), items } });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export { createOrder, getOrders };
