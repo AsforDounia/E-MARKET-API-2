@@ -8,5 +8,6 @@ orderRoutes.post('/', authenticate, orderController.createOrder);
 orderRoutes.get('/', authenticate, orderController.getOrders);
 orderRoutes.get('/:id', authenticate, orderController.getOrderById);
 orderRoutes.put('/:id', authenticate, orderController.updateOrderStatus);
+orderRoutes.delete('/:id', authenticate, orderController.cancelOrder);
 
 export default orderRoutes;

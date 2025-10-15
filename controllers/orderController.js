@@ -129,5 +129,57 @@ const updateOrderStatus = async (req, res, next) => {
     }
 };
 
+const cancelOrder = async (req, res, next) => {
+    const session = await mongoose.startSession();
 
-export { createOrder, getOrders, getOrderById, updateOrderStatus };
+    try {
+        session.startTransaction();
+
+        const { id } = req.params;
+        const userId = req.user.id;
+
+        const order = await Order.findOne({ _id: id, userId }).session(session);
+        if (!order) throw new AppError('Order not found', 404);
+
+        const isOwner = order.userId.toString() === userId.toString();
+        const isAdmin = req.user.role === 'admin';
+
+        if (!isOwner && !isAdmin) {
+            throw new AppError('You are not allowed to cancel this order', 403);
+        }
+
+        if (order.status === 'cancelled') {
+            throw new AppError('Order already cancelled', 400);
+        }
+
+        if (order.status !== 'pending') {
+            throw new AppError('Only pending orders can be cancelled', 400);
+        }
+
+        const orderItems = await OrderItem.find({ orderId: id }).session(session);
+        for (const item of orderItems) {
+            await Product.updateOne(
+                { _id: item.productId },
+                { $inc: { stock: item.quantity } },
+                { session }
+            );
+        }
+
+        order.status = 'cancelled';
+        await order.save({ session });
+
+        await session.commitTransaction();
+        res.status(200).json({
+            success: true,
+            message: 'Order cancelled successfully',
+        });
+    } catch (error) {
+        await session.abortTransaction();
+        next(error);
+    } finally {
+        session.endSession();
+    }
+};
+
+
+export { createOrder, getOrders, getOrderById, updateOrderStatus, cancelOrder };
