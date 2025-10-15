@@ -8,6 +8,7 @@ import CartItem from "./CartItem.js";
 import Order from "./Order.js";
 import OrderItem from "./OrderItem.js";
 import Coupon from "./Coupon.js";
+import Review from "./Review.js";
 
 
 export {
@@ -20,5 +21,6 @@ export {
     CartItem,
     Order,
     OrderItem,
-    Coupon
+    Coupon,
+    Review
 };

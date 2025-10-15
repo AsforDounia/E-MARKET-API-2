@@ -19,7 +19,6 @@ const reviewSchema = new mongoose.Schema({
     },
     comment: {
         type: String,
-        required: true,
         trim: true
     },
     deletedAt: {
@@ -32,4 +31,4 @@ const reviewSchema = new mongoose.Schema({
 
 reviewSchema.index({ userId: 1, productId: 1 }, { unique: true });
 
-export const Review = mongoose.model('Review', reviewSchema);
+export default mongoose.model('Review', reviewSchema);

@@ -11,6 +11,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { swaggerUi, specs } from './swagger/swagger.js';
 import {authorize} from "./middlewares/auth.js";
 import orderRoutes from './routes/orderRoutes.js';
+import reviewRoutes from "./routes/reviewRoutes.js";
 
 
 
@@ -52,7 +53,8 @@ app.use("/cart", cartRoutes);
 //  Utiliser les routes du commandes
 app.use("/orders", orderRoutes);
 
-
+// Utiliser les routes du feedback
+app.use("/reviews", reviewRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
