@@ -1,13 +1,15 @@
 import express from 'express';
 import * as orderController from '../controllers/orderController.js';
 import { authenticate } from '../middlewares/auth.js';
+import {validate} from "../middlewares/validation/validate.js";
+import {createOrderSchema, updateOrderStatusSchema} from "../middlewares/validation/schemas/orderSchemas.js";
 
 const orderRoutes = express.Router();
 
-orderRoutes.post('/', authenticate, orderController.createOrder);
+orderRoutes.post('/', validate(createOrderSchema), authenticate, orderController.createOrder);
 orderRoutes.get('/', authenticate, orderController.getOrders);
 orderRoutes.get('/:id', authenticate, orderController.getOrderById);
-orderRoutes.put('/:id', authenticate, orderController.updateOrderStatus);
+orderRoutes.put('/:id',validate(updateOrderStatusSchema), authenticate, orderController.updateOrderStatus);
 orderRoutes.delete('/:id', authenticate, orderController.cancelOrder);
 
 export default orderRoutes;
