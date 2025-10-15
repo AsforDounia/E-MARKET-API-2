@@ -9,6 +9,7 @@ async function getAllProducts(req, res, next) {
         const { search, category, minPrice, maxPrice, inStock } = req.query;
         
         const filter = {};
+        if (req.query.seller) filter.seller = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
         if (inStock === 'true') filter.stock = { $gt: 0 };
@@ -73,11 +74,14 @@ async function getProductById(req, res, next) {
 
 async function createProduct(req, res, next) {
     try {
+        const sellerId = req.user._id;  // récupère l'ID du vendeur 
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
+
         if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
-
-        const product = await Product.create({ title, description, price, stock, imageUrls });
-
+        if (!sellerId) throw new AppError("Seller information is required", 400);
+ 
+        const product = await Product.create({ title, description, price, stock, imageUrls, seller: sellerId });
+       
         if (Array.isArray(categoryIds)) {
             for (const categoryId of categoryIds) {
                 await ProductCategory.create({ product: product._id, category: categoryId });
@@ -97,7 +101,12 @@ async function updateProduct(req, res, next) {
         const { id } = req.params;
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
         const product = await Product.findById(id);
+
         if (!product) throw new AppError("Product not found", 404);
+
+        if (req.user.role === "seller" && product.seller.toString() !== req.user._id.toString()) {
+            throw new AppError("You are not authorized to update this product", 403);
+        }
 
         if (title) product.title = title;
         if (description) product.description = description;
@@ -123,6 +132,7 @@ async function deleteProduct(req, res, next) {
     try {
         const { id } = req.params;
         const product = await Product.findById(id);
+
         if (!product) throw new AppError("Product not found", 404);
 
         product.deletedAt = new Date();

@@ -4,7 +4,7 @@ const productRoutes = express.Router();
 import * as productController from '../controllers/productController.js';
 import { validate } from '../middlewares/validation/validate.js';
 import { createProductSchema, updateProductSchema } from '../middlewares/validation/schemas/productSchema.js';
-
+import { authenticate, authorize } from '../middlewares/auth.js';
 
 /**
  * @swagger
@@ -152,7 +152,7 @@ productRoutes.get('/:id', productController.getProductById);
  *       400:
  *         description: Invalid input
  */
-productRoutes.post('/',validate( createProductSchema ) , productController.createProduct);
+productRoutes.post('/',validate( createProductSchema ),authenticate ,authorize("seller"), productController.createProduct);
 
 /**
  * @swagger
@@ -178,7 +178,7 @@ productRoutes.post('/',validate( createProductSchema ) , productController.creat
  *       404:
  *         description: Product not found
  */
-productRoutes.put('/:id', validate( updateProductSchema ), productController.updateProduct);
+productRoutes.put('/:id', validate( updateProductSchema ), authenticate ,authorize("seller"), productController.updateProduct);
 
 /**
  * @swagger
@@ -198,7 +198,7 @@ productRoutes.put('/:id', validate( updateProductSchema ), productController.upd
  *       404:
  *         description: Product not found
  */
-productRoutes.delete('/:id', productController.deleteProduct);
+productRoutes.delete('/:id', authenticate ,authorize("seller", "admin"), productController.deleteProduct);
 
 
 export default productRoutes;
