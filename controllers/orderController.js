@@ -2,7 +2,7 @@ import { Order, OrderItem, Cart, CartItem, Product, Coupon } from '../models/Ind
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
 
-export const createOrder = async (req, res, next) => {
+const createOrder = async (req, res, next) => {
     const session = await mongoose.startSession();
 
     try {
@@ -81,3 +81,16 @@ export const createOrder = async (req, res, next) => {
         await session.endSession();
     }
 };
+
+
+const getOrders = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+        const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+        res.status(200).json({ orders });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { createOrder, getOrders };
