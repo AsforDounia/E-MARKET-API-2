@@ -2,6 +2,7 @@ import express from 'express';
 import * as usertController from '../controllers/userController.js';
 import { validate } from '../middlewares/validation/validate.js';
 import { createUserSchema } from '../middlewares/validation/schemas/userSchema.js';
+import { authenticate,authorize } from '../middlewares/auth.js';
 
 const userRoutes = express.Router();
 
@@ -124,5 +125,7 @@ userRoutes.post('/',validate(createUserSchema), usertController.createUser);
  *         description: User not found
  */
 userRoutes.delete('/:id', usertController.deleteUser);
+
+userRoutes.patch('/:id/role',authenticate, authorize("admin"), usertController.updateUserRole);
 
 export default userRoutes;
