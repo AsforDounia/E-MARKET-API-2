@@ -9,6 +9,7 @@ import {createReviewSchema} from "../middlewares/validation/schemas/reviewSchema
 
 
 reviewRoutes.post('/', validate(createReviewSchema), authenticate, reviewController.addReview);
+reviewRoutes.get('/:productId', reviewController.getProductReviews);
 
 
 export default reviewRoutes;
