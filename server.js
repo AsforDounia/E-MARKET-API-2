@@ -10,9 +10,7 @@ import notFound from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { swaggerUi, specs } from './swagger/swagger.js';
 import {authorize} from "./middlewares/auth.js";
-
-
-
+import securityMiddlewares from "./middlewares/security.js"
 
 
 const app = express();
@@ -20,10 +18,12 @@ const app = express();
 // Connexion à MongoDB
 connectDB();
 
+//aplication de tous les middlwares de securité (helemt,rate-limit,cors)
+securityMiddlewares(app);
+
 // Middleware pour parser JSON
 app.use(express.json());
 app.use(logger);
-
 
 // Test route
 app.get("/", (req, res) => {
@@ -38,7 +38,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/products", productRoutes);
 
 // Utiliser les routes d'utilisateurs
-app.use("/users", authorize(["admin"]), userRoutes);
+app.use("/users", userRoutes);
 
 // Utiliser les routes des categories
 app.use("/categories", categoryRoutes);

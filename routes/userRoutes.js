@@ -2,6 +2,7 @@ import express from 'express';
 import * as usertController from '../controllers/userController.js';
 import { validate } from '../middlewares/validation/validate.js';
 import { createUserSchema } from '../middlewares/validation/schemas/userSchema.js';
+import { authenticate } from "../middlewares/auth.js"
 
 const userRoutes = express.Router();
 
@@ -59,7 +60,7 @@ const userRoutes = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRoutes.get('/', usertController.getAllUsers);
+userRoutes.get('/', authorize(["admin"]), usertController.getAllUsers);
 
 /**
  * @swagger
@@ -83,7 +84,7 @@ userRoutes.get('/', usertController.getAllUsers);
  *       404:
  *         description: User not found
  */
-userRoutes.get('/:id', usertController.getUserById);
+userRoutes.get('/:id', authorize(["admin"]),usertController.getUserById);
 
 /**
  * @swagger
@@ -103,7 +104,7 @@ userRoutes.get('/:id', usertController.getUserById);
  *       400:
  *         description: Invalid input
  */
-userRoutes.post('/',validate(createUserSchema), usertController.createUser);
+userRoutes.post('/',validate(createUserSchema), authorize(["admin"]), usertController.createUser);
 
 /**
  * @swagger
@@ -123,6 +124,11 @@ userRoutes.post('/',validate(createUserSchema), usertController.createUser);
  *       404:
  *         description: User not found
  */
-userRoutes.delete('/:id', usertController.deleteUser);
+userRoutes.delete('/:id', authorize(["admin"]), usertController.deleteUser);
+
+
+userRoutes.get("/profile", authenticate, usertController.getUserProfile);
+userRoutes.put("/profile", authenticate, usertController.updateProfile);
+
 
 export default userRoutes;
