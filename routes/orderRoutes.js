@@ -7,5 +7,6 @@ const orderRoutes = express.Router();
 orderRoutes.post('/', authenticate, orderController.createOrder);
 orderRoutes.get('/', authenticate, orderController.getOrders);
 orderRoutes.get('/:id', authenticate, orderController.getOrderById);
+orderRoutes.put('/:id', authenticate, orderController.updateOrderStatus);
 
 export default orderRoutes;

@@ -94,7 +94,7 @@ const getOrders = async (req, res, next) => {
 };
 
 
-export const getOrderById = async (req, res, next) => {
+const getOrderById = async (req, res, next) => {
     try {
         const { id } = req.params;
         const order = await Order.findById(id);
@@ -107,4 +107,27 @@ export const getOrderById = async (req, res, next) => {
     }
 };
 
-export { createOrder, getOrders };
+const updateOrderStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        const validStatuses = ['pending', 'paid', 'shipped', 'delivered'];
+        if (!validStatuses.includes(status)) throw new AppError('Invalid status', 400);
+
+        const order = await Order.findById(id);
+        if (!order) throw new AppError('Order not found', 404);
+
+        if (order.status === 'cancelled' || order.status === 'delivered') throw new AppError(`Cannot update ${order.status} order`, 400);
+
+        order.status = status;
+        await order.save();
+
+        res.status(200).json({ message: 'Order status updated', order });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+export { createOrder, getOrders, getOrderById, updateOrderStatus };
