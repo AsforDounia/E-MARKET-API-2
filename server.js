@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import couponRoutes from "./routes/couponRoutes.js"
 import logger from './middlewares/logger.js';
 import notFound from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -49,7 +50,8 @@ app.use("/auth", authRoutes);
 // Utiliser les routes du panier
 app.use("/cart", cartRoutes);
 
-
+//Utiliser les routes du coupon
+app.use("/coupons", couponRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

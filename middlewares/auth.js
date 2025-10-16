@@ -21,7 +21,7 @@ export const authenticate = async (req, res, next) => {
     }
 };
 
-export const authorize = (...roles) => {
+export const authorize = (roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return next(new AppError('Access denied. Insufficient permissions.', 403));

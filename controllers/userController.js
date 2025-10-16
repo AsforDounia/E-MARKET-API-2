@@ -67,7 +67,12 @@ async function deleteUser(req, res, next) {
 //recuperer l'utilisateur connecté
 async function getUserProfile(req, res, next) {
   try {
-    res.status(200).json(req.user);
+if (!req.user) {
+      return res.status(401).json({ success: false, message: "Utilisateur non authentifié" });
+    }
+
+    // Renvoie directement les infos de l'utilisateur connecté
+    return res.status(200).json({ success: true, user: req.user });
   } catch (err) {
     next(err);
   }
@@ -84,9 +89,11 @@ async function updateProfile(req, res, next) {
 
     const { oldPassword, newPassword, ...updateData} = req.body;
 
+    const user = await User.findById(req.user._id);
+
     if(oldPassword && newPassword){
         //on verifier que l'ancien mot de passe est correct
-        const isMatch = await bcrypt.compare(oldPassword, req.user.password);
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch){
             const err = new Error("Current password is incorrect");
             err.status = 400;

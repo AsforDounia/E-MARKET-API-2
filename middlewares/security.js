@@ -23,3 +23,5 @@ const securityMiddlewares = (app) => {
 
   app.use(limiter);
 }
+
+export default securityMiddlewares;
