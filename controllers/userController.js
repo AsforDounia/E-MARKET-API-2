@@ -54,4 +54,22 @@ async function deleteUser(req, res, next) {
     }
 }
 
-export { getAllUsers, getUserById, createUser, deleteUser };
+ async function updateUserRole(req, res, next) {
+    try {
+        const { role } = req.body;
+        if (!['user', 'seller', 'admin'].includes(role)) throw new AppError('Invalid role', 400);
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { role },
+            { new: true, runValidators: true }
+        );
+        if (!user) throw new AppError('User not found', 404);
+
+        res.json({ message: 'Role updated', user });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { getAllUsers, getUserById, createUser, deleteUser, updateUserRole };
