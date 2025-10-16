@@ -130,4 +130,6 @@ userRoutes.delete('/:id', authorize(["admin"]), usertController.deleteUser);
 userRoutes.put("/profile", authenticate, usertController.updateProfile);
 
 
+userRoutes.patch('/:id/role',authenticate, authorize("admin"), usertController.updateUserRole);
+
 export default userRoutes;

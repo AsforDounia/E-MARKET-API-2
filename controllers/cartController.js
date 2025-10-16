@@ -16,8 +16,8 @@ const getExistingCart = async (userId) => {
 };
 
 const buildCartResponse = async (cart) => {
-    const items = await CartItem.find({ cartId: cart._id }).populate('productId', 'title description stock imageUrls');
-    const totalAmount = items.reduce((total, item) => total + (item.priceAtAdd * item.quantity), 0);
+    const items = await CartItem.find({ cartId: cart._id }).populate('productId', 'title description stock price imageUrls');
+    const totalAmount = items.reduce((total, item) => total + (item.productId.price * item.quantity), 0);
     return { ...cart.toObject(), items, totalAmount };
 };
 
@@ -46,8 +46,7 @@ export const addToCart = async (req, res, next) => {
         await CartItem.create({
             cartId,
             productId,
-            quantity,
-            priceAtAdd: product.price
+            quantity
       });
     }
 

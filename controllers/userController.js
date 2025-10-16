@@ -71,7 +71,6 @@ if (!req.user) {
       return res.status(401).json({ success: false, message: "Utilisateur non authentifié" });
     }
 
-    // Renvoie directement les infos de l'utilisateur connecté
     return res.status(200).json({ success: true, user: req.user });
   } catch (err) {
     next(err);
@@ -124,3 +123,24 @@ export {
   getUserProfile,
   updateProfile,
 };
+
+ async function updateUserRole(req, res, next) {
+    try {
+        const { role } = req.body;
+        if (!['user', 'seller', 'admin'].includes(role)) throw new AppError('Invalid role', 400);
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { role },
+            { new: true, runValidators: true }
+        );
+        if (!user) throw new AppError('User not found', 404);
+
+        res.json({ message: 'Role updated', user });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { getAllUsers, getUserById, createUser, deleteUser, updateUserRole };
+

@@ -12,7 +12,7 @@ const createUserSchema = Yup.object().shape({
     .minLength(6, 'Password'),
     
     role: Yup.string()
-    .enumField(['user', 'admin'], 'Role')
+    .enumField(['user', 'seller', 'admin'], 'Role')
 });
 
 
