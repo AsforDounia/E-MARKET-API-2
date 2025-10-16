@@ -1,4 +1,4 @@
-import { Product, ProductCategory, Category } from '../models/Index.js';
+import { Product, ProductCategory, Category , ProductImage} from '../models/Index.js';
 import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
@@ -77,27 +77,61 @@ async function getProductById(req, res, next) {
 }
 
 async function createProduct(req, res, next) {
-    try {
-        const sellerId = req.user._id; 
-        const { title, description, price, stock, imageUrls, categoryIds } = req.body;
-        if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
-        if (!sellerId) throw new AppError("Seller information is required", 400);
- 
-        const product = await Product.create({ title, description, price, stock, imageUrls, seller: sellerId });
-       
-        if (Array.isArray(categoryIds)) {
-            for (const categoryId of categoryIds) {
-                await ProductCategory.create({ product: product._id, category: categoryId });
-            }
-        }
+  try {
+    const sellerId = req.user._id;
+    const { title, description, price, stock, categoryIds } = req.body;
 
-        res.status(201).json({ message: 'Product created', data: product });
-    } catch (err) {
-        next(err);
+    if (!title || !description || price == null || stock == null)
+      throw new AppError("Title, description, price, and stock are required", 400);
+
+    if (!sellerId)
+      throw new AppError("Seller information is required", 400);
+
+    // Créer le produit sans image d’abord
+    const product = await Product.create({
+      title,
+      description,
+      price,
+      stock,
+      seller: sellerId,
+      validationStatus: "pending", 
+      isVisible: true
+    });
+
+    // Ajouter les images uploadées via multer
+    if (req.files && req.files.length > 0) {
+
+      const imageDocs = req.files.map((file, index) => ({
+        product: product._id,
+        imageUrl: `/uploads/products/${file.filename}`,
+        isPrimary: index === 0 
+      }));
+
+      await ProductImage.insertMany(imageDocs);
+
+      // Mettre à jour imageUrls dans le produit créé
+      product.imageUrls = imageDocs.map(img => img.imageUrl);
+      await product.save();
     }
+
+     // Ajouter les catégories au pivot table
+    if (Array.isArray(categoryIds)) {
+      const categoryLinks = categoryIds.map(categoryId => ({
+        product: product._id,
+        category: categoryId
+      }));
+      await ProductCategory.insertMany(categoryLinks);
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Product created successfully (awaiting admin validation)',
+      data: product
+    });
+  } catch (err) {
+    next(err);
+  }
 }
-
-
 
 async function updateProduct(req, res, next) {
     try {

@@ -49,7 +49,8 @@ app.use("/auth", authRoutes);
 // Utiliser les routes du panier
 app.use("/cart", cartRoutes);
 
-
+// Permet d'accéder aux fichiers uploadés
+app.use("/uploads", express.static("uploads"));
 
 app.use(notFound);
 app.use(errorHandler);
