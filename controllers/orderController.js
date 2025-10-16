@@ -31,6 +31,8 @@ const createOrder = async (req, res, next) => {
                 const coupon = await Coupon.findOne({ code: couponCode, isActive: true });
                 if (!coupon) throw new AppError('Invalid coupon', 400);
                 if (coupon.expiresAt && coupon.expiresAt < new Date()) throw new AppError('Coupon expired', 400);
+                if (coupon.usedBy.includes(userId)) throw new AppError('Coupon already used', 400);
+                if (coupon.usageLimit && coupon.usedBy.length >= coupon.usageLimit) throw new AppError('Coupon usage limit reached', 400);
                 if (subtotal < coupon.minAmount) throw new AppError(`Minimum amount ${coupon.minAmount} required`, 400);
 
                 if (coupon.type === 'percentage') {
@@ -40,6 +42,12 @@ const createOrder = async (req, res, next) => {
                     discount = Math.min(coupon.value, subtotal);
                 }
                 couponId = coupon._id;
+                
+                await Coupon.updateOne(
+                    { _id: coupon._id },
+                    { $addToSet: { usedBy: userId } },
+                    { session }
+                );
             }
 
             const total = subtotal - discount;

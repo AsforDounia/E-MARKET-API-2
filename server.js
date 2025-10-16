@@ -9,8 +9,9 @@ import logger from './middlewares/logger.js';
 import notFound from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { swaggerUi, specs } from './swagger/swagger.js';
-import {authorize} from "./middlewares/auth.js";
+import {authenticate, authorize} from "./middlewares/auth.js";
 import orderRoutes from './routes/orderRoutes.js';
+import reviewRoutes from "./routes/reviewRoutes.js";
 
 
 
@@ -38,7 +39,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/products", productRoutes);
 
 // Utiliser les routes d'utilisateurs
-app.use("/users", authorize(["admin"]), userRoutes);
+app.use("/users", authenticate, authorize(["admin"]), userRoutes);
 
 // Utiliser les routes des categories
 app.use("/categories", categoryRoutes);
@@ -52,12 +53,18 @@ app.use("/cart", cartRoutes);
 //  Utiliser les routes du commandes
 app.use("/orders", orderRoutes);
 
-
+// Utiliser les routes du feedback
+app.use("/reviews", reviewRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+export default app;

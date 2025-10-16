@@ -36,6 +36,14 @@ const couponSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    usageLimit: {
+        type: Number,
+        default: null
+    },
+    usedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

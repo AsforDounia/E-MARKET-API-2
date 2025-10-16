@@ -5,11 +5,13 @@
   "description": "La plateforme est une solution e-commerce évolutive conçue pour permettre à l’entreprise de vendre ses produits en ligne de manière simple, sécurisée et performante. Elle offre une interface intuitive pour les utilisateurs ainsi qu’un espace d’administration complet pour la gestion des opérations commerciales.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "migrate": "node migrations/migrate.js",
-    "seed": "node migrations/seed.js"
+    "seed": "node migrations/seed.js",
+    "test": "NODE_ENV=test mocha test/**/*.js --timeout 10000 --exit",
+    "test:unit": "NODE_ENV=test mocha test/unit/**/*.js --timeout 5000 --exit",
+    "test:integration": "NODE_ENV=test mocha test/integration/**/*.js --timeout 10000 --exit"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,9 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "chai": "^6.2.0",
+    "mocha": "^11.7.4",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
   }
 }
