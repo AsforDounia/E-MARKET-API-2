@@ -9,9 +9,9 @@ async function createCoupon(req, res, next){
             throw new AppError("Only sellers can create coupons", 403);
         }
 
-        const {code, type, value, minAmount, maxDiscount, expiresAt, isActive} = req.body;
+        const {code, type, value, minAmount, maxDiscount, expiresAt, isActive, usageLimit} = req.body;
 
-        if(!code || !type || !value || !minAmount || !maxDiscount|| !expiresAt){
+        if(!code || !type || !value || !minAmount || !maxDiscount|| !expiresAt ){
             throw new AppError("code, type, value, minAmount, maxDiscount, and expiresAt are reequired", 400);
         }
 
@@ -21,10 +21,12 @@ async function createCoupon(req, res, next){
         }
         
         //vérifier si le code déja exist
-        const existing = await Coupon.findOne({ code, sellerId: req.user._id });
+        const existing = await Coupon.findOne({ code, createdBy: req.user._id });
         if (existing) {
             throw new AppError("A coupon with this code already exists", 400);
         }
+
+        if(type === "percentage" && (value < 1 || value > 99)) throw new AppError("For percentage type, the value must be between 1 and 99.", 400);
         
         const coupon = await Coupon.create({
             code: code.trim().toUpperCase(),
@@ -32,9 +34,10 @@ async function createCoupon(req, res, next){
             value,
             minAmount,
             maxDiscount,
+            usageLimit,
             expiresAt: new Date(expiresAt),
             isActive: isActive ?? true,
-            sellerId: req.user._id
+            createdBy: req.user._id
         });
 
         res.status(201).json({message: "Coupon created succesfuly", data : coupon});
@@ -46,11 +49,11 @@ async function createCoupon(req, res, next){
 // recuperer les coupons d'un seller
 async function getCouponsSeller(req, res, next){
     try {
-        if(!req.user || req.user.role != "seller"){
-            throw new AppError("Only sellers can access their coupons", 403);
+        if(!req.user || !["admin", "seller"].includes(req.user.role)){
+            throw new AppError("Only sellers or admins can create coupons", 403);
         }
 
-        const coupons = await Coupon.find({ sellerId: req.user._id });
+        const coupons = await Coupon.find({ createdBy: req.user._id });
 
         if(coupons.length === 0 ){
             res.status(200).json({
@@ -88,14 +91,14 @@ async function getAllCoupons(req, res, next){
 // récupérer un coupon du seller connecté par son id
 async function getCouponById(req, res, next){
     try {
-        if(!req.user || req.user._id != "seller"){
-            throw new AppError("Only sellers can access their coupons", 403);
+        if (!req.user || !["seller", "admin"].includes(req.user.role)){
+            throw new AppError("Only sellers or admins can access coupons", 403);
         }
         
-        const coupon = await Coupon.findOne({
-            _id: req.params.id,
-            sellerId: req.user._id
-        })
+        let filter = {};
+        if(req.user.role === "admin") filter = {_id: req.params.id};
+        else filter = { _id: req.params.id, createdBy: req.user._id };
+        const coupon = await Coupon.findOne(filter);
         
         if(!coupon){
             throw new AppError("Coupon not found", 404);
@@ -112,4 +115,50 @@ async function getCouponById(req, res, next){
     }
 }
 
-export { createCoupon, getCouponsSeller, getAllCoupons, getCouponById };
+//modifier un coupon
+async function updateCoupon(req, res, next){
+    try {
+        if(!req.user || !["admin", "seller"].includes(req.user.role)){
+            throw new AppError("Only sellers or admins can update coupons", 403);
+        }
+
+        const filter = req.user.role === "admin"
+            ? { _id: req.params.id }
+            : { _id: req.params.id, createdBy: req.user._id };
+
+        const updatedCoupon = await Coupon.findOneAndUpdate(filter ,req.body , {new : true,  runValidators: true});
+
+        if(!updatedCoupon) throw new AppError("Coupon not found", 404);
+
+        res.status(200).json({success: true, message: "Coupon updated successfully", data: updatedCoupon });
+        
+    } catch (error) {
+        next(error);
+    }
+}
+
+// supprimer un coupon 
+async function deleteCoupon(req, res, next){
+    try {
+        if(!req.user || !["admin", "seller"].includes(req.user.role)){
+            throw new AppError("Only sellers or admins can delete a coupons", 403);
+        }
+
+        const filter = req.user.role === "admin"
+            ? { _id: req.params.id }
+            : { _id: req.params.id, createdBy: req.user._id };
+
+        const deletedCoupon = await Coupon.findOneAndDelete(filter);
+
+        if(!deletedCoupon) throw new AppError("Coupon not found", 404);
+
+        res.status(200).json({
+            success : true,
+            message: "Coupon deleted successfully"
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { createCoupon, getCouponsSeller, getAllCoupons, getCouponById, updateCoupon, deleteCoupon};

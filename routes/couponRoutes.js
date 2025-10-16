@@ -1,14 +1,15 @@
 import express from "express";
+import { authenticate, authorize } from "../middlewares/auth.js";
 import * as couponController from "../controllers/couponController.js";
 
-import { authenticate, authorize } from "../middlewares/auth.js";
 
 const couponRoutes = express.Router();
 
-couponRoutes.post("/seller", authenticate, couponController.createCoupon);
+couponRoutes.post("/", authenticate, authorize(["admin", "seller"]), couponController.createCoupon);
 couponRoutes.get("/seller", authenticate, couponController.getCouponsSeller);
-couponRoutes.get("/", authorize(["admin"]), couponController.getAllCoupons);
-couponRoutes.get("/seller/:id", couponController.getCouponById);
-// couponRoutes.post("/", couponController.createCoupon);
+couponRoutes.get("/", authenticate, authorize(["admin"]), couponController.getAllCoupons);
+couponRoutes.get("/:id", authenticate, couponController.getCouponById);
+couponRoutes.delete("/:id", authenticate, authorize(["admin", "seller"]), couponController.deleteCoupon);
+couponRoutes.put("/:id", authenticate, authorize(["admin", "seller"]), couponController.updateCoupon);
 
 export default couponRoutes;

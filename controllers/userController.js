@@ -115,14 +115,6 @@ async function updateProfile(req, res, next) {
   }
 };
 
-export {
-  getAllUsers,
-  getUserById,
-  createUser,
-  deleteUser,
-  getUserProfile,
-  updateProfile,
-};
 
  async function updateUserRole(req, res, next) {
     try {
@@ -142,5 +134,5 @@ export {
     }
 }
 
-export { getAllUsers, getUserById, createUser, deleteUser, updateUserRole };
-
+export { getAllUsers, getUserById, createUser, deleteUser, updateUserRole ,getUserProfile,
+  updateProfile };
