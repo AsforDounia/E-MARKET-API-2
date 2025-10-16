@@ -8,7 +8,11 @@ async function getAllProducts(req, res, next) {
     try {
         const { search, category, minPrice, maxPrice, inStock } = req.query;
         
-        const filter = {};
+        const filter = {
+            deletedAt: null,
+            validationStatus: 'approved',  
+            isVisible: true           
+        };
         if (req.query.seller) filter.seller = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
@@ -74,9 +78,8 @@ async function getProductById(req, res, next) {
 
 async function createProduct(req, res, next) {
     try {
-        const sellerId = req.user._id;  // récupère l'ID du vendeur 
+        const sellerId = req.user._id; 
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
-
         if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
         if (!sellerId) throw new AppError("Seller information is required", 400);
  
@@ -149,4 +152,102 @@ async function deleteProduct(req, res, next) {
     }
 }
 
-export { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct };
+async function updateProductVisibility (req, res, next) {
+    try {
+        const { isVisible } = req.body;
+      
+        if (typeof isVisible !== 'boolean') {
+            throw new AppError('isVisible must be a boolean', 400);
+        }
+
+        const product = await Product.findOne({
+            _id: req.params.id,
+            deletedAt: null
+        });
+
+        if (!product) throw new AppError('Product not found', 404);
+
+        if (req.user.role === "seller" && product.seller.toString() !== req.user._id.toString()) {
+            throw new AppError('You are not authorized to update this product', 403);
+        }
+
+        product.isVisible = isVisible;
+        await product.save();
+
+        res.json({
+            message: `Product ${isVisible ? 'shown' : 'hidden'} successfully`,
+            product
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function getPendingProducts(req, res, next) {
+    try {
+        const products = await Product.find({
+            validationStatus: 'pending',
+            deletedAt: null
+        }).populate('seller', 'fullname email');
+        
+        res.json(products);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+async function validateProduct(req, res, next) {
+    try {
+        const product = await Product.findOne({
+            _id: req.params.id,
+            deletedAt: null
+        });
+
+        if (!product) throw new AppError('Product not found', 404);
+
+        // Approve the product
+        product.validationStatus = 'approved';
+        product.isVisible = true;
+        product.isAvailable = true;
+        product.validatedAt = new Date();
+        
+        await product.save();
+
+        res.json({ message: 'Product approved successfully', product });
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function rejectProduct(req, res, next) {
+    try {
+        const { reason } = req.body;
+        
+        const product = await Product.findOne({
+            _id: req.params.id,
+            deletedAt: null
+        });
+
+        if (!product) throw new AppError('Product not found', 404);
+
+        // Reject the product
+        product.validationStatus = 'rejected';
+        product.isVisible = false;
+        product.isAvailable = false;
+        product.rejectionReason = reason;
+        product.validatedAt = new Date();
+        
+        await product.save();
+
+        res.json({
+            message: 'Product rejected successfully',
+            product
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, updateProductVisibility, getPendingProducts, validateProduct, rejectProduct };

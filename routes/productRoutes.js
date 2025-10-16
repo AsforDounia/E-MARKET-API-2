@@ -6,6 +6,7 @@ import { validate } from '../middlewares/validation/validate.js';
 import { createProductSchema, updateProductSchema } from '../middlewares/validation/schemas/productSchema.js';
 import { authenticate, authorize } from '../middlewares/auth.js';
 
+
 /**
  * @swagger
  * components:
@@ -110,6 +111,8 @@ import { authenticate, authorize } from '../middlewares/auth.js';
 
 productRoutes.get('/', productController.getAllProducts);
 
+productRoutes.get('/pending', authenticate, authorize("admin"), productController.getPendingProducts);
+
 /**
  * @swagger
  * /products/{id}:
@@ -200,5 +203,8 @@ productRoutes.put('/:id', validate( updateProductSchema ), authenticate ,authori
  */
 productRoutes.delete('/:id', authenticate ,authorize("seller", "admin"), productController.deleteProduct);
 
+productRoutes.patch('/:id/visibility', authenticate, authorize("seller"), productController.updateProductVisibility);
+productRoutes.patch('/:id/validate', authenticate, authorize("admin"), productController.validateProduct);
+productRoutes.patch('/:id/reject', authenticate, authorize("admin"), productController.rejectProduct);
 
 export default productRoutes;
