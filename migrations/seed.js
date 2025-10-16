@@ -31,7 +31,7 @@ const seedData = {
             description: "Latest smartphone with advanced features",
             price: 699.99,
             stock: 50,
-            imageUrl: "https://example.com/smartphone.jpg",
+            imageUrls: ["https://example.com/smartphone.jpg"],
             categories: ["Electronics"]
         },
         {
@@ -39,7 +39,7 @@ const seedData = {
             description: "High-quality wireless headphones",
             price: 199.99,
             stock: 30,
-            imageUrl: "https://example.com/headphones.jpg",
+            imageUrls: ["https://example.com/headphones.jpg"],
             categories: ["Electronics"]
         },
         {
@@ -47,7 +47,7 @@ const seedData = {
             description: "Comfortable cotton t-shirt",
             price: 29.99,
             stock: 100,
-            imageUrl: "https://example.com/tshirt.jpg",
+            imageUrls: ["https://example.com/tshirt.jpg"],
             categories: ["Clothing"]
         },
         {
@@ -55,7 +55,7 @@ const seedData = {
             description: "Complete guide to modern programming",
             price: 49.99,
             stock: 25,
-            imageUrl: "https://example.com/book.jpg",
+            imageUrls: ["https://example.com/book.jpg"],
             categories: ["Books"]
         }
     ]
@@ -86,10 +86,14 @@ async function seedDatabase() {
         console.log(`✓ Inserted ${categories.length} categories`);
 
         // Insert products and create category relationships
+        const adminUser = users.find(u => u.role === 'admin');
         for (const productData of seedData.products) {
             const { categories: categoryNames, ...productInfo } = productData;
             
-            const product = await Product.create(productInfo);
+            const product = await Product.create({
+                ...productInfo,
+                sellerId: adminUser._id
+            });
             
             for (const categoryName of categoryNames) {
                 const category = categories.find(c => c.name === categoryName);
