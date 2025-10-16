@@ -39,7 +39,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use("/products", productRoutes);
 
 // Utiliser les routes d'utilisateurs
-app.use("/users", authenticate, authorize(["admin"]), userRoutes);
+app.use("/users", userRoutes);
+
 
 // Utiliser les routes des categories
 app.use("/categories", categoryRoutes);
