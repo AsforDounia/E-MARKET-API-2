@@ -38,9 +38,21 @@ const ProductSchema = new Schema({
         type: Boolean,
         default: true,
     },
-    isValidated: {
-        type: Boolean,
-        default: false,
+    validationStatus: {
+        type: String,
+        enum: {
+            values: ['pending', 'approved', 'rejected'],
+            message: 'Validation status must be pending, approved, or rejected'
+        },
+        default: 'pending'
+    },
+    rejectionReason: {
+        type: String,
+        default: null
+    },
+    validatedAt: {
+        type: Date,
+        default: null
     },
     deletedAt: {
         type: Date,
