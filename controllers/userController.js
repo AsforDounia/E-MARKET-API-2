@@ -4,8 +4,27 @@ import bcrypt from "bcryptjs";
 
 async function getAllUsers(req, res, next) {
   try {
-    const users = await User.find().select("-password");
-    res.status(200).json(users);
+    const { search, role,page = 1, limit = 3} = req.query;
+
+    const filter = {};
+    if(role) filter.role = role;
+    if(search) filter.$or = [{ fullname: {$regex: search, $options: 'i'}, email:{$regex: search, $options: 'i'}}];
+
+    const skip = (Number(page) - 1) * Number(limit);
+    
+    const users = await User.find(filter).select("-password")
+                  .skip(skip)
+                  .limit(Number(limit));
+    
+    const totalUsers = await User.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalUsers / limit),
+      totalUsers,
+      users
+    });
   } catch (err) {
     next(err);
   }

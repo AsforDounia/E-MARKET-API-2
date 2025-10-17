@@ -76,12 +76,26 @@ async function getCouponsSeller(req, res, next){
 // recuperer tout les coupons
 async function getAllCoupons(req, res, next){
     try {
-        const coupons = await Coupon.find();
+        const { type, isActive, page= 1, limit = 15} = req.query;
+
+        const filter = {};
+
+        if(type) filter.type = type;
+        if(isActive) filter.isActive = isActive;
+
+        const skip = (Number(page) - 1) * Number(limit);
+
+        const coupons = await Coupon.find(filter).skip(skip).limit(Number(limit));
+
+        const totalCoupon = await Coupon.countDocuments();
 
         res.status(200).json({
             success: true,
             message: "Coupons retrieved successfully",
-            data: coupons,
+            currentPage : Number(page),
+            totalPages: Math.ceil(totalCoupon / limit),
+            totalCoupon,
+            coupons,
         });
     } catch (error) {
         next(error);
