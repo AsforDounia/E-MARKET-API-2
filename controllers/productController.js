@@ -14,8 +14,6 @@ async function getAllProducts(req, res, next) {
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
         if (inStock === 'true') filter.stock = { $gt: 0 };
         
-        // let products = await Product.find(filter);
-        
         if (category) {
             const isValidObjectId = mongoose.Types.ObjectId.isValid(category);
             const categoryDoc = isValidObjectId 
@@ -82,6 +80,7 @@ async function getAllProducts(req, res, next) {
         // res.status(200).json(results);
         res.status(200).json({
             success: true,
+            message: "Products fetched successfully",
             total: totalProducts,
             currentPage: Number(page),
             totalPages: Math.ceil(totalProducts / limit),
@@ -101,6 +100,8 @@ async function getProductById(req, res, next) {
         const categories = await getProductCategories(product._id);
 
         res.status(200).json({
+            success:true,
+            message: "Product fetched successfully",
             _id: product._id,
             title: product.title,
             description: product.description,
@@ -130,7 +131,10 @@ async function createProduct(req, res, next) {
             }
         }
 
-        res.status(201).json({ message: 'Product created', data: product });
+        res.status(201).json({ 
+            success: true,
+            message: 'Product created successfuly',
+            data: product });
     } catch (err) {
         next(err);
     }
@@ -164,7 +168,11 @@ async function updateProduct(req, res, next) {
                 await ProductCategory.create({ product: product._id, category: categoryId });
             }
         }
-        res.status(200).json({ message: 'Product updated', data: product });
+        res.status(200).json({
+            success: true,
+            message: 'Product updated',
+            data: product 
+        });
     } catch (err) {
         next(err);
     }
@@ -185,7 +193,7 @@ async function deleteProduct(req, res, next) {
             { product: product._id },
             { $set: { deletedAt: new Date() } }
         );
-        res.status(200).json({ message: 'Product deleted' });
+        res.status(200).json({ success: true, message: 'Product deleted' });
     } catch (err) {
         next(err);
     }
