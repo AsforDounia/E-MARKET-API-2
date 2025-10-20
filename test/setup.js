@@ -4,10 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 before(async () => {
-    await mongoose.connect(process.env.MONGO_URI_TEST, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGO_URI_TEST);
 });
 
 after(async () => {
