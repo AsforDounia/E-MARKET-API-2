@@ -9,9 +9,9 @@ async function getAllProducts(req, res, next) {
         const { search, category, minPrice, maxPrice, inStock , sortBy, order, page = 1, limit = 10} = req.query;
         
         const filter = {
-            deletedAt: null,
-            validationStatus: 'approved',  
-            isVisible: true           
+        //  deletedAt: null,
+        //  validationStatus: 'approved',
+        //  isVisible: true
         };
         if (req.query.seller) filter.seller = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];
@@ -87,6 +87,7 @@ async function getAllProducts(req, res, next) {
         // res.status(200).json(results);
         res.status(200).json({
             success: true,
+            message: 'Products retrieved successfully',
             metadata: {
                 total: totalProducts,
                 currentPage: Number(page),
@@ -205,6 +206,7 @@ async function updateProduct(req, res, next) {
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
+        if (product.deletedAt) throw new AppError("Cannot update a deleted product", 400);
 
         if (req.user.role === "seller" && product.seller.toString() !== req.user._id.toString()) {
             throw new AppError("You are not authorized to update this product", 403);
@@ -243,6 +245,7 @@ async function deleteProduct(req, res, next) {
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
+        if (product.deletedAt) throw new AppError("Product already deleted", 400);
 
         product.deletedAt = new Date();
         await product.save();

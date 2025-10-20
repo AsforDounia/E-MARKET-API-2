@@ -154,7 +154,7 @@ async function updateProfile(req, res, next) {
   } catch (err) {
     next(err);
   }
-};
+}
 
 
  async function updateUserRole(req, res, next) {
