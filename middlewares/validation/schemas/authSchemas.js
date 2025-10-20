@@ -13,7 +13,7 @@ const registerSchema = yup.object({
         .minLength(6, 'Password'),
 
     role: Yup.string()
-        .enumField(['user', 'admin'], 'Role')
+        .enumField(['user', 'admin', 'seller'], 'Role')
 });
 
 

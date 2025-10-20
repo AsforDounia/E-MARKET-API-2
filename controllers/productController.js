@@ -6,7 +6,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllProducts(req, res, next) {
     try {
-        const { search, category, minPrice, maxPrice, inStock } = req.query;
+        const { search, category, minPrice, maxPrice, inStock , sortBy, order, page = 1, limit = 10} = req.query;
         
         const filter = {
             deletedAt: null,
@@ -18,23 +18,55 @@ async function getAllProducts(req, res, next) {
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
         if (inStock === 'true') filter.stock = { $gt: 0 };
         
-        let products = await Product.find(filter);
+        // let products = await Product.find(filter);
         
         if (category) {
             const isValidObjectId = mongoose.Types.ObjectId.isValid(category);
             const categoryDoc = isValidObjectId 
                 ? await Category.findById(category)
                 : await Category.findOne({ name: { $regex: category, $options: 'i' } });
-            
+
             if (categoryDoc) {
-                const categoryProducts = await ProductCategory.find({ category: categoryDoc._id }).populate('product');
-                const categoryProductIds = categoryProducts.map(pc => pc.product._id.toString());
-                products = products.filter(p => categoryProductIds.includes(p._id.toString()));
+                const productCategoryLinks = await ProductCategory.find({
+                category: categoryDoc._id,
+                });
+
+                // Récupère tous les IDs de produits liés à cette catégorie
+                const categoryProductIds = productCategoryLinks.map((pc) =>
+                pc.product.toString()
+                );
+
+                //On ajoute directement le filtre dans la requête Mongo
+                filter._id = { $in: categoryProductIds };
             }
         }
 
+         //tri
+        let sortOptions = {};
+
+        // Choix du champ de tri selon le paramètre "sortBy"
+        switch (sortBy) {
+            case "price":
+                sortOptions.price = order === "asc" ? 1 : -1;
+                break;
+            case "date":
+                sortOptions.createdAt = order === "asc" ? 1 : -1;
+                break;
+            default:
+                sortOptions.createdAt = -1;
+        }
+
+        //application du tri et pagination directement dans MongoDB
+        const skip = (Number(page) - 1) * Number(limit);
+
+        const filteredProducts = await Product.find(filter)
+            .sort(sortOptions)
+            .skip(skip)
+            .limit(Number(limit));
+        
+        //ajout des categories à chaque produit
         const results = await Promise.all(
-            products.map(async (product) => {
+            filteredProducts.map(async (product) => {
                 const categories = await getProductCategories(product._id);
                 return {
                     _id: product._id,
@@ -43,17 +75,30 @@ async function getAllProducts(req, res, next) {
                     price: product.price,
                     stock: product.stock,
                     imageUrls: product.imageUrls,
+                    createdAt: product.createdAt,
                     categories
                 };
             })
         );
 
+
+        const totalProducts = await Product.countDocuments(filter);
+
+        // res.status(200).json(results);
         res.status(200).json({
             success: true,
-            message: 'Products retrieved successfully',
+            metadata: {
+                total: totalProducts,
+                currentPage: Number(page),
+                totalPages: Math.ceil(totalProducts / Number(limit)),
+                pageSize: Number(limit),
+                hasNextPage: Number(page) < Math.ceil(totalProducts / Number(limit)),
+                hasPreviousPage: Number(page) > 1
+            },
             data: {
                 products: results
             }
+          
         });
     } catch (err) {
        next(err);

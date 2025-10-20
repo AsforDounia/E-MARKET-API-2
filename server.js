@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import couponRoutes from "./routes/couponRoutes.js"
 import logger from './middlewares/logger.js';
 import notFound from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -12,7 +13,7 @@ import { swaggerUi, specs } from './swagger/swagger.js';
 import {authenticate, authorize} from "./middlewares/auth.js";
 import orderRoutes from './routes/orderRoutes.js';
 import reviewRoutes from "./routes/reviewRoutes.js";
-
+import securityMiddlewares from "./middlewares/security.js"
 
 
 const app = express();
@@ -22,11 +23,12 @@ if (process.env.NODE_ENV !== 'test:unit') {
     connectDB();
 }
 
+//aplication de tous les middlwares de securité (helemt,rate-limit,cors)
+securityMiddlewares(app);
 
 // Middleware pour parser JSON
 app.use(express.json());
 app.use(logger);
-
 
 // Test route
 app.get("/", (req, res) => {
@@ -55,7 +57,8 @@ app.use("/cart", cartRoutes);
 
 //  Utiliser les routes du commandes
 app.use("/orders", orderRoutes);
-
+//Utiliser les routes du coupon
+app.use("/coupons", couponRoutes);
 // Utiliser les routes du feedback
 app.use("/reviews", reviewRoutes);
 
