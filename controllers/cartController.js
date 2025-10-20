@@ -1,5 +1,7 @@
-import { Product, Cart, CartItem } from "../models/Index.js";
-import { AppError } from "../middlewares/errorHandler.js";
+import { Product, Cart, CartItem } from '../models/Index.js';
+import { AppError } from '../middlewares/errorHandler.js';
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 
 // Fonctions utilitaires
 const getOrCreateCart = async (userId) => {
@@ -29,8 +31,8 @@ const buildCartResponse = async (cart) => {
 export const addToCart = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
+    if (!ObjectId.isValid(productId)) throw new AppError('Invalid product ID', 400);
     const userId = req.user.id;
-
     const product = await Product.findById(productId);
     if (!product) throw new AppError("Product not found", 404);
 
@@ -56,11 +58,13 @@ export const addToCart = async (req, res, next) => {
 
     const cartData = await buildCartResponse(cart);
 
-    res.status(200).json({
-      success: true,
-      message: "Product added to cart successfully",
-      cart: cartData,
-    });
+      res.status(200).json({
+          status: "success",
+          message: 'Product added to cart successfully',
+          data:{
+              cart: cartData
+          }
+      });
   } catch (error) {
     next(error);
   }
@@ -72,29 +76,35 @@ export const getCart = async (req, res, next) => {
 
     const cart = await Cart.findOne({ userId });
 
-    if (!cart) {
-      return res.status(200).json({
-        message: "Cart is empty",
-        cart: { items: [], totalAmount: 0 },
-      });
-    }
+        if (!cart) {
+            return res.status(200).json({
+                status: "success",
+                message: 'Cart is empty',
+                data:{
+                    cart: { items: [], totalAmount: 0 }
+                }
+            });
+        }
 
     const cartData = await buildCartResponse(cart);
 
-    res.status(200).json({
-      success: true,
-      message: "Cart retrieved successfully",
-      cart: cartData,
-    });
-  } catch (error) {
-    next(error);
-  }
+        res.status(200).json({
+            status: "success",
+            message: 'Cart retrieved successfully',
+            data:{
+                cart: cartData
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
 export const removeFromCart = async (req, res, next) => {
-  try {
-    const { productId } = req.params;
-    const userId = req.user.id;
+    try {
+        const { productId } = req.params;
+        if (!ObjectId.isValid(productId)) throw new AppError('Invalid product ID', 400);
+        const userId = req.user.id;
 
     const cart = await getExistingCart(userId);
 
@@ -104,21 +114,24 @@ export const removeFromCart = async (req, res, next) => {
 
     const cartData = await buildCartResponse(cart);
 
-    res.status(200).json({
-      success: true,
-      message: "Product removed from cart successfully",
-      cart: cartData,
-    });
-  } catch (error) {
-    next(error);
-  }
+        res.status(200).json({
+            status: "success",
+            message: 'Product removed from cart successfully',
+            data:{
+                cart: cartData
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
 export const updateCartItem = async (req, res, next) => {
-  try {
-    const { productId } = req.params;
-    const { quantity } = req.body;
-    const userId = req.user.id;
+    try {
+        const { productId } = req.params;
+        if (!ObjectId.isValid(productId)) throw new AppError('Invalid product ID', 400);
+        const { quantity } = req.body;
+        const userId = req.user.id;
 
     const cart = await getExistingCart(userId);
 
@@ -134,14 +147,16 @@ export const updateCartItem = async (req, res, next) => {
 
     const cartData = await buildCartResponse(cart);
 
-    res.status(200).json({
-      success: true,
-      message: "Cart item updated successfully",
-      cart: cartData,
-    });
-  } catch (error) {
-    next(error);
-  }
+        res.status(200).json({
+            status: "success",
+            message: 'Cart item updated successfully',
+            data:{
+                cart: cartData
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
 export const clearCart = async (req, res, next) => {
@@ -152,12 +167,14 @@ export const clearCart = async (req, res, next) => {
 
     await CartItem.deleteMany({ cartId: cart._id });
 
-    res.status(200).json({
-      success: true,
-      message: "Cart cleared successfully",
-      cart: cart,
-    });
-  } catch (error) {
-    next(error);
-  }
+        res.status(200).json({
+            status: "success",
+            message: 'Cart cleared successfully',
+            data:{
+                cart: cart
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
 };

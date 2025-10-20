@@ -19,7 +19,9 @@ import securityMiddlewares from "./middlewares/security.js"
 const app = express();
 
 // Connexion à MongoDB
-connectDB();
+if (process.env.NODE_ENV !== 'test:unit') {
+    connectDB();
+}
 
 //aplication de tous les middlwares de securité (helemt,rate-limit,cors)
 securityMiddlewares(app);
@@ -59,6 +61,12 @@ app.use("/orders", orderRoutes);
 app.use("/coupons", couponRoutes);
 // Utiliser les routes du feedback
 app.use("/reviews", reviewRoutes);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.get("/api-docs.json", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(specs);
+});
 
 app.use(notFound);
 app.use(errorHandler);

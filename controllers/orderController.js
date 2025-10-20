@@ -1,6 +1,7 @@
 import { Order, OrderItem, Cart, CartItem, Product, Coupon } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId;
 
 const createOrder = async (req, res, next) => {
     const session = await mongoose.startSession();
@@ -81,7 +82,16 @@ const createOrder = async (req, res, next) => {
         });
 
         res.status(201).json({
-            message: 'Order created successfully'
+            status: "success",
+            message: 'Order created successfully',
+            data: {
+                order: {
+                    userId,
+                    subtotal,
+                    discount,
+                    total
+                }
+            }
         });
     } catch (error) {
         next(error);
@@ -95,7 +105,13 @@ const getOrders = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const orders = await Order.find({ userId }).sort({ createdAt: -1 });
-        res.status(200).json({ orders });
+        res.status(200).json({
+            status: "success",
+            message: 'Orders retrieved successfully',
+            data:{
+                orders: orders
+            }
+        });
     } catch (error) {
         next(error);
     }
@@ -105,11 +121,18 @@ const getOrders = async (req, res, next) => {
 const getOrderById = async (req, res, next) => {
     try {
         const { id } = req.params;
+        if(!ObjectId.isValid(id)) throw new AppError('Invalid order ID', 400)
         const order = await Order.findById(id);
         if (!order) throw new AppError('Order not found', 404);
 
         const items = await OrderItem.find({ orderId: id }).populate('productId', 'title imageUrls');
-        res.status(200).json({ order: { ...order.toObject(), items } });
+        res.status(200).json({
+            status: "success",
+            message: 'Order retrieved successfully',
+            data:{
+                order: { ...order.toObject(), items }
+            }
+        });
     } catch (error) {
         next(error);
     }
@@ -118,6 +141,7 @@ const getOrderById = async (req, res, next) => {
 const updateOrderStatus = async (req, res, next) => {
     try {
         const { id } = req.params;
+        if(!ObjectId.isValid(id)) throw new AppError('Invalid order ID', 400)
         const { status } = req.body;
 
         const validStatuses = ['pending', 'paid', 'shipped', 'delivered'];
@@ -131,7 +155,13 @@ const updateOrderStatus = async (req, res, next) => {
         order.status = status;
         await order.save();
 
-        res.status(200).json({ message: 'Order status updated', order });
+        res.status(200).json({
+            status: "success",
+            message: 'Order status updated',
+            data: {
+                order: order
+            }
+        });
     } catch (error) {
         next(error);
     }
@@ -144,6 +174,7 @@ const cancelOrder = async (req, res, next) => {
         session.startTransaction();
 
         const { id } = req.params;
+        if(!ObjectId.isValid(id)) throw new AppError('Invalid order ID', 400)
         const userId = req.user.id;
 
         const order = await Order.findOne({ _id: id, userId }).session(session);
@@ -178,8 +209,11 @@ const cancelOrder = async (req, res, next) => {
 
         await session.commitTransaction();
         res.status(200).json({
-            success: true,
+            status: "success",
             message: 'Order cancelled successfully',
+            data: {
+                order: order
+            }
         });
     } catch (error) {
         await session.abortTransaction();

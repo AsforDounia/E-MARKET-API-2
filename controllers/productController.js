@@ -2,13 +2,17 @@ import { Product, ProductCategory, Category } from '../models/Index.js';
 import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
-
+const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllProducts(req, res, next) {
     try {
         const { search, category, minPrice, maxPrice, inStock , sortBy, order, page = 1, limit = 10} = req.query;
         
-        const filter = {};
+        const filter = {
+            deletedAt: null,
+            validationStatus: 'approved',  
+            isVisible: true           
+        };
         if (req.query.seller) filter.seller = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
@@ -75,16 +79,24 @@ async function getAllProducts(req, res, next) {
             })
         );
 
+
         const totalProducts = await Product.countDocuments(filter);
 
         // res.status(200).json(results);
         res.status(200).json({
             success: true,
-            message: "Products fetched successfully",
-            total: totalProducts,
-            currentPage: Number(page),
-            totalPages: Math.ceil(totalProducts / limit),
-            data: results
+            metadata: {
+                total: totalProducts,
+                currentPage: Number(page),
+                totalPages: Math.ceil(totalProducts / Number(limit)),
+                pageSize: Number(limit),
+                hasNextPage: Number(page) < Math.ceil(totalProducts / Number(limit)),
+                hasPreviousPage: Number(page) > 1
+            },
+            data: {
+                products: results
+            }
+          
         });
     } catch (err) {
        next(err);
@@ -94,21 +106,25 @@ async function getAllProducts(req, res, next) {
 async function getProductById(req, res, next) {
     try {
         const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const product = await Product.findById(id);
         if (!product) throw new AppError("Product not found", 404);
 
         const categories = await getProductCategories(product._id);
 
         res.status(200).json({
-            success:true,
-            message: "Product fetched successfully",
-            _id: product._id,
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            stock: product.stock,
-            imageUrls: product.imageUrls,
-            categories
+            success: true,
+            message: 'Product retrieved successfully',
+            data: { product: {
+                    _id: product._id,
+                    title: product.title,
+                    description: product.description,
+                    price: product.price,
+                    stock: product.stock,
+                    imageUrls: product.imageUrls,
+                    categories
+                }
+            }
         });
     } catch (err) {
         next(err);
@@ -117,9 +133,10 @@ async function getProductById(req, res, next) {
 
 async function createProduct(req, res, next) {
     try {
-        const sellerId = req.user._id;  // récupère l'ID du vendeur 
+        const sellerId = req.user._id; 
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
-
+        if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
+        if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
         if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
         if (!sellerId) throw new AppError("Seller information is required", 400);
  
@@ -131,10 +148,13 @@ async function createProduct(req, res, next) {
             }
         }
 
-        res.status(201).json({ 
+        res.status(201).json({
             success: true,
-            message: 'Product created successfuly',
-            data: product });
+            message: 'Product created',
+            data: {
+                product: product
+            }
+        });
     } catch (err) {
         next(err);
     }
@@ -145,7 +165,12 @@ async function createProduct(req, res, next) {
 async function updateProduct(req, res, next) {
     try {
         const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
+
+        if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
+        if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
+
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
@@ -171,7 +196,9 @@ async function updateProduct(req, res, next) {
         res.status(200).json({
             success: true,
             message: 'Product updated',
-            data: product 
+            data: {
+                product: product
+            }
         });
     } catch (err) {
         next(err);
@@ -181,6 +208,7 @@ async function updateProduct(req, res, next) {
 async function deleteProduct(req, res, next) {
     try {
         const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
@@ -193,10 +221,117 @@ async function deleteProduct(req, res, next) {
             { product: product._id },
             { $set: { deletedAt: new Date() } }
         );
-        res.status(200).json({ success: true, message: 'Product deleted' });
+        res.status(200).json({
+            success: true,
+            message: 'Product soft-deleted'
+        });
     } catch (err) {
         next(err);
     }
 }
 
-export { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct };
+async function updateProductVisibility (req, res, next) {
+    try {
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
+        const { isVisible } = req.body;
+      
+        if (typeof isVisible !== 'boolean') {
+            throw new AppError('isVisible must be a boolean', 400);
+        }
+
+        const product = await Product.findOne({
+            _id: id,
+            deletedAt: null
+        });
+
+        if (!product) throw new AppError('Product not found', 404);
+
+        if (req.user.role === "seller" && product.seller.toString() !== req.user._id.toString()) {
+            throw new AppError('You are not authorized to update this product', 403);
+        }
+
+        product.isVisible = isVisible;
+        await product.save();
+
+        res.json({
+            message: `Product ${isVisible ? 'shown' : 'hidden'} successfully`,
+            product
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function getPendingProducts(req, res, next) {
+    try {
+        const products = await Product.find({
+            validationStatus: 'pending',
+            deletedAt: null
+        }).populate('seller', 'fullname email');
+        
+        res.json(products);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+async function validateProduct(req, res, next) {
+    try {
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
+        const product = await Product.findOne({
+            _id: id,
+            deletedAt: null
+        });
+
+        if (!product) throw new AppError('Product not found', 404);
+
+        // Approve the product
+        product.validationStatus = 'approved';
+        product.isVisible = true;
+        product.isAvailable = true;
+        product.validatedAt = new Date();
+        
+        await product.save();
+
+        res.json({ message: 'Product approved successfully', product });
+    } catch (error) {
+        next(error);
+    }
+}
+
+async function rejectProduct(req, res, next) {
+    try {
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
+        const { reason } = req.body;
+        
+        const product = await Product.findOne({
+            _id: id,
+            deletedAt: null
+        });
+
+        if (!product) throw new AppError('Product not found', 404);
+
+        // Reject the product
+        product.validationStatus = 'rejected';
+        product.isVisible = false;
+        product.isAvailable = false;
+        product.rejectionReason = reason;
+        product.validatedAt = new Date();
+        
+        await product.save();
+
+        res.json({
+            message: 'Product rejected successfully',
+            product
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, updateProductVisibility, getPendingProducts, validateProduct, rejectProduct };
