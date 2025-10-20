@@ -19,7 +19,7 @@ import securityMiddlewares from "./middlewares/security.js"
 const app = express();
 
 // Connexion à MongoDB
-if (process.env.NODE_ENV !== 'test:unit') {
+if (process.env.NODE_ENV !== 'test') {
     connectDB();
 }
 
