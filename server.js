@@ -67,6 +67,8 @@ app.get("/api-docs.json", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.send(specs);
 });
+// Permet d'accéder aux fichiers uploadés
+app.use("/uploads", express.static("uploads"));
 
 app.use(notFound);
 app.use(errorHandler);
