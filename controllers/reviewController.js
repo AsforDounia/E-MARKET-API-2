@@ -1,9 +1,12 @@
 import { Order, OrderItem, Product, Review } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 
 const addReview = async (req, res, next) => {
     try {
         const { productId, rating, comment } = req.body;
+        if(!ObjectId.isValid(productId)) throw new AppError('Invalid product ID', 400)
         const userId = req.user.id;
 
         const product = await Product.findById(productId);
@@ -29,8 +32,11 @@ const addReview = async (req, res, next) => {
         const review = await Review.create({ userId, productId, rating, comment });
 
         res.status(201).json({
+            status: "success",
             message: 'Review added successfully',
-            review
+            data:{
+                review: review
+            }
         });
     } catch (error) {
         next(error);
@@ -41,6 +47,7 @@ const addReview = async (req, res, next) => {
 const getProductReviews = async (req, res, next) => {
     try {
         const { productId } = req.params;
+        if(!ObjectId.isValid(productId)) throw new AppError('Invalid product ID', 400)
 
         const product = await Product.findById(productId);
         if (!product) throw new AppError('Product not found', 404);
@@ -51,9 +58,12 @@ const getProductReviews = async (req, res, next) => {
         const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
 
         res.status(200).json({
+            status: "success",
             message: 'Reviews retrieved successfully',
-            reviews,
-            averageRating
+            data: {
+                reviews: reviews,
+                averageRating: averageRating
+            }
         });
     } catch (error) {
         next(error);
@@ -63,6 +73,7 @@ const getProductReviews = async (req, res, next) => {
 const updateReview = async (req, res, next) => {
     try {
         const { reviewId } = req.params;
+        if(!ObjectId.isValid(reviewId)) throw new AppError('Invalid review ID', 400)
         const { rating, comment } = req.body;
 
         const review = await Review.findOneAndUpdate(
@@ -74,8 +85,11 @@ const updateReview = async (req, res, next) => {
         if (!review) throw new AppError('Review not found', 404);
 
         res.status(200).json({
+            status: "success",
             message: 'Review updated successfully',
-            review
+            data: {
+                review: review
+            }
         });
     } catch (error) {
         next(error);
@@ -86,6 +100,7 @@ const updateReview = async (req, res, next) => {
 const deleteReview = async (req, res, next) => {
     try {
         const { reviewId } = req.params;
+        if(!ObjectId.isValid(reviewId)) throw new AppError('Invalid review ID', 400)
 
         const review = await Review.findOne({ _id: reviewId, deletedAt: null });
 
@@ -99,8 +114,11 @@ const deleteReview = async (req, res, next) => {
         await review.save();
 
         res.status(200).json({
-            message: 'Review deleted successfully',
-            review
+            status: "success",
+            message: 'Review soft-deleted successfully',
+            data: {
+                review: review
+            }
         });
     } catch (error) {
         next(error);

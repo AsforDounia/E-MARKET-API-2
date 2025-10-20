@@ -2,7 +2,7 @@ import { Product, ProductCategory, Category } from '../models/Index.js';
 import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
-
+const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllProducts(req, res, next) {
     try {
@@ -81,15 +81,24 @@ async function getAllProducts(req, res, next) {
             })
         );
 
+
         const totalProducts = await Product.countDocuments(filter);
 
         // res.status(200).json(results);
         res.status(200).json({
             success: true,
-            total: totalProducts,
-            currentPage: Number(page),
-            totalPages: Math.ceil(totalProducts / limit),
-            data: results
+            metadata: {
+                total: totalProducts,
+                currentPage: Number(page),
+                totalPages: Math.ceil(totalProducts / Number(limit)),
+                pageSize: Number(limit),
+                hasNextPage: Number(page) < Math.ceil(totalProducts / Number(limit)),
+                hasPreviousPage: Number(page) > 1
+            },
+            data: {
+                products: results
+            }
+          
         });
     } catch (err) {
        next(err);
@@ -99,19 +108,25 @@ async function getAllProducts(req, res, next) {
 async function getProductById(req, res, next) {
     try {
         const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const product = await Product.findById(id);
         if (!product) throw new AppError("Product not found", 404);
 
         const categories = await getProductCategories(product._id);
 
         res.status(200).json({
-            _id: product._id,
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            stock: product.stock,
-            imageUrls: product.imageUrls,
-            categories
+            success: true,
+            message: 'Product retrieved successfully',
+            data: { product: {
+                    _id: product._id,
+                    title: product.title,
+                    description: product.description,
+                    price: product.price,
+                    stock: product.stock,
+                    imageUrls: product.imageUrls,
+                    categories
+                }
+            }
         });
     } catch (err) {
         next(err);
@@ -122,6 +137,8 @@ async function createProduct(req, res, next) {
     try {
         const sellerId = req.user._id; 
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
+        if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
+        if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
         if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
         if (!sellerId) throw new AppError("Seller information is required", 400);
  
@@ -133,7 +150,13 @@ async function createProduct(req, res, next) {
             }
         }
 
-        res.status(201).json({ message: 'Product created', data: product });
+        res.status(201).json({
+            success: true,
+            message: 'Product created',
+            data: {
+                product: product
+            }
+        });
     } catch (err) {
         next(err);
     }
@@ -144,7 +167,12 @@ async function createProduct(req, res, next) {
 async function updateProduct(req, res, next) {
     try {
         const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
+
+        if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
+        if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
+
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
@@ -167,7 +195,13 @@ async function updateProduct(req, res, next) {
                 await ProductCategory.create({ product: product._id, category: categoryId });
             }
         }
-        res.status(200).json({ message: 'Product updated', data: product });
+        res.status(200).json({
+            success: true,
+            message: 'Product updated',
+            data: {
+                product: product
+            }
+        });
     } catch (err) {
         next(err);
     }
@@ -176,6 +210,7 @@ async function updateProduct(req, res, next) {
 async function deleteProduct(req, res, next) {
     try {
         const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
@@ -188,7 +223,10 @@ async function deleteProduct(req, res, next) {
             { product: product._id },
             { $set: { deletedAt: new Date() } }
         );
-        res.status(200).json({ message: 'Product deleted' });
+        res.status(200).json({
+            success: true,
+            message: 'Product soft-deleted'
+        });
     } catch (err) {
         next(err);
     }
@@ -196,6 +234,8 @@ async function deleteProduct(req, res, next) {
 
 async function updateProductVisibility (req, res, next) {
     try {
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const { isVisible } = req.body;
       
         if (typeof isVisible !== 'boolean') {
@@ -203,7 +243,7 @@ async function updateProductVisibility (req, res, next) {
         }
 
         const product = await Product.findOne({
-            _id: req.params.id,
+            _id: id,
             deletedAt: null
         });
 
@@ -241,8 +281,10 @@ async function getPendingProducts(req, res, next) {
 
 async function validateProduct(req, res, next) {
     try {
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const product = await Product.findOne({
-            _id: req.params.id,
+            _id: id,
             deletedAt: null
         });
 
@@ -264,10 +306,12 @@ async function validateProduct(req, res, next) {
 
 async function rejectProduct(req, res, next) {
     try {
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const { reason } = req.body;
         
         const product = await Product.findOne({
-            _id: req.params.id,
+            _id: id,
             deletedAt: null
         });
 

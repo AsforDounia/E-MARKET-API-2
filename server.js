@@ -19,7 +19,9 @@ import securityMiddlewares from "./middlewares/security.js"
 const app = express();
 
 // Connexion à MongoDB
-connectDB();
+if (process.env.NODE_ENV !== 'test:unit') {
+    connectDB();
+}
 
 //aplication de tous les middlwares de securité (helemt,rate-limit,cors)
 securityMiddlewares(app);
