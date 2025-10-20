@@ -57,6 +57,12 @@ app.use("/orders", orderRoutes);
 // Utiliser les routes du feedback
 app.use("/reviews", reviewRoutes);
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.get("/api-docs.json", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(specs);
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
