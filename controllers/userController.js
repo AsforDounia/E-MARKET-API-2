@@ -1,6 +1,7 @@
 import { User } from "../models/Index.js";
 import {AppError} from "../middlewares/errorHandler.js";
-const ObjectId = require('mongoose').Types.ObjectId;
+import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllUsers(req, res, next) {
     try {

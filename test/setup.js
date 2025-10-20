@@ -4,10 +4,14 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 before(async () => {
-    await mongoose.connect(process.env.MONGO_URI_TEST);
+    if (process.env.NODE_ENV !== 'test:unit') {
+        await mongoose.connect(process.env.MONGO_URI_TEST);
+    }
 });
 
 after(async () => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
+    if (process.env.NODE_ENV !== 'test:unit') {
+        await mongoose.connection.dropDatabase();
+        await mongoose.connection.close();
+    }
 });

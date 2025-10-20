@@ -18,7 +18,9 @@ import reviewRoutes from "./routes/reviewRoutes.js";
 const app = express();
 
 // Connexion à MongoDB
-connectDB();
+if (process.env.NODE_ENV !== 'test:unit') {
+    connectDB();
+}
 
 
 // Middleware pour parser JSON
