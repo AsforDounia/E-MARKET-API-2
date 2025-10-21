@@ -9,9 +9,9 @@ async function getAllProducts(req, res, next) {
         const { search, category, minPrice, maxPrice, inStock , sortBy, order, page = 1, limit = 10} = req.query;
         
         const filter = {
-            deletedAt: null,
-            validationStatus: 'approved',  
-            isVisible: true           
+            // deletedAt: null,
+            // validationStatus: 'approved',  
+            // isVisible: true           
         };
         if (req.query.seller) filter.seller = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];

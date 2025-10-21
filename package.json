@@ -9,8 +9,9 @@
     "dev": "nodemon server.js",
     "migrate": "node migrations/migrate.js",
     "seed": "node migrations/seed.js",
-    "test:unit": "NODE_ENV=test:unit mocha test/unit/**/*.js --timeout 5000 --exit",
-    "test:unit:auth": "NODE_ENV=test:unit mocha test/unit/authTest.js --timeout 5000 --exit",
+    "test:unit": "cross-env NODE_ENV=test:unit mocha test/unit/**/*.js --timeout 5000 --exit",
+    "test:unit:cart": "cross-env NODE_ENV=test:unit mocha  --no-config test/unit/cartTest.js --timeout 5000 --exit",
+    "test:unit:auth": "cross-env NODE_ENV=test:unit mocha test/unit/authTest.js --timeout 5000 --exit",
     "test:integration": "NODE_ENV=test mocha test/integration/**/*.js --timeout 10000 --exit"
   },
   "repository": {
@@ -27,6 +28,7 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
