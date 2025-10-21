@@ -9,10 +9,12 @@
     "dev": "nodemon server.js",
     "migrate": "node migrations/migrate.js",
     "seed": "node migrations/seed.js",
-    "test:unit": "cross-env NODE_ENV=test:unit mocha test/unit/**/*.js --timeout 5000 --exit",
+    "test": "NODE_ENV=test mocha test/setup.js test/**/*.test.js --timeout 5000 --exit",
+    "test:unit": "cross-env NODE_ENV=test:unit mocha test/setup.js test/unit/**/*.js --timeout 5000 --exit",
     "test:unit:cart": "cross-env NODE_ENV=test:unit mocha  --no-config test/unit/cartTest.js --timeout 5000 --exit",
-    "test:unit:auth": "cross-env NODE_ENV=test:unit mocha test/unit/authTest.js --timeout 5000 --exit",
-    "test:integration": "NODE_ENV=test mocha test/integration/**/*.js --timeout 10000 --exit"
+    "test:unit:auth": "cross-env NODE_ENV=test:unit mocha test/setup.js test/unit/authTest.js --timeout 5000 --exit",
+    "test:integration": "NODE_ENV=test mocha test/setup.js test/integration/**/*.js --timeout 10000 --exit",
+    "test:integration:auth": "NODE_ENV=test mocha test/setup.js test/integration/authTest.js --timeout 10000 --exit"
   },
   "repository": {
     "type": "git",
