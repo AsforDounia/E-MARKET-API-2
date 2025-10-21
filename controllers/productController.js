@@ -208,7 +208,7 @@ async function updateProduct(req, res, next) {
         if (!product) throw new AppError("Product not found", 404);
         if (product.deletedAt) throw new AppError("Cannot update a deleted product", 400);
 
-        if (req.user.role === "seller" && product.seller.toString() !== req.user._id.toString()) {
+        if (req.user.role === "seller" && product.sellerId.toString() !== req.user._id.toString()) {
             throw new AppError("You are not authorized to update this product", 403);
         }
 
@@ -257,7 +257,10 @@ async function deleteProduct(req, res, next) {
         );
         res.status(200).json({
             success: true,
-            message: 'Product soft-deleted'
+            message: 'Product soft-deleted',
+            data: {
+                product: product
+            }
         });
     } catch (err) {
         next(err);
@@ -281,7 +284,7 @@ async function updateProductVisibility (req, res, next) {
 
         if (!product) throw new AppError('Product not found', 404);
 
-        if (req.user.role === "seller" && product.seller.toString() !== req.user._id.toString()) {
+        if (req.user.role === "seller" && product.sellerID.toString() !== req.user._id.toString()) {
             throw new AppError('You are not authorized to update this product', 403);
         }
 
