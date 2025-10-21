@@ -9,9 +9,10 @@
     "dev": "nodemon server.js",
     "migrate": "node migrations/migrate.js",
     "seed": "node migrations/seed.js",
-    "test:unit": "NODE_ENV=test:unit mocha test/unit/**/*.js --timeout 5000 --exit",
-    "test:unit:auth": "NODE_ENV=test:unit mocha test/unit/authTest.js --timeout 5000 --exit",
-    "test:integration": "NODE_ENV=test mocha test/integration/**/*.js --timeout 10000 --exit"
+    "test:unit": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/**/*.js --timeout 5000 --exit",
+    "test:unit:product": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/productTest.js --timeout 5000 --exit",
+    "test:unit:auth": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/authTest.js --timeout 5000 --exit",
+    "test:integration": "cross-env NODE_ENV=test mocha  --no-config test/integration/**/*.js --timeout 10000 --exit"
   },
   "repository": {
     "type": "git",
@@ -27,14 +28,15 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.0",
-    "rate-limit-mongo": "^2.3.2",
     "multer": "^2.0.2",
+    "rate-limit-mongo": "^2.3.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "yup": "^1.7.1"
