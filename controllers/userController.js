@@ -69,7 +69,7 @@ async function createUser(req, res, next) {
     if (existingUser) throw new AppError("Email already in use", 400);
 
     const role = req.body.role || "user";
-    if (!["user", "admin"].includes(role))
+    if (!["user", "admin", "seller"].includes(role))
       throw new AppError("Invalid role specified", 400);
         const user = await User.create({ fullname, email, password, role });
         res.status(201).json({
@@ -154,7 +154,7 @@ async function updateProfile(req, res, next) {
   } catch (err) {
     next(err);
   }
-};
+}
 
 
  async function updateUserRole(req, res, next) {
