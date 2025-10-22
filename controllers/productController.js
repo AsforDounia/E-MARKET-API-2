@@ -42,7 +42,7 @@ async function getAllProducts(req, res, next) {
         }
 
          //tri
-        let sortOptions = {};
+        const sortOptions = {};
 
         // Choix du champ de tri selon le paramètre "sortBy"
         switch (sortBy) {
