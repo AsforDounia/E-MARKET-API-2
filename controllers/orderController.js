@@ -158,6 +158,8 @@ const updateOrderStatus = async (req, res, next) => {
         order.status = status;
         await order.save();
 
+        const notData = { orderId: id, status, orderUserId: order.userId };
+        notificationService.emitOrderUpdated(notData, 'ORDER_UPDATED');
         res.status(200).json({
             status: "success",
             message: 'Order status updated',
@@ -211,6 +213,9 @@ const cancelOrder = async (req, res, next) => {
         await order.save({ session });
 
         await session.commitTransaction();
+
+        const notData = { orderId: id, orderUserId: order.userId };
+        notificationService.emitOrderUpdated(notData, 'ORDER_CANCELLED');
         res.status(200).json({
             status: "success",
             message: 'Order cancelled successfully',

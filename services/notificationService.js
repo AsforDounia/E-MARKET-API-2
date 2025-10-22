@@ -11,6 +11,7 @@ class NotificationService extends EventEmitter {
     setupListeners() {
         this.on('PUBLISH_PRODUCT', this.handlePublishProduct);
         this.on('ORDER_CREATED', this.handleOrderCreated);
+        this.on('ORDER_UPDATED', this.handleOrderUpdated);
     }
 
     emitPublishProduct(productData) {
@@ -21,6 +22,9 @@ class NotificationService extends EventEmitter {
         this.emit('ORDER_CREATED', orderData);
     }
 
+    emitOrderUpdated(orderData) {
+        this.emit('ORDER_UPDATED', orderData);
+    }
 
     async handlePublishProduct(data, next){
         try {
@@ -76,6 +80,31 @@ class NotificationService extends EventEmitter {
             console.log(`Order created notification sent to ${sellers.length} sellers`);
         } catch (error) {
             console.error('Error creating order notification:', error);
+        }
+    }
+
+    async handleOrderUpdated(data , type) {
+        try {
+            const notification = await Notification.create({
+                type: type === 'ORDER_UPDATED' ? 'ORDER_UPDATED' : 'ORDER_CANCELLED',
+                title: type === 'ORDER_UPDATED' ? 'Order Updated' : 'Order Cancelled',
+                message: `Order #${data.orderId} has been ${type === 'ORDER_UPDATED' ? 'updated' : 'cancelled'}.`,
+                data: { orderId: data.orderId },
+                senderId: data.orderUserId,
+                targetAudience: 'sellers'
+            });
+
+            const sellers = await User.find({ role: 'seller', deletedAt: null });
+            const userNotifications = sellers.map(seller => ({
+                userId: seller._id,
+                notificationId: notification._id
+            }));
+
+            await UserNotification.insertMany(userNotifications);
+            console.log(`Order ${type === 'ORDER_UPDATED' ? 'updated' : 'cancelled'} notification sent to ${sellers.length} sellers`);
+            
+        } catch (error) {
+            console.error('Error creating order updated notification:', error);
         }
     }
 }
