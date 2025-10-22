@@ -3,7 +3,7 @@ const notificationSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: [
-      'NEW_PRODUCT',
+      'PUBLISH_PRODUCT',
       'ORDER_CREATED',
       'ORDER_UPDATED',
       'ORDER_CANCELLED',
