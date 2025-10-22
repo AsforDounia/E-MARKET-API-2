@@ -1,5 +1,7 @@
 import { Notification, UserNotification } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
+import mongoose from 'mongoose';
+const ObjectId = mongoose.Types.ObjectId;
 
 
 async function getNotifications(req, res, next) {
@@ -17,11 +19,25 @@ async function getNotifications(req, res, next) {
 
         const total = await UserNotification.countDocuments({ userId: req.user._id });
 
+        const transformedNotifications = userNotifications.map(un => ({
+            id: un._id,
+            isRead: un.isRead,
+            readAt: un.readAt || null,
+            createdAt: un.createdAt,
+            notification: {
+                id: un.notificationId._id,
+                type: un.notificationId.type,
+                title: un.notificationId.title,
+                message: un.notificationId.message,
+                priority: un.notificationId.priority,
+                productId: un.notificationId.data?.productId,
+                senderId: un.notificationId.senderId,
+                createdAt: un.notificationId.createdAt
+            }
+        }));
         res.json({
             success: true,
-            data: {
-                notifications: userNotifications.map(notification => notification.notificationId)
-            },
+            data: transformedNotifications,
             pagination: {
                 currentPage: Number(page),
                 totalPages: Math.ceil(total / limit),
@@ -33,4 +49,29 @@ async function getNotifications(req, res, next) {
     }
 }
 
-export { getNotifications };
+
+async function markAsRead(req, res, next) {
+    try {
+        const { id } = req.params;
+        if(!ObjectId.isValid(id)) throw new AppError('Invalid notification ID', 400);
+        
+        const userNotification = await UserNotification.findOneAndUpdate(
+            { _id: id, userId: req.user._id },
+            { isRead: true, readAt: new Date() },
+            { new: true }
+        );
+
+        if (!userNotification) {
+            throw new AppError('Notification not found', 404);
+        }
+
+        res.json({
+            success: true,
+            message: 'Notification marked as read'
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { getNotifications, markAsRead };
