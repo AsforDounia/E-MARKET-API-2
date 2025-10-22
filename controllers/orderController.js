@@ -1,6 +1,7 @@
 import { Order, OrderItem, Cart, CartItem, Product, Coupon } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
+import notificationService from '../services/notificationService.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 const createOrder = async (req, res, next) => {
@@ -82,6 +83,7 @@ const createOrder = async (req, res, next) => {
             await CartItem.deleteMany({ cartId: cart._id }, { session });
         });
 
+        notificationService.emitOrderCreated({ orderId: userId, total, userId });
         res.status(201).json({
             status: "success",
             message: 'Order created successfully',

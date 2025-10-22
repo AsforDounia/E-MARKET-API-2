@@ -10,11 +10,17 @@ class NotificationService extends EventEmitter {
 
     setupListeners() {
         this.on('PUBLISH_PRODUCT', this.handlePublishProduct);
+        this.on('ORDER_CREATED', this.handleOrderCreated);
     }
 
     emitPublishProduct(productData) {
         this.emit('PUBLISH_PRODUCT', productData);
     }
+
+    emitOrderCreated(orderData) {
+        this.emit('ORDER_CREATED', orderData);
+    }
+
 
     async handlePublishProduct(data, next){
         try {
@@ -47,6 +53,30 @@ class NotificationService extends EventEmitter {
             next(error);
         }
     }
-}
 
+    async handleOrderCreated(data) {
+    try {
+        const notification = await Notification.create({
+            type: 'ORDER_CREATED',
+            title: 'New Order Created',
+            message: `Order #${data.orderId} created for a total of ${data.total}€`,
+            data: { orderId: data.orderId },
+            senderId: data.userId,
+            targetAudience: 'sellers'
+        });
+
+
+        const sellers = await User.find({ role: 'seller', deletedAt: null });
+        const userNotifications = sellers.map(seller => ({
+            userId: seller._id,
+            notificationId: notification._id
+        }));
+
+        await UserNotification.insertMany(userNotifications);
+            console.log(`Order created notification sent to ${sellers.length} sellers`);
+        } catch (error) {
+            console.error('Error creating order notification:', error);
+        }
+    }
+}
 export default new NotificationService();
