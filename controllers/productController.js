@@ -2,6 +2,7 @@ import { Product, ProductCategory, Category } from '../models/Index.js';
 import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
+import notificationService from '../services/notificationService.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllProducts(req, res, next) {
@@ -9,11 +10,11 @@ async function getAllProducts(req, res, next) {
         const { search, category, minPrice, maxPrice, inStock , sortBy, order, page = 1, limit = 10} = req.query;
         
         const filter = {
-        //  deletedAt: null,
-        //  validationStatus: 'approved',
-        //  isVisible: true
+            // deletedAt: null,
+            // validationStatus: 'approved',  
+            // isVisible: true           
         };
-        if (req.query.seller) filter.seller = req.query.seller;
+        if (req.query.seller) filter.sellerId = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
         if (inStock === 'true') filter.stock = { $gt: 0 };
@@ -40,7 +41,7 @@ async function getAllProducts(req, res, next) {
         }
 
          //tri
-        let sortOptions = {};
+        const sortOptions = {};
 
         // Choix du champ de tri selon le paramètre "sortBy"
         switch (sortBy) {
@@ -73,6 +74,9 @@ async function getAllProducts(req, res, next) {
                     price: product.price,
                     stock: product.stock,
                     imageUrls: product.imageUrls,
+                    validationStatus: product.validationStatus,
+                    isVisible: product.isVisible,
+                    isAvailable: product.isAvailable,
                     createdAt: product.createdAt,
                     categories
                 };
@@ -141,7 +145,7 @@ async function createProduct(req, res, next) {
         if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
         if (!sellerId) throw new AppError("Seller information is required", 400);
  
-        const product = await Product.create({ title, description, price, stock, imageUrls, sellerId: sellerId });
+        const product = await Product.create({ title, description, price, stock, imageUrls, sellerId });
        
         if (Array.isArray(categoryIds)) {
             for (const categoryId of categoryIds) {
@@ -253,7 +257,7 @@ async function updateProductVisibility (req, res, next) {
 
         if (!product) throw new AppError('Product not found', 404);
 
-        if (req.user.role === "seller" && product.sellerID.toString() !== req.user._id.toString()) {
+        if (req.user.role === "seller" && product.sellerId.toString() !== req.user._id.toString()) {
             throw new AppError('You are not authorized to update this product', 403);
         }
 
@@ -274,7 +278,7 @@ async function getPendingProducts(req, res, next) {
         const products = await Product.find({
             validationStatus: 'pending',
             deletedAt: null
-        }).populate('seller', 'fullname email');
+        }).populate('sellerId', 'fullname email');
         
         res.json(products);
     } catch (error) {
@@ -302,6 +306,11 @@ async function validateProduct(req, res, next) {
         
         await product.save();
 
+        notificationService.emitPublishProduct({
+            productId: product._id,
+            title: product.title,
+            sellerId: product.sellerId
+        });
         res.json({ message: 'Product approved successfully', product });
     } catch (error) {
         next(error);
