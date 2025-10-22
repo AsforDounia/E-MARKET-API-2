@@ -138,23 +138,23 @@ async function createProduct(req, res, next) {
   try {
     const sellerId = req.user._id;
     const { title, description, price, stock, categoryIds } = req.body;
-    
+
     if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
     if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
 
     if (!title || !description || price == null || stock == null)
       throw new AppError("Title, description, price, and stock are required", 400);
-
+    
     if (!sellerId)
       throw new AppError("Seller information is required", 400);
-
+    
     // Créer le produit sans image d’abord
     const product = await Product.create({
       title,
       description,
       price,
       stock,
-      seller: sellerId,
+      sellerId: sellerId,
       validationStatus: "pending", 
       isVisible: true
     });

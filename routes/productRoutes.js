@@ -6,6 +6,7 @@ import { validate } from '../middlewares/validation/validate.js';
 import { createProductSchema, updateProductSchema } from '../middlewares/validation/schemas/productSchema.js';
 import { authenticate, authorize } from '../middlewares/auth.js';
 import { upload } from "../middlewares/upload.js";
+import { optimizeImages } from "../middlewares/optimizeImages.js";
 
 
 /**
@@ -156,7 +157,7 @@ productRoutes.get('/:id', productController.getProductById);
  *       400:
  *         description: Invalid input
  */
-productRoutes.post('/', authenticate, authorize("seller"), upload.array("images", 5), productController.createProduct);
+productRoutes.post('/', authenticate, authorize("seller"), upload.array("images", 5), optimizeImages, productController.createProduct);
 
 /**
  * @swagger

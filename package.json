@@ -37,6 +37,7 @@
     "mongoose": "^8.19.0",
     "multer": "^2.0.2",
     "rate-limit-mongo": "^2.3.2",
+    "sharp": "^0.34.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "yup": "^1.7.1"
