@@ -91,6 +91,7 @@ async function getAllProducts(req, res, next) {
         // res.status(200).json(results);
         res.status(200).json({
             success: true,
+            message: 'Products retrieved successfully',
             metadata: {
                 total: totalProducts,
                 currentPage: Number(page),
@@ -139,7 +140,7 @@ async function getProductById(req, res, next) {
 
 async function createProduct(req, res, next) {
     try {
-        const sellerId = req.user._id; 
+        const sellerId = req.user._id;
         const { title, description, price, stock, imageUrls, categoryIds } = req.body;
         if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
         if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
@@ -180,6 +181,7 @@ async function updateProduct(req, res, next) {
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
+        if (product.deletedAt) throw new AppError("Cannot update a deleted product", 400);
 
         if (req.user.role === "seller" && product.sellerId.toString() !== req.user._id.toString()) {
             throw new AppError("You are not authorized to update this product", 403);
@@ -218,6 +220,7 @@ async function deleteProduct(req, res, next) {
         const product = await Product.findById(id);
 
         if (!product) throw new AppError("Product not found", 404);
+        if (product.deletedAt) throw new AppError("Product already deleted", 400);
 
         product.deletedAt = new Date();
         await product.save();
@@ -229,7 +232,10 @@ async function deleteProduct(req, res, next) {
         );
         res.status(200).json({
             success: true,
-            message: 'Product soft-deleted'
+            message: 'Product soft-deleted',
+            data: {
+                product: product
+            }
         });
     } catch (err) {
         next(err);
