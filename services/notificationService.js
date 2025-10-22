@@ -24,8 +24,9 @@ class NotificationService extends EventEmitter {
             }
             const notification = await Notification.create({
                 type: 'PUBLISH_PRODUCT',
-                title: 'Nouveau produit disponible',
-                message: `Le produit "${data.title}" est maintenant disponible`,
+                // title: 'Nouveau produit disponible',
+                title: 'New Product Available',
+                message: `The product "${data.title}" is now available in our marketplace.`,
                 data: { productId: data.productId },
                 senderId: data.sellerId,
                 targetAudience: 'buyers'
