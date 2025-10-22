@@ -105,7 +105,9 @@ userRoutes.get('/:id', authenticate, authorize(["admin"]),usertController.getUse
  *       400:
  *         description: Invalid input
  */
-userRoutes.post('/',validate(createUserSchema), authenticate, authorize(["admin"]), usertController.createUser);
+
+userRoutes.post('/',validate(createUserSchema), authenticate, authorize("admin"), usertController.createUser);
+
 
 /**
  * @swagger
@@ -125,7 +127,7 @@ userRoutes.post('/',validate(createUserSchema), authenticate, authorize(["admin"
  *       404:
  *         description: User not found
  */
-userRoutes.delete('/:id', authenticate,authorize(["admin"]), usertController.deleteUser);
+userRoutes.delete('/:id', authenticate, authorize(["admin"]), usertController.deleteUser);
 
 userRoutes.put("/profile", authenticate, usertController.updateProfile);
 
