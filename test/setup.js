@@ -3,15 +3,32 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-before(async () => {
-    if (process.env.NODE_ENV !== 'test:unit') {
-        await mongoose.connect(process.env.MONGO_URI_TEST);
+before(async function() {
+    this.timeout(10000);
+
+    const mongoUri = process.env.MONGO_URI_TEST || process.env.MONGODB_URI;
+
+    if (!mongoUri) {
+        throw new Error('MONGO_URI_TEST or MONGODB_URI environment variable is not set');
+    }
+
+    console.log('Connecting to MongoDB for tests...');
+    try {
+        await mongoose.connect(mongoUri);
+        console.log('✓ Connected to MongoDB');
+    } catch (error) {
+        console.error('✗ Failed to connect to MongoDB:', error.message);
+        throw error;
     }
 });
 
-after(async () => {
-    if (process.env.NODE_ENV !== 'test:unit') {
+after(async function() {
+    console.log('Cleaning up test database...');
+    try {
         await mongoose.connection.dropDatabase();
         await mongoose.connection.close();
+        console.log('✓ Database cleaned and connection closed');
+    } catch (error) {
+        console.error('✗ Error during cleanup:', error.message);
     }
 });

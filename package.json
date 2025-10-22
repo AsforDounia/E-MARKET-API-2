@@ -12,7 +12,8 @@
     "test:unit": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/**/*.js --timeout 5000 --exit",
     "test:unit:product": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/productTest.js --timeout 5000 --exit",
     "test:unit:auth": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/authTest.js --timeout 5000 --exit",
-    "test:integration": "cross-env NODE_ENV=test mocha  --no-config test/integration/**/*.js --timeout 10000 --exit"
+    "test:integration": "cross-env NODE_ENV=test mocha  --no-config test/integration/**/*.js --timeout 10000 --exit", 
+    "test:integration:auth": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/authTest.js --timeout 10000 --exit"
   },
   "repository": {
     "type": "git",
@@ -43,7 +44,10 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.38.0",
     "chai": "^6.2.0",
+    "eslint": "^9.38.0",
+    "globals": "^16.4.0",
     "mocha": "^11.7.4",
     "nodemon": "^3.1.10",
     "sinon": "^21.0.0",

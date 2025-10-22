@@ -5,7 +5,7 @@ const ProductSchema = new Schema({
     sellerId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, 'Seller ID is required']
+        required: [true, 'Seller ID is required'] 
     },
     title: {
         type: String,
@@ -27,10 +27,10 @@ const ProductSchema = new Schema({
         min: [0, 'Stock cannot be negative']
     },
 //    seller: {
-//       type: mongoose.Schema.Types.ObjectId, 
- //       ref: 'User',
-   //     required: true,
-    // },
+//       type: mongoose.Schema.Types.ObjectId,
+//       ref: 'User',
+//       required: true,
+// },
     imageUrls: {
         type: [String],
         default: []
