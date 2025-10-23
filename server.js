@@ -15,6 +15,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import reviewRoutes from "./routes/reviewRoutes.js";
 import securityMiddlewares from "./middlewares/security.js"
 import notificationRoutes from './routes/notificationRoutes.js';
+import redis from './config/redis.js';
 
 
 const app = express();
@@ -73,6 +74,19 @@ app.get("/api-docs.json", (req, res) => {
 
 app.use(notFound);
 app.use(errorHandler);
+
+
+
+
+// Test simple de connexion
+redis.ping().then(() => {
+    console.log('Redis ping successful');
+}).catch(err => {
+    console.error('Redis ping failed:', err.message);
+});
+
+
+
 
 const PORT = process.env.PORT || 3000;
 
