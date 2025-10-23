@@ -17,7 +17,7 @@ const securityMiddlewares = (app) => {
         collectionNane: "requestLimits"
     }),
     windowMs: 15 * 60 * 1000,
-    max: 100,
+    max: 1000,
     message: "Request limit exceeded. Please wait before trying again"
   });
 

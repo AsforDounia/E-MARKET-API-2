@@ -6,7 +6,7 @@ dotenv.config();
 before(async function() {
     this.timeout(10000);
 
-    const mongoUri = process.env.MONGO_URI_TEST || process.env.MONGODB_URI;
+    const mongoUri = process.env.MONGO_URI_TEST;
 
     if (!mongoUri) {
         throw new Error('MONGO_URI_TEST or MONGODB_URI environment variable is not set');
