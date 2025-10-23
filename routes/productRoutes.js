@@ -5,6 +5,9 @@ import * as productController from '../controllers/productController.js';
 import { validate } from '../middlewares/validation/validate.js';
 import { createProductSchema, updateProductSchema } from '../middlewares/validation/schemas/productSchema.js';
 import { authenticate, authorize } from '../middlewares/auth.js';
+import { upload } from "../middlewares/upload.js";
+import { optimizeImages } from "../middlewares/optimizeImages.js";
+
 
 /**
  * @swagger
@@ -110,6 +113,8 @@ import { authenticate, authorize } from '../middlewares/auth.js';
 
 productRoutes.get('/', productController.getAllProducts);
 
+productRoutes.get('/pending', authenticate, authorize("admin"), productController.getPendingProducts);
+
 /**
  * @swagger
  * /products/{id}:
@@ -152,7 +157,7 @@ productRoutes.get('/:id', productController.getProductById);
  *       400:
  *         description: Invalid input
  */
-productRoutes.post('/',validate( createProductSchema ),authenticate ,authorize("seller"), productController.createProduct);
+productRoutes.post('/', authenticate, authorize("seller"), upload.array("images", 5), optimizeImages, productController.createProduct);
 
 /**
  * @swagger
@@ -200,5 +205,8 @@ productRoutes.put('/:id', validate( updateProductSchema ), authenticate ,authori
  */
 productRoutes.delete('/:id', authenticate ,authorize("seller", "admin"), productController.deleteProduct);
 
+productRoutes.patch('/:id/visibility', authenticate, authorize("seller"), productController.updateProductVisibility);
+productRoutes.patch('/:id/validate', authenticate, authorize("admin"), productController.validateProduct);
+productRoutes.patch('/:id/reject', authenticate, authorize("admin"), productController.rejectProduct);
 
 export default productRoutes;

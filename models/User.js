@@ -22,7 +22,6 @@ const UserSchema = new Schema({
         type: String,
         // enum: ['user', 'admin'], return msg
         enum: { values: ['user', 'seller', 'admin'], message: 'Role must be either user, seller or admin' },
-
         default: 'user'
     },
     deletedAt: { type: Date, default: null }
