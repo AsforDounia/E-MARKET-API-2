@@ -3,6 +3,7 @@ import {AppError} from "../middlewares/errorHandler.js";
 import mongoose from 'mongoose';
 const ObjectId = mongoose.Types.ObjectId;
 import bcrypt from "bcryptjs";
+import cacheInvalidation from '../services/cacheInvalidation.js';
 
 
 
@@ -72,6 +73,10 @@ async function createUser(req, res, next) {
     if (!["user", "admin", "seller"].includes(role))
       throw new AppError("Invalid role specified", 400);
         const user = await User.create({ fullname, email, password, role });
+        
+        // Invalidate users cache
+        await cacheInvalidation.invalidateUsers();
+        
         res.status(201).json({
             success: true,
             message: 'User created successfully',
@@ -92,6 +97,10 @@ async function deleteUser(req, res, next) {
         if (!user) throw new AppError("User not found", 404);
         user.deletedAt = new Date();
         await user.save();
+        
+        // Invalidate users cache
+        await cacheInvalidation.invalidateSpecificUser(id);
+        
         res.status(200).json({
             success: true,
             message: 'User soft-deleted',
@@ -148,6 +157,9 @@ async function updateProfile(req, res, next) {
     // Mettre à jour des autres info du profil
     const updatedUser = await User.findByIdAndUpdate(req.user.id, updateData, { new: true, runValidators: true});
     
+    // Invalidate user profile cache
+    await cacheInvalidation.invalidateSpecificUser(req.user._id);
+    
     res.status(200).json({
         message : "Profile updated successfully",
         updatedUser});
@@ -170,6 +182,9 @@ async function updateProfile(req, res, next) {
             { new: true, runValidators: true }
         );
         if (!user) throw new AppError('User not found', 404);
+
+        // Invalidate users cache
+        await cacheInvalidation.invalidateSpecificUser(id);
 
         res.status(200).json({
             success: true,

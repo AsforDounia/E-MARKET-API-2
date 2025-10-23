@@ -1,5 +1,6 @@
 import { AppError } from "../middlewares/errorHandler.js";
 import Coupon from "../models/Coupon.js";
+import cacheInvalidation from '../services/cacheInvalidation.js';
 
 
 //creer un coupon
@@ -40,6 +41,9 @@ async function createCoupon(req, res, next){
             createdBy: req.user._id
         });
 
+        // Invalidate coupons cache
+        await cacheInvalidation.invalidateCoupons();
+        
         res.status(201).json({message: "Coupon created succesfuly", data : coupon});
     } catch (error) {
         next(error);
@@ -144,6 +148,9 @@ async function updateCoupon(req, res, next){
 
         if(!updatedCoupon) throw new AppError("Coupon not found", 404);
 
+        // Invalidate coupons cache
+        await cacheInvalidation.invalidateCoupons();
+        
         res.status(200).json({success: true, message: "Coupon updated successfully", data: updatedCoupon });
         
     } catch (error) {
@@ -166,6 +173,9 @@ async function deleteCoupon(req, res, next){
 
         if(!deletedCoupon) throw new AppError("Coupon not found", 404);
 
+        // Invalidate coupons cache
+        await cacheInvalidation.invalidateCoupons();
+        
         res.status(200).json({
             success : true,
             message: "Coupon deleted successfully"
