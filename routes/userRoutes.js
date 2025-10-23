@@ -3,6 +3,7 @@ import * as usertController from '../controllers/userController.js';
 import { validate } from '../middlewares/validation/validate.js';
 import { createUserSchema } from '../middlewares/validation/schemas/userSchema.js';
 import { authenticate, authorize } from "../middlewares/auth.js";
+import cache from '../middlewares/redisCache.js';
 
 const userRoutes = express.Router();
 
@@ -60,9 +61,9 @@ const userRoutes = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRoutes.get('/', authenticate, authorize(["admin"]), usertController.getAllUsers);
+userRoutes.get('/', cache('users', 600), authenticate, authorize(["admin"]), usertController.getAllUsers);
 
-userRoutes.get("/profile", authenticate, usertController.getUserProfile);
+userRoutes.get("/profile", cache('userProfile', 600), authenticate, usertController.getUserProfile);
 /**
  * @swagger
  * /users/{id}:
@@ -85,7 +86,7 @@ userRoutes.get("/profile", authenticate, usertController.getUserProfile);
  *       404:
  *         description: User not found
  */
-userRoutes.get('/:id', authenticate, authorize(["admin"]),usertController.getUserById);
+userRoutes.get('/:id', cache('user', 600), authenticate, authorize(["admin"]),usertController.getUserById);
 
 /**
  * @swagger
