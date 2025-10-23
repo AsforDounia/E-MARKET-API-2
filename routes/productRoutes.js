@@ -7,6 +7,7 @@ import { createProductSchema, updateProductSchema } from '../middlewares/validat
 import { authenticate, authorize } from '../middlewares/auth.js';
 import { upload } from "../middlewares/upload.js";
 import { optimizeImages } from "../middlewares/optimizeImages.js";
+import cache from '../middlewares/redisCache.js';
 
 
 /**
@@ -111,9 +112,9 @@ import { optimizeImages } from "../middlewares/optimizeImages.js";
  */
 
 
-productRoutes.get('/', productController.getAllProducts);
+productRoutes.get('/', cache('products',600), productController.getAllProducts);
 
-productRoutes.get('/pending', authenticate, authorize("admin"), productController.getPendingProducts);
+productRoutes.get('/pending', cache('pendingProducts', 600), authenticate, authorize("admin"), productController.getPendingProducts);
 
 /**
  * @swagger
@@ -137,7 +138,7 @@ productRoutes.get('/pending', authenticate, authorize("admin"), productControlle
  *       404:
  *         description: Product not found
  */
-productRoutes.get('/:id', productController.getProductById);
+productRoutes.get('/:id', cache('product', 600), productController.getProductById);
 
 /**
  * @swagger

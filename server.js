@@ -14,6 +14,10 @@ import { authenticate, authorize } from "./middlewares/auth.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import securityMiddlewares from "./middlewares/security.js";
+import securityMiddlewares from "./middlewares/security.js"
+import notificationRoutes from './routes/notificationRoutes.js';
+import redis from './config/redis.js';
+
 
 const app = express();
 
@@ -58,6 +62,8 @@ app.use("/orders", orderRoutes);
 app.use("/coupons", couponRoutes);
 // Utiliser les routes du feedback
 app.use("/reviews", reviewRoutes);
+// Utiliser les routes des notifications
+app.use("/notifications", notificationRoutes);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.get("/api-docs.json", (req, res) => {
@@ -69,6 +75,19 @@ app.use("/uploads", express.static("uploads"));
 
 app.use(notFound);
 app.use(errorHandler);
+
+
+
+
+// Test simple de connexion
+redis.ping().then(() => {
+    console.log('Redis ping successful');
+}).catch(err => {
+    console.error('Redis ping failed:', err.message);
+});
+
+
+
 
 const PORT = process.env.PORT || 3000;
 

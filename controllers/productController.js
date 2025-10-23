@@ -2,6 +2,8 @@ import { Product, ProductCategory, Category , ProductImage} from '../models/Inde
 import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
+import notificationService from '../services/notificationService.js';
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllProducts(req, res, next) {
@@ -9,16 +11,14 @@ async function getAllProducts(req, res, next) {
         const { search, category, minPrice, maxPrice, inStock , sortBy, order, page = 1, limit = 10} = req.query;
         
         const filter = {
-        //  deletedAt: null,
-        //  validationStatus: 'approved',
-        //  isVisible: true
+            // deletedAt: null,
+            // validationStatus: 'approved',  
+            // isVisible: true           
         };
-        if (req.query.seller) filter.seller = req.query.seller;
+        if (req.query.seller) filter.sellerId = req.query.seller;
         if (search) filter.$or = [{ title: { $regex: search, $options: 'i' } }, { description: { $regex: search, $options: 'i' } }];
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
         if (inStock === 'true') filter.stock = { $gt: 0 };
-        
-        // let products = await Product.find(filter);
         
         if (category) {
             const isValidObjectId = mongoose.Types.ObjectId.isValid(category);
@@ -75,6 +75,9 @@ async function getAllProducts(req, res, next) {
                     price: product.price,
                     stock: product.stock,
                     imageUrls: product.imageUrls,
+                    validationStatus: product.validationStatus,
+                    isVisible: product.isVisible,
+                    isAvailable: product.isAvailable,
                     createdAt: product.createdAt,
                     categories
                 };
@@ -136,58 +139,60 @@ async function getProductById(req, res, next) {
 
 async function createProduct(req, res, next) {
   try {
-    const sellerId = req.user._id;
+    const sellerId = req.user?._id;
     const { title, description, price, stock, categoryIds } = req.body;
 
-    if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
-    if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
-
+    // ======== VALIDATIONS ========
+    if (!sellerId) throw new AppError("Seller information is required", 400);
     if (!title || !description || price == null || stock == null)
       throw new AppError("Title, description, price, and stock are required", 400);
-    
-    if (!sellerId)
-      throw new AppError("Seller information is required", 400);
-    
-    // Créer le produit sans image d’abord
+    if (categoryIds && !Array.isArray(categoryIds))
+      throw new AppError("categoryIds must be an array", 400);
+    if (categoryIds && categoryIds.some(id => !ObjectId.isValid(id)))
+      throw new AppError("Invalid category ID", 400);
+
+    // ======== CREATE PRODUCT ========
     const product = await Product.create({
       title,
       description,
       price,
       stock,
-      sellerId: sellerId,
-      validationStatus: "pending", 
-      isVisible: true
+      sellerId,
+      imageUrls: [],
     });
 
-    // Ajouter les images uploadées via multer
-    if (req.files && req.files.length > 0) {
-
-      const imageDocs = req.files.map((file, index) => ({
-        product: product._id,
-        imageUrl: `/uploads/products/${file.filename}`,
-        isPrimary: index === 0 
-      }));
-
-      await ProductImage.insertMany(imageDocs);
-
-      // Mettre à jour imageUrls dans le produit créé
-      product.imageUrls = imageDocs.map(img => img.imageUrl);
-      await product.save();
-    }
-
-     // Ajouter les catégories au pivot table
-    if (Array.isArray(categoryIds)) {
+    // ======== ADD CATEGORIES ========
+    if (Array.isArray(categoryIds) && categoryIds.length > 0) {
       const categoryLinks = categoryIds.map(categoryId => ({
         product: product._id,
-        category: categoryId
+        category: categoryId,
       }));
       await ProductCategory.insertMany(categoryLinks);
     }
 
+    // ======== HANDLE IMAGES ========
+    if (req.files && req.files.length > 0) {
+      const imageDocs = req.files.map((file, index) => ({
+        product: product._id,
+        imageUrl: `/uploads/products/${file.filename}`,
+        isPrimary: index === 0,
+      }));
+
+      await ProductImage.insertMany(imageDocs);
+
+      // Update imageUrls in product
+      product.imageUrls = imageDocs.map(img => img.imageUrl);
+      await product.save();
+    }
+
+    // ======== CLEAR CACHE ========
+    await cacheInvalidation.invalidateProducts();
+
+    // ======== RESPONSE ========
     res.status(201).json({
       success: true,
-      message: 'Product created successfully (awaiting admin validation)',
-      data: product
+      message: "Product created successfully (awaiting admin validation)",
+      data: product,
     });
   } catch (err) {
     next(err);
@@ -226,6 +231,9 @@ async function updateProduct(req, res, next) {
                 await ProductCategory.create({ product: product._id, category: categoryId });
             }
         }
+        // Invalidate products cache
+        await cacheInvalidation.invalidateSpecificProduct(id);
+
         res.status(200).json({
             success: true,
             message: 'Product updated',
@@ -255,6 +263,9 @@ async function deleteProduct(req, res, next) {
             { product: product._id },
             { $set: { deletedAt: new Date() } }
         );
+        // Invalidate products cache
+        await cacheInvalidation.invalidateSpecificProduct(id);
+
         res.status(200).json({
             success: true,
             message: 'Product soft-deleted',
@@ -284,12 +295,15 @@ async function updateProductVisibility (req, res, next) {
 
         if (!product) throw new AppError('Product not found', 404);
 
-        if (req.user.role === "seller" && product.sellerID.toString() !== req.user._id.toString()) {
+        if (req.user.role === "seller" && product.sellerId.toString() !== req.user._id.toString()) {
             throw new AppError('You are not authorized to update this product', 403);
         }
 
         product.isVisible = isVisible;
         await product.save();
+
+        // Invalidate products cache
+        await cacheInvalidation.invalidateSpecificProduct(id);
 
         res.json({
             message: `Product ${isVisible ? 'shown' : 'hidden'} successfully`,
@@ -305,7 +319,7 @@ async function getPendingProducts(req, res, next) {
         const products = await Product.find({
             validationStatus: 'pending',
             deletedAt: null
-        }).populate('seller', 'fullname email');
+        }).populate('sellerId', 'fullname email');
         
         res.json(products);
     } catch (error) {
@@ -332,6 +346,15 @@ async function validateProduct(req, res, next) {
         product.validatedAt = new Date();
         
         await product.save();
+
+        notificationService.emitPublishProduct({
+            productId: product._id,
+            title: product.title,
+            sellerId: product.sellerId
+        });
+
+        // Invalidate products cache
+        await cacheInvalidation.invalidateProducts();
 
         res.json({ message: 'Product approved successfully', product });
     } catch (error) {
@@ -360,6 +383,9 @@ async function rejectProduct(req, res, next) {
         product.validatedAt = new Date();
         
         await product.save();
+
+        // Invalidate products cache
+        await cacheInvalidation.invalidateProducts();
 
         res.json({
             message: 'Product rejected successfully',
