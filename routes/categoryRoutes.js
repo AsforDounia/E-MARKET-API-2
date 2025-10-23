@@ -4,6 +4,7 @@ const categoryRoutes = express.Router();
 import * as categoryController from '../controllers/categoryController.js';
 import { validate } from '../middlewares/validation/validate.js';
 import { createCategorySchema, updateCategorySchema } from '../middlewares/validation/schemas/categorySchema.js';
+import cache from '../middlewares/redisCache.js';
 
 /**
  * @swagger
@@ -48,7 +49,7 @@ import { createCategorySchema, updateCategorySchema } from '../middlewares/valid
  *               items:
  *                 $ref: '#/components/schemas/Category'
  */
-categoryRoutes.get('/', categoryController.getAllCategories);
+categoryRoutes.get('/', cache('categories', 600), categoryController.getAllCategories);
 
 /**
  * @swagger
@@ -72,7 +73,7 @@ categoryRoutes.get('/', categoryController.getAllCategories);
  *       404:
  *         description: Category not found
  */
-categoryRoutes.get('/:id', categoryController.getCategoryById);
+categoryRoutes.get('/:id', cache('category', 600), categoryController.getCategoryById);
 
 /**
  * @swagger
