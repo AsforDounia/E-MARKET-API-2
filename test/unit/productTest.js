@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
+import { faker } from "@faker-js/faker";
 import * as productController from "../../controllers/productController.js";
 import { Product, ProductImage, ProductCategory, Category } from "../../models/Index.js";
 
@@ -23,20 +24,23 @@ describe("Product Unit Tests", () => {
     beforeEach(() => {
       req = {
         body: {
-          title: "Test Product",
-          price: 99.99,
-          description: "test description",
-          stock: 10,
+          title: faker.commerce.productName(),
+          price: parseFloat(faker.commerce.price({ min: 10, max: 1000 })),
+          description: faker.commerce.productDescription(),
+          stock: faker.number.int({ min: 1, max: 100 }),
           categoryIds: [],
         },
-        user: { _id: "seller123", role: "seller" },
+        user: { 
+          _id: faker.database.mongodbObjectId(), 
+          role: "seller" 
+        },
         files: [],
       };
     });
 
     it("should create a product successfully", async () => {
       const fakeProduct = {
-        _id: "prod123",
+        _id: faker.database.mongodbObjectId(),
         title: req.body.title,
         price: req.body.price,
         description: req.body.description,
@@ -59,11 +63,11 @@ describe("Product Unit Tests", () => {
       expect(res.json.calledOnce).to.be.true;
       const response = res.json.firstCall.args[0];
       expect(response).to.have.property("success", true);
-      expect(response.data).to.have.property("title", "Test Product");
+      expect(response.data).to.have.property("title", req.body.title);
     });
 
     it("should return error if required fields are missing", async () => {
-      req.body = { description: "No title or price" };
+      req.body = { description: faker.commerce.productDescription() };
 
       await productController.createProduct(req, res, next);
 
@@ -82,22 +86,22 @@ describe("Product Unit Tests", () => {
     it("should get all products successfully", async () => {
       const fakeProducts = [
         { 
-          _id: "507f1f77bcf86cd799439011", 
-          title: "Prod 1", 
-          price: 50, 
-          stock: 10,
+          _id: faker.database.mongodbObjectId(), 
+          title: faker.commerce.productName(), 
+          price: parseFloat(faker.commerce.price({ min: 10, max: 100 })), 
+          stock: faker.number.int({ min: 1, max: 50 }),
           imageUrls: [],
-          createdAt: new Date(),
-          description: "Test desc 1"
+          createdAt: faker.date.recent(),
+          description: faker.commerce.productDescription()
         },
         { 
-          _id: "507f1f77bcf86cd799439012", 
-          title: "Prod 2", 
-          price: 100,
-          stock: 5,
+          _id: faker.database.mongodbObjectId(), 
+          title: faker.commerce.productName(), 
+          price: parseFloat(faker.commerce.price({ min: 100, max: 200 })),
+          stock: faker.number.int({ min: 1, max: 30 }),
           imageUrls: [],
-          createdAt: new Date(),
-          description: "Test desc 2"
+          createdAt: faker.date.recent(),
+          description: faker.commerce.productDescription()
         },
       ];
 
@@ -128,17 +132,18 @@ describe("Product Unit Tests", () => {
     });
 
     it("should filter by search query", async () => {
-      req.query = { search: "Test" };
+      const searchTerm = faker.commerce.productAdjective();
+      req.query = { search: searchTerm };
 
       const fakeProducts = [
         { 
-          _id: "507f1f77bcf86cd799439011", 
-          title: "Test Product",
-          price: 50,
-          stock: 10,
+          _id: faker.database.mongodbObjectId(), 
+          title: `${searchTerm} ${faker.commerce.product()}`,
+          price: parseFloat(faker.commerce.price()),
+          stock: faker.number.int({ min: 1, max: 50 }),
           imageUrls: [],
-          createdAt: new Date(),
-          description: "Test desc"
+          createdAt: faker.date.recent(),
+          description: faker.commerce.productDescription()
         }
       ];
 
@@ -165,17 +170,19 @@ describe("Product Unit Tests", () => {
     });
 
     it("should filter by price range", async () => {
-      req.query = { minPrice: "20", maxPrice: "100" };
+      const minPrice = faker.number.int({ min: 10, max: 50 });
+      const maxPrice = faker.number.int({ min: 51, max: 150 });
+      req.query = { minPrice: minPrice.toString(), maxPrice: maxPrice.toString() };
 
       const fakeProducts = [
         { 
-          _id: "507f1f77bcf86cd799439011", 
-          title: "Product in range",
-          price: 50,
-          stock: 10,
+          _id: faker.database.mongodbObjectId(), 
+          title: faker.commerce.productName(),
+          price: faker.number.int({ min: minPrice, max: maxPrice }),
+          stock: faker.number.int({ min: 1, max: 50 }),
           imageUrls: [],
-          createdAt: new Date(),
-          description: "Test desc"
+          createdAt: faker.date.recent(),
+          description: faker.commerce.productDescription()
         }
       ];
 
@@ -198,8 +205,8 @@ describe("Product Unit Tests", () => {
       expect(findStub.calledOnce).to.be.true;
       const filter = findStub.firstCall.args[0];
       expect(filter).to.have.property("price");
-      expect(filter.price).to.have.property("$gte", 20);
-      expect(filter.price).to.have.property("$lte", 100);
+      expect(filter.price).to.have.property("$gte", minPrice);
+      expect(filter.price).to.have.property("$lte", maxPrice);
     });
 
     it("should filter by inStock status", async () => {
@@ -207,13 +214,13 @@ describe("Product Unit Tests", () => {
 
       const fakeProducts = [
         { 
-          _id: "507f1f77bcf86cd799439011", 
-          title: "In stock product",
-          price: 50,
-          stock: 10,
+          _id: faker.database.mongodbObjectId(), 
+          title: faker.commerce.productName(),
+          price: parseFloat(faker.commerce.price()),
+          stock: faker.number.int({ min: 1, max: 50 }),
           imageUrls: [],
-          createdAt: new Date(),
-          description: "Test desc"
+          createdAt: faker.date.recent(),
+          description: faker.commerce.productDescription()
         }
       ];
 
@@ -242,17 +249,20 @@ describe("Product Unit Tests", () => {
 
   // ==================== GET PRODUCT BY ID ====================
   describe("getProductById", () => {
+    let productId;
+
     beforeEach(() => {
-      req = { params: { id: "507f1f77bcf86cd799439011" } };
+      productId = faker.database.mongodbObjectId();
+      req = { params: { id: productId } };
     });
 
     it("should return product by ID", async () => {
       const fakeProduct = { 
-        _id: req.params.id, 
-        title: "Test Product",
-        description: "Test description",
-        price: 99.99,
-        stock: 10,
+        _id: productId, 
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: parseFloat(faker.commerce.price()),
+        stock: faker.number.int({ min: 1, max: 100 }),
         imageUrls: []
       };
 
@@ -260,26 +270,29 @@ describe("Product Unit Tests", () => {
       
       const productCategoryQueryChain = {
         populate: sinon.stub().resolves([
-          { category: { _id: "cat1", name: "Category 1" } }
+          { category: { 
+            _id: faker.database.mongodbObjectId(), 
+            name: faker.commerce.department() 
+          } }
         ])
       };
       sinon.stub(ProductCategory, "find").returns(productCategoryQueryChain);
 
       await productController.getProductById(req, res, next);
 
-      expect(Product.findById.calledWith(req.params.id)).to.be.true;
+      expect(Product.findById.calledWith(productId)).to.be.true;
       expect(res.status.calledWith(200)).to.be.true;
       expect(res.json.calledOnce).to.be.true;
       
       const response = res.json.firstCall.args[0];
       expect(response).to.have.property("success", true);
       expect(response.data).to.have.property("product");
-      expect(response.data.product).to.have.property("title", "Test Product");
+      expect(response.data.product).to.have.property("title", fakeProduct.title);
       expect(response.data.product).to.have.property("categories");
     });
 
     it("should return error for invalid ID", async () => {
-      req.params.id = "invalid-id";
+      req.params.id = faker.string.alphanumeric(10); // ID invalide
 
       await productController.getProductById(req, res, next);
 
