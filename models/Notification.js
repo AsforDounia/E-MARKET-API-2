@@ -6,11 +6,7 @@ const notificationSchema = new mongoose.Schema({
       'PUBLISH_PRODUCT',
       'ORDER_CREATED',
       'ORDER_UPDATED',
-      'ORDER_CANCELLED',
-      'PRODUCT_PROMOTION',
-      'SYSTEM_ANNOUNCEMENT',
-      'NEW_FOLLOWER',
-      'PRICE_DROP'
+      'ORDER_CANCELLED'
     ],
     required: true,
     index: true

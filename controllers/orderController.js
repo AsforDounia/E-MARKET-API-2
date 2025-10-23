@@ -1,6 +1,8 @@
 import { Order, OrderItem, Cart, CartItem, Product, Coupon } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
+import notificationService from '../services/notificationService.js';
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 const createOrder = async (req, res, next) => {
@@ -82,6 +84,11 @@ const createOrder = async (req, res, next) => {
             await CartItem.deleteMany({ cartId: cart._id }, { session });
         });
 
+        notificationService.emitOrderCreated({ orderId: userId, total, userId });
+        
+        // Invalidate orders cache
+        await cacheInvalidation.invalidateUserOrders(userId);
+        
         res.status(201).json({
             status: "success",
             message: 'Order created successfully',
@@ -156,6 +163,12 @@ const updateOrderStatus = async (req, res, next) => {
         order.status = status;
         await order.save();
 
+        const notData = { orderId: id, status, orderUserId: order.userId };
+        notificationService.emitOrderUpdated(notData, 'ORDER_UPDATED');
+        
+        // Invalidate orders cache
+        await cacheInvalidation.invalidateUserOrders(order.userId);
+        
         res.status(200).json({
             status: "success",
             message: 'Order status updated',
@@ -209,6 +222,13 @@ const cancelOrder = async (req, res, next) => {
         await order.save({ session });
 
         await session.commitTransaction();
+
+        const notData = { orderId: id, orderUserId: order.userId };
+        notificationService.emitOrderUpdated(notData, 'ORDER_CANCELLED');
+        
+        // Invalidate orders cache
+        await cacheInvalidation.invalidateUserOrders(order.userId);
+        
         res.status(200).json({
             status: "success",
             message: 'Order cancelled successfully',

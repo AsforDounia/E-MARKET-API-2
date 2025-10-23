@@ -3,6 +3,7 @@ import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
 import notificationService from '../services/notificationService.js';
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllProducts(req, res, next) {
@@ -153,6 +154,9 @@ async function createProduct(req, res, next) {
             }
         }
 
+        // Invalidate products cache
+        await cacheInvalidation.invalidateProducts();
+
         res.status(201).json({
             success: true,
             message: 'Product created',
@@ -199,6 +203,9 @@ async function updateProduct(req, res, next) {
                 await ProductCategory.create({ product: product._id, category: categoryId });
             }
         }
+        // Invalidate products cache
+        await cacheInvalidation.invalidateSpecificProduct(id);
+
         res.status(200).json({
             success: true,
             message: 'Product updated',
@@ -228,6 +235,9 @@ async function deleteProduct(req, res, next) {
             { product: product._id },
             { $set: { deletedAt: new Date() } }
         );
+        // Invalidate products cache
+        await cacheInvalidation.invalidateSpecificProduct(id);
+
         res.status(200).json({
             success: true,
             message: 'Product soft-deleted',
@@ -263,6 +273,9 @@ async function updateProductVisibility (req, res, next) {
 
         product.isVisible = isVisible;
         await product.save();
+
+        // Invalidate products cache
+        await cacheInvalidation.invalidateSpecificProduct(id);
 
         res.json({
             message: `Product ${isVisible ? 'shown' : 'hidden'} successfully`,
@@ -311,6 +324,10 @@ async function validateProduct(req, res, next) {
             title: product.title,
             sellerId: product.sellerId
         });
+
+        // Invalidate products cache
+        await cacheInvalidation.invalidateProducts();
+
         res.json({ message: 'Product approved successfully', product });
     } catch (error) {
         next(error);
@@ -338,6 +355,9 @@ async function rejectProduct(req, res, next) {
         product.validatedAt = new Date();
         
         await product.save();
+
+        // Invalidate products cache
+        await cacheInvalidation.invalidateProducts();
 
         res.json({
             message: 'Product rejected successfully',

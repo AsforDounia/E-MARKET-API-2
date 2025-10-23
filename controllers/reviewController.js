@@ -1,6 +1,7 @@
 import { Order, OrderItem, Product, Review } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from "mongoose";
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 const addReview = async (req, res, next) => {
@@ -30,6 +31,9 @@ const addReview = async (req, res, next) => {
         if (existingReview) throw new AppError('You have already reviewed this product', 400);
 
         const review = await Review.create({ userId, productId, rating, comment });
+
+        // Invalidate product reviews cache
+        await cacheInvalidation.invalidateProductReviews(productId);
 
         res.status(201).json({
             status: "success",
@@ -84,6 +88,9 @@ const updateReview = async (req, res, next) => {
 
         if (!review) throw new AppError('Review not found', 404);
 
+        // Invalidate product reviews cache
+        await cacheInvalidation.invalidateProductReviews(review.productId);
+
         res.status(200).json({
             status: "success",
             message: 'Review updated successfully',
@@ -112,6 +119,9 @@ const deleteReview = async (req, res, next) => {
 
         review.deletedAt = new Date();
         await review.save();
+
+        // Invalidate product reviews cache
+        await cacheInvalidation.invalidateProductReviews(review.productId);
 
         res.status(200).json({
             status: "success",
