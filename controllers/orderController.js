@@ -1,15 +1,18 @@
 import { Order, OrderItem, Cart, CartItem, Product, Coupon } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
+import notificationService from '../services/notificationService.js';
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 const createOrder = async (req, res, next) => {
     const session = await mongoose.startSession();
 
+    let userId, subtotal, discount, total;
     try {
         await session.withTransaction(async () => {
             const { couponCode } = req.body;
-            const userId = req.user.id;
+            userId = req.user.id;
 
             const cart = await Cart.findOne({ userId });
             if (!cart) throw new AppError('Cart not found', 404);
@@ -17,7 +20,7 @@ const createOrder = async (req, res, next) => {
             const cartItems = await CartItem.find({ cartId: cart._id }).populate('productId');
             if (cartItems.length === 0) throw new AppError('Cart is empty', 400);
 
-            let subtotal = 0;
+            subtotal = 0;
             for (const item of cartItems) {
                 const product = item.productId;
                 if (!product || product.deletedAt) throw new AppError(`Product no longer available`, 400);
@@ -26,7 +29,7 @@ const createOrder = async (req, res, next) => {
                 subtotal += product.price * item.quantity;
             }
 
-            let discount = 0;
+            discount = 0;
             let couponId = null;
             if (couponCode) {
                 const coupon = await Coupon.findOne({ code: couponCode, isActive: true });
@@ -51,7 +54,7 @@ const createOrder = async (req, res, next) => {
                 );
             }
 
-            const total = subtotal - discount;
+            total = subtotal - discount;
 
             const order = await Order.create([{
                 userId,
@@ -81,6 +84,11 @@ const createOrder = async (req, res, next) => {
             await CartItem.deleteMany({ cartId: cart._id }, { session });
         });
 
+        notificationService.emitOrderCreated({ orderId: userId, total, userId });
+        
+        // Invalidate orders cache
+        await cacheInvalidation.invalidateUserOrders(userId);
+        
         res.status(201).json({
             status: "success",
             message: 'Order created successfully',
@@ -155,6 +163,12 @@ const updateOrderStatus = async (req, res, next) => {
         order.status = status;
         await order.save();
 
+        const notData = { orderId: id, status, orderUserId: order.userId };
+        notificationService.emitOrderUpdated(notData, 'ORDER_UPDATED');
+        
+        // Invalidate orders cache
+        await cacheInvalidation.invalidateUserOrders(order.userId);
+        
         res.status(200).json({
             status: "success",
             message: 'Order status updated',
@@ -208,6 +222,13 @@ const cancelOrder = async (req, res, next) => {
         await order.save({ session });
 
         await session.commitTransaction();
+
+        const notData = { orderId: id, orderUserId: order.userId };
+        notificationService.emitOrderUpdated(notData, 'ORDER_CANCELLED');
+        
+        // Invalidate orders cache
+        await cacheInvalidation.invalidateUserOrders(order.userId);
+        
         res.status(200).json({
             status: "success",
             message: 'Order cancelled successfully',
