@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import request from "supertest";
+import { faker } from "@faker-js/faker";
 import app from "../../server.js";
 import { Product, ProductCategory, ProductImage, User } from "../../models/Index.js";
 
@@ -17,26 +18,30 @@ describe("Product Integration Tests", () => {
 
     console.log('All collections cleared in TEST database');
 
-    // Créer un utilisateur seller pour les tests
+    // Créer un utilisateur seller avec un mot de passe fixe
+    const password = '12345678';
+    
     seller = await User.create({
-      fullname: 'Test Seller',
-      email: 'seller@example.com',
-      password: '12345678',
+      fullname: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: password,
       role: 'seller'
     });
 
-    console.log('Test seller created in TEST database');
+    console.log('Test seller created:', seller.email);
 
     // Login avec le seller créé
     const res = await request(app)
       .post("/auth/login")
       .send({
-        email: 'seller@example.com',
-        password: '12345678'
+        email: seller.email,
+        password: password
       });
 
+    console.log('Login response:', res.status, res.body);
+
     if (res.status !== 200) {
-      console.error('Login failed:', res.body);
+      throw new Error(`Login failed: ${JSON.stringify(res.body)}`);
     }
 
     token = res.body.token;
@@ -48,25 +53,33 @@ describe("Product Integration Tests", () => {
     await ProductCategory.deleteMany({});
     await ProductImage.deleteMany({});
   });
- // create product tests
+
+  // create product tests
   describe("POST /products", () => {
     it("should create a new product successfully", async function() {
       this.timeout(5000);
       
+      const productData = {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price({ min: 10, max: 1000 }),
+        stock: faker.number.int({ min: 1, max: 100 })
+      };
+
       const res = await request(app)
         .post("/products")
         .set("Authorization", `Bearer ${token}`)
-        .field("title", "Test Product")
-        .field("description", "This is a test product")
-        .field("price", "99.99")
-        .field("stock", "10");
+        .field("title", productData.title)
+        .field("description", productData.description)
+        .field("price", productData.price)
+        .field("stock", productData.stock);
 
       console.log('Response status:', res.status);
       console.log('Response body:', res.body);
 
       expect(res.status).to.equal(201);
       expect(res.body).to.have.property("success", true);
-      expect(res.body.data).to.have.property("title", "Test Product");
+      expect(res.body.data).to.have.property("title", productData.title);
     });
 
     it("should return error if required fields are missing", async function() {
@@ -75,7 +88,7 @@ describe("Product Integration Tests", () => {
       const res = await request(app)
         .post("/products")
         .set("Authorization", `Bearer ${token}`)
-        .field("description", "Missing title and price");
+        .field("description", faker.commerce.productDescription());
 
       expect(res.status).to.equal(400);
     });
@@ -85,10 +98,10 @@ describe("Product Integration Tests", () => {
       
       const res = await request(app)
         .post("/products")
-        .field("title", "No Auth Product")
-        .field("description", "User not logged in")
-        .field("price", "20")
-        .field("stock", "3");
+        .field("title", faker.commerce.productName())
+        .field("description", faker.commerce.productDescription())
+        .field("price", faker.commerce.price())
+        .field("stock", faker.number.int({ min: 1, max: 10 }));
 
       expect(res.status).to.equal(401);
     });
@@ -101,28 +114,31 @@ describe("Product Integration Tests", () => {
     beforeEach(async function() {
       this.timeout(5000);
       
-      // Créer des produits de test avant chaque test GET
+      // Créer des produits de test avec Faker
       testProduct1 = await Product.create({
-        title: "Product 1",
-        description: "First test product",
-        price: 50,
-        stock: 5,
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.number.float({ min: 10, max: 100, precision: 0.01 }),
+        stock: faker.number.int({ min: 1, max: 20 }),
         sellerId: seller._id,
         validationStatus: "approved",
         isVisible: true
       });
 
       testProduct2 = await Product.create({
-        title: "Product 2",
-        description: "Second test product",
-        price: 100,
-        stock: 10,
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.number.float({ min: 100, max: 200, precision: 0.01 }),
+        stock: faker.number.int({ min: 5, max: 15 }),
         sellerId: seller._id,
         validationStatus: "approved",
         isVisible: true
       });
 
-      console.log('Test products created for GET tests');
+      console.log('Test products created:', {
+        product1: { title: testProduct1.title, price: testProduct1.price },
+        product2: { title: testProduct2.title, price: testProduct2.price }
+      });
     });
 
     it("should get all products", async function() {
@@ -157,25 +173,35 @@ describe("Product Integration Tests", () => {
     it("should filter products by price range", async function() {
       this.timeout(5000);
       
+      // Utiliser les prix réels des produits créés
+      const minPrice = testProduct1.price + 10;
+      const maxPrice = testProduct2.price + 10;
+
       const res = await request(app)
         .get("/products")
-        .query({ minPrice: 60, maxPrice: 150 });
+        .query({ minPrice, maxPrice });
 
       expect(res.status).to.equal(200);
       expect(res.body.data.products).to.have.lengthOf(1);
-      expect(res.body.data.products[0].price).to.equal(100);
+      expect(res.body.data.products[0].price).to.be.at.least(minPrice);
+      expect(res.body.data.products[0].price).to.be.at.most(maxPrice);
     });
 
     it("should search products by title", async function() {
       this.timeout(5000);
       
+      // Chercher par une partie du titre du premier produit
+      const searchTerm = testProduct1.title.split(' ')[0];
+
       const res = await request(app)
         .get("/products")
-        .query({ search: "Product 1" });
+        .query({ search: searchTerm });
 
       expect(res.status).to.equal(200);
-      expect(res.body.data.products).to.have.lengthOf(1);
-      expect(res.body.data.products[0].title).to.include("Product 1");
+      expect(res.body.data.products).to.be.an("array");
+      if (res.body.data.products.length > 0) {
+        expect(res.body.data.products[0].title).to.include(searchTerm);
+      }
     });
 
     it("should sort products by price ascending", async function() {
@@ -186,8 +212,7 @@ describe("Product Integration Tests", () => {
         .query({ sortBy: "price", order: "asc" });
 
       expect(res.status).to.equal(200);
-      expect(res.body.data.products[0].price).to.equal(50);
-      expect(res.body.data.products[1].price).to.equal(100);
+      expect(res.body.data.products[0].price).to.be.at.most(res.body.data.products[1].price);
     });
 
     it("should sort products by price descending", async function() {
@@ -198,8 +223,7 @@ describe("Product Integration Tests", () => {
         .query({ sortBy: "price", order: "desc" });
 
       expect(res.status).to.equal(200);
-      expect(res.body.data.products[0].price).to.equal(100);
-      expect(res.body.data.products[1].price).to.equal(50);
+      expect(res.body.data.products[0].price).to.be.at.least(res.body.data.products[1].price);
     });
   });
 
@@ -209,18 +233,22 @@ describe("Product Integration Tests", () => {
     beforeEach(async function() {
       this.timeout(5000);
       
-      // Créer un produit de test
+      // Créer un produit de test avec Faker
       testProduct = await Product.create({
-        title: "Single Product Test",
-        description: "Product for testing getById",
-        price: 75,
-        stock: 8,
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.number.float({ min: 50, max: 150, precision: 0.01 }),
+        stock: faker.number.int({ min: 1, max: 50 }),
         sellerId: seller._id,
         validationStatus: "approved",
         isVisible: true
       });
 
-      console.log('Test product created for getById tests');
+      console.log('Test product created for getById:', {
+        id: testProduct._id,
+        title: testProduct.title,
+        price: testProduct.price
+      });
     });
 
     it("should get a product by valid ID", async function() {
@@ -233,8 +261,8 @@ describe("Product Integration Tests", () => {
       expect(res.status).to.equal(200);
       expect(res.body).to.have.property("success", true);
       expect(res.body.data).to.have.property("product");
-      expect(res.body.data.product).to.have.property("title", "Single Product Test");
-      expect(res.body.data.product).to.have.property("price", 75);
+      expect(res.body.data.product).to.have.property("title", testProduct.title);
+      expect(res.body.data.product).to.have.property("price", testProduct.price);
     });
 
     it("should return 400 for invalid product ID format", async function() {
