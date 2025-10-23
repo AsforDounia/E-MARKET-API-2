@@ -20,8 +20,6 @@ async function getAllProducts(req, res, next) {
         if (minPrice || maxPrice) filter.price = { ...(minPrice && { $gte: Number(minPrice) }), ...(maxPrice && { $lte: Number(maxPrice) }) };
         if (inStock === 'true') filter.stock = { $gt: 0 };
         
-        // let products = await Product.find(filter);
-        
         if (category) {
             const isValidObjectId = mongoose.Types.ObjectId.isValid(category);
             const categoryDoc = isValidObjectId 
