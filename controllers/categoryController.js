@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { AppError } from "../middlewares/errorHandler.js";
 import { Category } from "../models/Index.js";
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 async function getAllCategories(req, res, next){
@@ -47,6 +48,9 @@ async function createCategory(req, res) {
 
         const category = await Category.create({ name, description });
 
+        // Invalidate categories cache
+        await cacheInvalidation.invalidateCategories();
+
         res.status(201).json({
             success: true,
             message: 'Category created successfully',
@@ -89,6 +93,9 @@ async function updateCategory(req, res, next) {
 
         await category.save();
 
+        // Invalidate categories cache
+        await cacheInvalidation.invalidateSpecificCategory(id);
+
         res.status(200).json({
             success: true,
             message: 'Category updated successfully',
@@ -110,6 +117,9 @@ async function deleteCategory(req, res, next) {
 
         category.deletedAt = new Date();
         await category.save();
+
+        // Invalidate categories cache
+        await cacheInvalidation.invalidateSpecificCategory(id);
 
         res.status(200).json({
             success: true,

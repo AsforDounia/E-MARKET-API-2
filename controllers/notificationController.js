@@ -1,6 +1,7 @@
 import { Notification, UserNotification } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 
@@ -64,6 +65,9 @@ async function markAsRead(req, res, next) {
         if (!userNotification) {
             throw new AppError('Notification not found', 404);
         }
+
+        // Invalidate user notifications cache
+        await cacheInvalidation.invalidateNotifications(req.user._id);
 
         res.json({
             success: true,

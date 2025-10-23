@@ -1,6 +1,7 @@
 import { Product, Cart, CartItem } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from "mongoose";
+import cacheInvalidation from '../services/cacheInvalidation.js';
 const ObjectId = mongoose.Types.ObjectId;
 
 // Fonctions utilitaires
@@ -52,6 +53,9 @@ export const addToCart = async (req, res, next) => {
     }
 
       const cartData = await buildCartResponse(cart);
+
+      // Invalidate user cart cache
+      await cacheInvalidation.invalidateUserCart(userId);
 
       res.status(200).json({
           status: "success",
@@ -108,6 +112,9 @@ export const removeFromCart = async (req, res, next) => {
 
         const cartData = await buildCartResponse(cart);
 
+        // Invalidate user cart cache
+        await cacheInvalidation.invalidateUserCart(userId);
+
         res.status(200).json({
             status: "success",
             message: 'Product removed from cart successfully',
@@ -140,6 +147,9 @@ export const updateCartItem = async (req, res, next) => {
 
         const cartData = await buildCartResponse(cart);
 
+        // Invalidate user cart cache
+        await cacheInvalidation.invalidateUserCart(userId);
+
         res.status(200).json({
             status: "success",
             message: 'Cart item updated successfully',
@@ -159,6 +169,9 @@ export const clearCart = async (req, res, next) => {
         const cart = await getExistingCart(userId);
 
         await CartItem.deleteMany({ cartId: cart._id });
+
+        // Invalidate user cart cache
+        await cacheInvalidation.invalidateUserCart(userId);
 
         res.status(200).json({
             status: "success",
