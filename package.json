@@ -21,6 +21,7 @@
     "test:unit:product": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/productTest.js --timeout 5000 --exit",
     "test:integration:product": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/productTest.js --timeout 10000 --exit",
     "test:unit:notification": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/notificationTest.js --timeout 5000 --exit",
+    "test:integration:notification": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/notificationTest.js --timeout 10000 --exit",
     "mongo": "mongosh"
   },
   "repository": {
@@ -47,8 +48,8 @@
     "mongoose": "^8.19.0",
     "multer": "^2.0.2",
     "rate-limit-mongo": "^2.3.2",
+    "redis": "^5.9.0",
     "sharp": "^0.34.4",
-    "redis": "^5.8.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "yup": "^1.7.1"
