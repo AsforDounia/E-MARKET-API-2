@@ -1,10 +1,10 @@
 import express from 'express';
 
 const categoryRoutes = express.Router();
-import * as categoryController from '../controllers/categoryController.js';
-import { validate } from '../middlewares/validation/validate.js';
-import { createCategorySchema, updateCategorySchema } from '../middlewares/validation/schemas/categorySchema.js';
-import cache from '../middlewares/redisCache.js';
+import * as categoryController from '../../../controllers/categoryController.js';
+import { validate } from '../../../middlewares/validation/validate.js';
+import { createCategorySchema, updateCategorySchema } from '../../../middlewares/validation/schemas/categorySchema.js';
+import cache from '../../../middlewares/redisCache.js';
 
 /**
  * @swagger
@@ -119,7 +119,7 @@ categoryRoutes.post('/', validate(createCategorySchema), categoryController.crea
  *       404:
  *         description: Category not found
  */
-categoryRoutes.put('/:id', categoryController.updateCategory);
+categoryRoutes.put('/:id', validate(updateCategorySchema), categoryController.updateCategory);
 
 /**
  * @swagger

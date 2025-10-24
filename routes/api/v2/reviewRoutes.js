@@ -1,12 +1,11 @@
 import express from "express";
+import * as reviewController from '../../../controllers/reviewController.js';
+import { authenticate } from '../../../middlewares/auth.js';
+import { validate } from "../../../middlewares/validation/validate.js";
+import { createReviewSchema, updateReviewSchema } from "../../../middlewares/validation/schemas/reviewSchemas.js";
+import cache from "../../../middlewares/redisCache.js";
 
 const reviewRoutes = express.Router();
-
-import * as reviewController from '../controllers/reviewController.js';
-import { authenticate } from '../middlewares/auth.js';
-import {validate} from "../middlewares/validation/validate.js";
-import {createReviewSchema, updateReviewSchema} from "../middlewares/validation/schemas/reviewSchemas.js";
-import cache from "../middlewares/redisCache.js";
 
 /**
  * @swagger
