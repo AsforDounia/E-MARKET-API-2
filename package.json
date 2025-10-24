@@ -9,6 +9,7 @@
     "dev": "nodemon server.js",
     "migrate": "node migrations/migrate.js",
     "seed": "node migrations/seed.js",
+    "reset": "node migrations/reset-db.js",
     "test": "NODE_ENV=test mocha test/setup.js test/**/*.test.js --timeout 5000 --exit",
     "test:unit": "cross-env NODE_ENV=test:unit mocha test/setup.js test/unit/**/*.js --timeout 5000 --exit",
     "test:unit:cart": "cross-env NODE_ENV=test:unit mocha  --no-config test/unit/cartTest.js --timeout 5000 --exit",

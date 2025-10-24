@@ -10,15 +10,6 @@ async function seedDatabase() {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to database');
 
-    // Vider les collections
-    await Promise.all([
-      User.deleteMany({}),
-      Category.deleteMany({}),
-      Product.deleteMany({}),
-      ProductCategory.deleteMany({})
-    ]);
-    console.log('Cleared existing data');
-
     const users = [];
 
     //admin
@@ -89,11 +80,18 @@ async function seedDatabase() {
     console.log(`Inserted ${products.length} products with category relationships`);
 
     console.log('Database seeded successfully!');
-    process.exit(0);
+    // process.exit(0);
   } catch (error) {
     console.error('Seeding failed:', error);
-    process.exit(1);
+    // process.exit(1);
   }
 }
 
-seedDatabase();
+export default seedDatabase;
+
+// Si on exécute ce fichier directement avec `node seed.js`
+if (import.meta.url === `file://${process.argv[1]}`) {
+  seedDatabase()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}
