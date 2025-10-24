@@ -19,7 +19,7 @@
     "test:integration": "NODE_ENV=test mocha test/setup.js test/integration/**/*.js --timeout 10000 --exit",
     "test:integration:auth": "cross-env NODE_ENV=test mocha test/setup.js test/integration/authTest.js --timeout 10000 --exit",
     "test:unit:product": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/productTest.js --timeout 5000 --exit",
-    "test:integration:product": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/productTest.js --timeout 10000 --exit"
+    "test:integration:product": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/productTest.js --timeout 10000 --exit",
     "mongo": "mongosh"
   },
   "repository": {

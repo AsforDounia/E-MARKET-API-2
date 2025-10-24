@@ -1,9 +1,9 @@
 import express from 'express';
-import * as usertController from '../controllers/userController.js';
-import { validate } from '../middlewares/validation/validate.js';
-import { createUserSchema } from '../middlewares/validation/schemas/userSchema.js';
-import { authenticate, authorize } from "../middlewares/auth.js";
-import cache from '../middlewares/redisCache.js';
+import * as usertController from '../../../controllers/userController.js';
+import { validate } from '../../../middlewares/validation/validate.js';
+import { createUserSchema } from '../../../middlewares/validation/schemas/userSchema.js';
+import { authenticate, authorize } from "../../../middlewares/auth.js";
+import cache from '../../../middlewares/redisCache.js';
 
 const userRoutes = express.Router();
 

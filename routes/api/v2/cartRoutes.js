@@ -1,9 +1,9 @@
 import express from 'express';
-import * as cartController from '../controllers/cartController.js';
-import { authenticate } from '../middlewares/auth.js';
-import { validate } from '../middlewares/validation/validate.js';
-import {addToCartSchema, updateCartItemSchema} from "../middlewares/validation/schemas/cartSchemas.js";
-import cache from '../middlewares/redisCache.js';
+import * as cartController from '../../../controllers/cartController.js';
+import { authenticate } from '../../../middlewares/auth.js';
+import { validate } from '../../../middlewares/validation/validate.js';
+import {addToCartSchema, updateCartItemSchema} from "../../../middlewares/validation/schemas/cartSchemas.js";
+import cache from '../../../middlewares/redisCache.js';
 
 const cartRoutes = express.Router();
 
