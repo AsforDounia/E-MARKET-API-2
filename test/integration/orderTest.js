@@ -370,7 +370,8 @@ describe("Order Controller - Integration Tests", () => {
         .get("/orders")
         .set("Authorization", `Bearer ${authToken}`);
 
-      expect(response.status).to.equal(200);
+      console.log("44444444444444444444444444", response.body.data.orders);
+      expect(response.status).to.equal("success");
       expect(response.body.data.orders).to.be.an("array").that.is.empty;
     });
 
@@ -389,7 +390,8 @@ describe("Order Controller - Integration Tests", () => {
     it("should return 401 if not authenticated", async () => {
       const response = await request(app).get("/orders");
 
-      expect(response.body.success).to.equal(false);
+      console.log("5555555555555555555555555", response.body.data);
+      expect(response.body.status).to.equal(succes);
     });
   });
 
@@ -432,7 +434,6 @@ describe("Order Controller - Integration Tests", () => {
         .get("/orders/invalid-id")
         .set("Authorization", `Bearer ${authToken}`);
 
-      console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", response.body);
       expect(response.status).to.equal(400);
       expect(response.body.message).to.equal("Invalid order ID");
     });
@@ -451,7 +452,6 @@ describe("Order Controller - Integration Tests", () => {
     it("should return 401 if not authenticated", async () => {
       const response = await request(app).get(`/orders/${orderId}`);
 
-      console.log("44444444444444444444444444", response.body);
       expect(response.body.success).to.equal(false);
       expect(response.body.message).to.equal('Invalid token.' );
     });
@@ -487,7 +487,6 @@ describe("Order Controller - Integration Tests", () => {
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "paid" });
       
-      console.log("ppppppppppppppppppppppppp", response.body);
       expect(response.body.status).to.equal("success");
       expect(response.body.data.order.status).to.equal("paid");
     });
@@ -511,7 +510,7 @@ describe("Order Controller - Integration Tests", () => {
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "invalid-status" });
 
-      console.log("ffffffffffffffffffffffff", response.body);
+      // console.log("ffffffffffffffffffffffff", response.body);
       expect(response.body.success).to.equal(false);
       expect(response.body.message).to.equal("Validation failed");
     });
@@ -668,7 +667,6 @@ describe("Order Controller - Integration Tests", () => {
         .delete("/orders/invalid-id")
         .set("Authorization", `Bearer ${authToken}`);
 
-      console.log("5555555555555555555555555", response.body);
       expect(response.status).to.equal(400);
       expect(response.body.message).to.equal("Invalid order ID");
     });

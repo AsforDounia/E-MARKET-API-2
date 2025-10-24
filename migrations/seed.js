@@ -1,118 +1,99 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { faker } from '@faker-js/faker';
 import { Product, Category, ProductCategory, User } from '../models/Index.js';
 
 dotenv.config();
 
-const seedData = {
-    users: [
-        {
-            fullname: "Admin User",
-            email: "admin@gmail.com",
-            password: "admin123",
-            role: "admin"
-        },
-        {
-            fullname: "John Doe",
-            email: "john@gmail.com",
-            password: "user123",
-            role: "user"
-        }
-    ],
-    categories: [
-        { name: "Electronics", description: "Electronic devices and gadgets" },
-        { name: "Clothing", description: "Fashion and apparel" },
-        { name: "Books", description: "Books and literature" },
-        { name: "Home & Garden", description: "Home improvement and gardening" }
-    ],
-    products: [
-        {
-            title: "Smartphone Pro",
-            description: "Latest smartphone with advanced features",
-            price: 699.99,
-            stock: 50,
-            imageUrls: ["https://example.com/smartphone.jpg"],
-            categories: ["Electronics"]
-        },
-        {
-            title: "Wireless Headphones",
-            description: "High-quality wireless headphones",
-            price: 199.99,
-            stock: 30,
-            imageUrls: ["https://example.com/headphones.jpg"],
-            categories: ["Electronics"]
-        },
-        {
-            title: "Cotton T-Shirt",
-            description: "Comfortable cotton t-shirt",
-            price: 29.99,
-            stock: 100,
-            imageUrls: ["https://example.com/tshirt.jpg"],
-            categories: ["Clothing"]
-        },
-        {
-            title: "Programming Guide",
-            description: "Complete guide to modern programming",
-            price: 49.99,
-            stock: 25,
-            imageUrls: ["https://example.com/book.jpg"],
-            categories: ["Books"]
-        }
-    ]
-};
-
 async function seedDatabase() {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log('Connected to database');
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Connected to database');
 
-        // Clear existing data
-        // await User.deleteMany({});
-        // await Category.deleteMany({});
-        // await Product.deleteMany({});
-        // await ProductCategory.deleteMany({});
-        // console.log('Cleared existing data');
+    // Vider les collections
+    await Promise.all([
+      User.deleteMany({}),
+      Category.deleteMany({}),
+      Product.deleteMany({}),
+      ProductCategory.deleteMany({})
+    ]);
+    console.log('Cleared existing data');
 
-        // Insert users
-        const users = [];
-        for (const userData of seedData.users) {
-            const user = await User.create(userData);
-            users.push(user);
-        }
-        console.log(`✓ Inserted ${users.length} users`);
+    const users = [];
 
-        // Insert categories
-        const categories = await Category.insertMany(seedData.categories);
-        console.log(`✓ Inserted ${categories.length} categories`);
+    //admin
+    const admin = await User.create({
+      fullname: 'Admin User',
+      email: 'admin@gmail.com',
+      password: 'admin123',
+      role: 'admin'
+    });
+    users.push(admin);
 
-        // Insert products and create category relationships
-        const adminUser = users.find(u => u.role === 'admin');
-        for (const productData of seedData.products) {
-            const { categories: categoryNames, ...productInfo } = productData;
-            
-            const product = await Product.create({
-                ...productInfo,
-                sellerId: adminUser._id
-            });
-            
-            for (const categoryName of categoryNames) {
-                const category = categories.find(c => c.name === categoryName);
-                if (category) {
-                    await ProductCategory.create({
-                        product: product._id,
-                        category: category._id
-                    });
-                }
-            }
-        }
-        console.log(`✓ Inserted ${seedData.products.length} products with category relationships`);
-
-        console.log('Database seeded successfully!');
-        process.exit(0);
-    } catch (error) {
-        console.error('Seeding failed:', error);
-        process.exit(1);
+    // 5 users aléatoires
+    for (let i = 0; i < 5; i++) {
+      const user = await User.create({
+        fullname: faker.person.fullName(),
+        email: faker.internet.email(),
+        password: 'user123',
+        role: 'user'
+      });
+      users.push(user);
     }
+    console.log(`Inserted ${users.length} users`);
+
+    //cartegories
+    const categoryNames = [
+      'Electronics',
+      'Clothing',
+      'Books',
+      'Home & Garden',
+      'Sports',
+      'Beauty'
+    ];
+
+    const categories = await Category.insertMany(
+      categoryNames.map((name) => ({
+        name,
+        description: faker.lorem.sentence()
+      }))
+    );
+    console.log(`Inserted ${categories.length} categories`);
+
+    //products
+    const adminUser = users.find((u) => u.role === 'admin');
+    const products = [];
+
+    for (let i = 0; i < 10; i++) {
+      const product = await Product.create({
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price({ min: 10, max: 1000, dec: 2 }),
+        stock: faker.number.int({ min: 10, max: 200 }),
+        imageUrls: [faker.image.url()],
+        sellerId: adminUser._id
+      });
+
+      // assigner entre 1 et 2 catégories
+      const randomCategories = faker.helpers.arrayElements(categories, faker.number.int({ min: 1, max: 2 }));
+
+      for (const cat of randomCategories) {
+        await ProductCategory.create({
+          product: product._id,
+          category: cat._id
+        });
+      }
+
+      products.push(product);
+    }
+    console.log(`Inserted ${products.length} products with category relationships`);
+
+    console.log('Database seeded successfully!');
+    process.exit(0);
+  } catch (error) {
+    console.error('Seeding failed:', error);
+    process.exit(1);
+  }
 }
 
 seedDatabase();
