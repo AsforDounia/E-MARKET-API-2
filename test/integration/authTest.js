@@ -10,10 +10,10 @@ describe('Auth Integration Tests', () => {
         await TokenBlacklist.deleteMany({});
     });
 
-    describe('POST /auth/register', () => {
+    describe('POST /api/v2/auth/register', () => {
         it('should register a new user successfully', async () => {
             const res = await request(app)
-                .post('/auth/register')
+                .post('/api/v2/auth/register')
                 .send({
                     fullname: 'Test User',
                     email: 'test@example.com',
@@ -30,7 +30,7 @@ describe('Auth Integration Tests', () => {
         it('should return error if email already exists', async () => {
             // Register first user
             await request(app)
-                .post('/auth/register')
+                .post('/api/v2/auth/register')
                 .send({
                     fullname: 'Test User',
                     email: 'duplicate@example.com',
@@ -39,7 +39,7 @@ describe('Auth Integration Tests', () => {
 
             // Try to register with same email
             const res = await request(app)
-                .post('/auth/register')
+                .post('/api/v2/auth/register')
                 .send({
                     fullname: 'Another User',
                     email: 'duplicate@example.com',
@@ -53,7 +53,7 @@ describe('Auth Integration Tests', () => {
         it('should assign user role to second user', async () => {
             // Register first user (will be admin)
             await request(app)
-                .post('/auth/register')
+                .post('//api/v2auth/register')
                 .send({
                     fullname: 'Admin User',
                     email: 'admin@example.com',
@@ -62,7 +62,7 @@ describe('Auth Integration Tests', () => {
 
             // Register second user (should be user role)
             const res = await request(app)
-                .post('/auth/register')
+                .post('/api/v2/auth/register')
                 .send({
                     fullname: 'Regular User',
                     email: 'user@example.com',
@@ -74,10 +74,10 @@ describe('Auth Integration Tests', () => {
         });
     });
 
-    describe('POST /auth/login', () => {
+    describe('POST /api/v2/auth/login', () => {
         beforeEach(async () => {
             // Create a test user
-            await request(app).post('/auth/register').send({
+            await request(app).post('/api/v2/auth/register').send({
                 fullname: 'Test User',
                 email: 'test@example.com',
                 password: 'password123'
@@ -86,7 +86,7 @@ describe('Auth Integration Tests', () => {
 
         it('should login with valid credentials', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/v2/auth/login')
                 .send({
                     email: 'test@example.com',
                     password: 'password123'
@@ -99,7 +99,7 @@ describe('Auth Integration Tests', () => {
 
         it('should return error with invalid email', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/v2/auth/login')
                 .send({
                     email: 'wrong@example.com',
                     password: 'password123'
@@ -111,7 +111,7 @@ describe('Auth Integration Tests', () => {
 
         it('should return error with invalid password', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/v2/auth/login')
                 .send({
                     email: 'test@example.com',
                     password: 'wrongpassword'
@@ -123,7 +123,7 @@ describe('Auth Integration Tests', () => {
 
         it('should return error if email or password missing', async () => {
             const res = await request(app)
-                .post('/auth/login')
+                .post('/api/v2/auth/login')
                 .send({
                     email: 'test@example.com'
                 });
@@ -133,11 +133,11 @@ describe('Auth Integration Tests', () => {
         });
     });
 
-    describe('POST /auth/logout', () => {
+    describe('POST /api/v2/auth/logout', () => {
         it('should logout user successfully', async () => {
             // Register and login to get token
             const registerRes = await request(app)
-                .post('/auth/register')
+                .post('/api/v2/auth/register')
                 .send({
                     fullname: 'Test User',
                     email: 'test@example.com',
@@ -148,7 +148,7 @@ describe('Auth Integration Tests', () => {
 
             // Logout with token
             const res = await request(app)
-                .post('/auth/logout')
+                .post('/api/v2/auth/logout')
                 .set('Authorization', `Bearer ${token}`);
 
             expect(res.status).to.equal(200);
@@ -157,7 +157,7 @@ describe('Auth Integration Tests', () => {
 
         it('should return error if no token provided', async () => {
             const res = await request(app)
-                .post('/auth/logout');
+                .post('/api/v2/auth/logout');
 
             expect(res.status).to.equal(401);
             expect(res.body).to.have.property('message', 'No token provided');
