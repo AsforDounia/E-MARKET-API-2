@@ -10,13 +10,11 @@ import logger from './middlewares/logger.js';
 import notFound from './middlewares/notFound.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { swaggerUi, specs } from './swagger/swagger.js';
-import {authenticate, authorize} from "./middlewares/auth.js";
 import orderRoutes from './routes/orderRoutes.js';
 import reviewRoutes from "./routes/reviewRoutes.js";
 import securityMiddlewares from "./middlewares/security.js"
 import notificationRoutes from './routes/notificationRoutes.js';
 import redis from './config/redis.js';
-
 
 const app = express();
 
@@ -30,7 +28,7 @@ securityMiddlewares(app);
 
 // Middleware pour parser JSON
 app.use(express.json());
-app.use(logger);
+// app.use(logger);
 
 // Test route
 app.get("/", (req, res) => {
@@ -86,7 +84,9 @@ redis.ping().then(() => {
 });
 
 
-
+logger.info("Serveur démarré sur le port 3000");
+logger.warn("Attention : mémoire presque pleine !");
+logger.error("Erreur critique !");
 
 const PORT = process.env.PORT || 3000;
 
