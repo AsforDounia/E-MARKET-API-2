@@ -1,11 +1,9 @@
 import express from 'express';
+import * as productController from '../../../controllers/productController.js';
+import { validate } from '../../../middlewares/validation/validate.js';
+import { createProductSchema, updateProductSchema } from '../../../middlewares/validation/schemas/productSchema.js';
 
 const productRoutes = express.Router();
-import * as productController from '../controllers/productController.js';
-import { validate } from '../middlewares/validation/validate.js';
-import { createProductSchema, updateProductSchema } from '../middlewares/validation/schemas/productSchema.js';
-import { authenticate, authorize } from '../middlewares/auth.js';
-import cache from '../middlewares/redisCache.js';
 
 
 /**
@@ -110,9 +108,7 @@ import cache from '../middlewares/redisCache.js';
  */
 
 
-productRoutes.get('/', cache('products',600), productController.getAllProducts);
-
-productRoutes.get('/pending', cache('pendingProducts', 600), authenticate, authorize("admin"), productController.getPendingProducts);
+productRoutes.get('/', productController.getAllProducts);
 
 /**
  * @swagger
@@ -136,7 +132,7 @@ productRoutes.get('/pending', cache('pendingProducts', 600), authenticate, autho
  *       404:
  *         description: Product not found
  */
-productRoutes.get('/:id', cache('product', 600), productController.getProductById);
+productRoutes.get('/:id', productController.getProductById);
 
 /**
  * @swagger
@@ -156,7 +152,7 @@ productRoutes.get('/:id', cache('product', 600), productController.getProductByI
  *       400:
  *         description: Invalid input
  */
-productRoutes.post('/',validate( createProductSchema ),authenticate ,authorize("seller"), productController.createProduct);
+productRoutes.post('/', validate(createProductSchema), productController.createProduct);
 
 /**
  * @swagger
@@ -182,7 +178,7 @@ productRoutes.post('/',validate( createProductSchema ),authenticate ,authorize("
  *       404:
  *         description: Product not found
  */
-productRoutes.put('/:id', validate( updateProductSchema ), authenticate ,authorize("seller"), productController.updateProduct);
+productRoutes.put('/:id', validate(updateProductSchema), productController.updateProduct);
 
 /**
  * @swagger
@@ -202,10 +198,7 @@ productRoutes.put('/:id', validate( updateProductSchema ), authenticate ,authori
  *       404:
  *         description: Product not found
  */
-productRoutes.delete('/:id', authenticate ,authorize("seller", "admin"), productController.deleteProduct);
+productRoutes.delete('/:id', productController.deleteProduct);
 
-productRoutes.patch('/:id/visibility', authenticate, authorize("seller"), productController.updateProductVisibility);
-productRoutes.patch('/:id/validate', authenticate, authorize("admin"), productController.validateProduct);
-productRoutes.patch('/:id/reject', authenticate, authorize("admin"), productController.rejectProduct);
 
 export default productRoutes;

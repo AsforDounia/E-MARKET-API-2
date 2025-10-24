@@ -1,4 +1,4 @@
-import { Product, ProductCategory, Category } from '../models/Index.js';
+import { Product, ProductCategory, Category , ProductImage} from '../models/Index.js';
 import { getProductCategories } from '../services/productService.js';
 import mongoose from 'mongoose';
 import {AppError} from "../middlewares/errorHandler.js";
@@ -138,38 +138,66 @@ async function getProductById(req, res, next) {
 }
 
 async function createProduct(req, res, next) {
-    try {
-        const sellerId = req.user._id;
-        const { title, description, price, stock, imageUrls, categoryIds } = req.body;
-        if (categoryIds && !Array.isArray(categoryIds)) throw new AppError("categoryIds must be an array", 400);
-        if (categoryIds && categoryIds.some(categoryId => !ObjectId.isValid(categoryId))) throw new AppError("Invalid category ID", 400);
-        if (!title || !description || price == null || stock == null) throw new AppError("Title, description, price, and stock are required", 400);
-        if (!sellerId) throw new AppError("Seller information is required", 400);
- 
-        const product = await Product.create({ title, description, price, stock, imageUrls, sellerId });
-       
-        if (Array.isArray(categoryIds)) {
-            for (const categoryId of categoryIds) {
-                await ProductCategory.create({ product: product._id, category: categoryId });
-            }
-        }
+  try {
+    const sellerId = req.user?._id;
+    const { title, description, price, stock, categoryIds } = req.body;
 
-        // Invalidate products cache
-        await cacheInvalidation.invalidateProducts();
+    // ======== VALIDATIONS ========
+    if (!sellerId) throw new AppError("Seller information is required", 400);
+    if (!title || !description || price == null || stock == null)
+      throw new AppError("Title, description, price, and stock are required", 400);
+    if (categoryIds && !Array.isArray(categoryIds))
+      throw new AppError("categoryIds must be an array", 400);
+    if (categoryIds && categoryIds.some(id => !ObjectId.isValid(id)))
+      throw new AppError("Invalid category ID", 400);
 
-        res.status(201).json({
-            success: true,
-            message: 'Product created',
-            data: {
-                product: product
-            }
-        });
-    } catch (err) {
-        next(err);
+    // ======== CREATE PRODUCT ========
+    const product = await Product.create({
+      title,
+      description,
+      price,
+      stock,
+      sellerId,
+      imageUrls: [],
+    });
+
+    // ======== ADD CATEGORIES ========
+    if (Array.isArray(categoryIds) && categoryIds.length > 0) {
+      const categoryLinks = categoryIds.map(categoryId => ({
+        product: product._id,
+        category: categoryId,
+      }));
+      await ProductCategory.insertMany(categoryLinks);
     }
+
+    // ======== HANDLE IMAGES ========
+    if (req.files && req.files.length > 0) {
+      const imageDocs = req.files.map((file, index) => ({
+        product: product._id,
+        imageUrl: `/uploads/products/${file.filename}`,
+        isPrimary: index === 0,
+      }));
+
+      await ProductImage.insertMany(imageDocs);
+
+      // Update imageUrls in product
+      product.imageUrls = imageDocs.map(img => img.imageUrl);
+      await product.save();
+    }
+
+    // ======== CLEAR CACHE ========
+    await cacheInvalidation.invalidateProducts();
+
+    // ======== RESPONSE ========
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully (awaiting admin validation)",
+      data: product,
+    });
+  } catch (err) {
+    next(err);
+  }
 }
-
-
 
 async function updateProduct(req, res, next) {
     try {
