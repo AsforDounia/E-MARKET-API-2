@@ -1,7 +1,7 @@
 import express from "express";
-import { authenticate, authorize } from "../middlewares/auth.js";
-import * as couponController from "../controllers/couponController.js";
-import cache from "../middlewares/redisCache.js";
+import { authenticate, authorize } from "../../../middlewares/auth.js";
+import * as couponController from "../../../controllers/couponController.js";
+import cache from "../../../middlewares/redisCache.js";
 
 
 const couponRoutes = express.Router();
