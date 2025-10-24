@@ -6,7 +6,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /home/asfor_a/Apps/mongo-data:/data/db
+      - mongo-data:/data/db
     networks:
       - dev_net
     healthcheck:
@@ -28,6 +28,7 @@ services:
 
 volumes:
   redis-data:
+  mongo-data:
 
 networks:
   dev_net:
