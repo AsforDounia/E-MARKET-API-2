@@ -24,7 +24,7 @@ securityMiddlewares(app);
 
 // Middleware pour parser JSON
 app.use(express.json());
-app.use(logger);
+// app.use(logger);
 
 // Test route
 app.get("/", (req, res) => {
@@ -61,6 +61,11 @@ redis.ping().then(() => {
 }).catch(err => {
     console.error('Redis ping failed:', err.message);
 });
+
+
+logger.info("Serveur démarré sur le port 3000");
+logger.warn("Attention : mémoire presque pleine !");
+logger.error("Erreur critique !");
 
 const PORT = process.env.PORT || 3000;
 
