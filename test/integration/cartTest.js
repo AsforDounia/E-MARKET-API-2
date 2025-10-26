@@ -74,10 +74,10 @@ describe("Cart Integration Tests", () => {
     await mongoose.connection.close();
   });
 
-  describe("POST /cart/add - addToCart", () => {
+  describe("POST /api/v2/cart/add - addToCart", () => {
     it("should add a new product to cart successfully", async () => {
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 })
         .expect(200);
@@ -97,13 +97,13 @@ describe("Cart Integration Tests", () => {
     it("should update quantity when adding existing product", async () => {
       // Ajouter le produit une première fois
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 });
 
       // Ajouter le même produit à nouveau
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 3 })
         .expect(200);
@@ -116,13 +116,13 @@ describe("Cart Integration Tests", () => {
     it("should add multiple different products to cart", async () => {
       // Ajouter le premier produit
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 });
 
       // Ajouter le deuxième produit
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId2, quantity: 1 })
         .expect(200);
@@ -133,7 +133,7 @@ describe("Cart Integration Tests", () => {
 
     it("should return error for invalid product ID", async () => {
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: "invalid-id", quantity: 2 })
         .expect(400);
@@ -145,7 +145,7 @@ describe("Cart Integration Tests", () => {
     it("should return error for non-existent product", async () => {
       const fakeId = new mongoose.Types.ObjectId();
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: fakeId.toString(), quantity: 2 })
         .expect(404);
@@ -157,7 +157,7 @@ describe("Cart Integration Tests", () => {
 
     it("should return error for insufficient stock", async () => {
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 20 })
         .expect(400);
@@ -168,21 +168,21 @@ describe("Cart Integration Tests", () => {
 
     it("should return error when not authenticated", async () => {
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .send({ productId: productId1, quantity: 2 })
         .expect(401);
-      
-      expect(response.body.success).to.equal(false);
+      console.log("6666666666666666666666", response.body);
+      expect(response.body.status).to.equal(401);
       expect(response.body.message).to.equal("Invalid token.");
 
 
     });
   });
 
-  describe("GET /cart - getCart", () => {
+  describe("GET /api/v2/cart - getCart", () => {
     it("should return empty cart when no items exist", async () => {
       const response = await request(app)
-        .get("/cart")
+        .get("/api/v2/cart")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(200);
 
@@ -195,21 +195,21 @@ describe("Cart Integration Tests", () => {
     it("should return cart with items", async () => {
       // Ajouter des produits au panier
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 });
 
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId2, quantity: 1 });
 
       // Récupérer le panier
       const response = await request(app)
-        .get("/cart")
+        .get("/api/v2/cart")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(200);
-
+      
       expect(response.body.status).to.equal("success");
       expect(response.body.message).to.equal("Cart retrieved successfully");
       expect(response.body.data.cart.items).to.have.lengthOf(2);
@@ -222,34 +222,35 @@ describe("Cart Integration Tests", () => {
     });
 
     it("should return error when not authenticated", async () => {
+      console.log("88888888888888855555555",);
       const response = await request(app)
-        .get("/cart")
+        .get("/api/v2/cart")
         .expect(401);
 
-
-      expect(response.body.success).to.equal(false);
+      console.log("888888888888888888888888888", response.body);
+      expect(response.body.status).to.equal(401);
       expect(response.body.message).to.equal("Invalid token.");
 
     });
   });
 
-  describe("DELETE /cart/item/:productId - removeFromCart", () => {
+  describe("DELETE /api/v2/cart/item/:productId - removeFromCart", () => {
     beforeEach(async () => {
       // Ajouter des produits au panier pour les tests
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 });
 
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId2, quantity: 1 });
     });
 
     it("should remove product from cart successfully", async () => {
       const response = await request(app)
-        .delete(`/cart/item/${productId1}`)
+        .delete(`/api/v2/cart/item/${productId1}`)
         .set("Authorization", `Bearer ${authToken}`)
         .expect(200);
 
@@ -265,7 +266,7 @@ describe("Cart Integration Tests", () => {
 
     it("should return error for invalid product ID", async () => {
       const response = await request(app)
-        .delete("/cart/item/invalid-id")
+        .delete("/api/v2/cart/item/invalid-id")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(400);
 
@@ -276,7 +277,7 @@ describe("Cart Integration Tests", () => {
     it("should return error when product not in cart", async () => {
       const fakeId = new mongoose.Types.ObjectId();
       const response = await request(app)
-        .delete(`/cart/item/${fakeId}`)
+        .delete(`/api/v2/cart/item/${fakeId}`)
         .set("Authorization", `Bearer ${authToken}`)
         .expect(404);
 
@@ -300,7 +301,7 @@ describe("Cart Integration Tests", () => {
       );
 
       const response = await request(app)
-        .delete(`/cart/item/${productId1}`)
+        .delete(`/api/v2/cart/item/${productId1}`)
         .set("Authorization", `Bearer ${newToken}`)
         .expect(404);
 
@@ -309,18 +310,18 @@ describe("Cart Integration Tests", () => {
     });
   });
 
-  describe("PUT /cart/item/:productId - updateCartItem", () => {
+  describe("PUT /api/v2/cart/item/:productId - updateCartItem", () => {
     beforeEach(async () => {
       // Ajouter un produit au panier
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 });
     });
 
     it("should update cart item quantity successfully", async () => {
       const response = await request(app)
-        .put(`/cart/item/${productId1}`)
+        .put(`/api/v2/cart/item/${productId1}`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({ quantity: 5 })
         .expect(200);
@@ -337,7 +338,7 @@ describe("Cart Integration Tests", () => {
 
     it("should return error for invalid product ID", async () => {
       const response = await request(app)
-        .put("/cart/item/invalid-id")
+        .put("/api/v2/cart/item/invalid-id")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ quantity: 5 })
         .expect(400);
@@ -348,7 +349,7 @@ describe("Cart Integration Tests", () => {
 
     it("should return error for insufficient stock", async () => {
       const response = await request(app)
-        .put(`/cart/item/${productId1}`)
+        .put(`/api/v2/cart/item/${productId1}`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({ quantity: 20 })
         .expect(400);
@@ -359,7 +360,7 @@ describe("Cart Integration Tests", () => {
 
     it("should return error when product not in cart", async () => {
       const response = await request(app)
-        .put(`/cart/item/${productId2}`)
+        .put(`/api/v2/cart/item/${productId2}`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({ quantity: 3 })
         .expect(404);
@@ -369,23 +370,23 @@ describe("Cart Integration Tests", () => {
     });
   });
 
-  describe("DELETE /cart - clearCart", () => {
+  describe("DELETE /api/v2/cart - clearCart", () => {
     beforeEach(async () => {
       // Ajouter des produits au panier
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 2 });
 
       await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId2, quantity: 1 });
     });
 
     it("should clear cart successfully", async () => {
       const response = await request(app)
-        .delete("/cart")
+        .delete("/api/v2/cart")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(200);
 
@@ -398,7 +399,7 @@ describe("Cart Integration Tests", () => {
 
       // Vérifier que le panier est maintenant vide
       const getCartResponse = await request(app)
-        .get("/cart")
+        .get("/api/v2/cart")
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(getCartResponse.body.data.cart.items).to.be.an("array").that.is.empty;
@@ -420,7 +421,7 @@ describe("Cart Integration Tests", () => {
       );
 
       const response = await request(app)
-        .delete("/cart")
+        .delete("/api/v2/cart")
         .set("Authorization", `Bearer ${newToken}`)
         .expect(404);
 
@@ -434,15 +435,15 @@ describe("Cart Integration Tests", () => {
       // Simuler plusieurs opérations simultanées
       const operations = [
         request(app)
-          .post("/cart/add")
+          .post("/api/v2/cart/add")
           .set("Authorization", `Bearer ${authToken}`)
           .send({ productId: productId1, quantity: 1 }),
         request(app)
-          .post("/cart/add")
+          .post("/api/v2/cart/add")
           .set("Authorization", `Bearer ${authToken}`)
           .send({ productId: productId2, quantity: 2 }),
         request(app)
-          .post("/cart/add")
+          .post("/api/v2/cart/add")
           .set("Authorization", `Bearer ${authToken}`)
           .send({ productId: productId1, quantity: 1 }),
       ];
@@ -453,7 +454,7 @@ describe("Cart Integration Tests", () => {
 
       // Vérifier le résultat final
       const response = await request(app)
-        .get("/cart")
+        .get("/api/v2/cart")
         .set("Authorization", `Bearer ${authToken}`);
 
       // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk",response.body.data.cart.items);
@@ -469,7 +470,7 @@ describe("Cart Integration Tests", () => {
   describe("Edge Cases", () => {
     it("should handle maximum stock quantity", async () => {
       const response = await request(app)
-        .post("/cart/add")
+        .post("/api/v2/cart/add")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ productId: productId1, quantity: 10 })
         .expect(200);

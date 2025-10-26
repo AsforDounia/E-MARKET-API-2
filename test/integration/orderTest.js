@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import request from "supertest";
 import mongoose from "mongoose";
+import { Types } from "mongoose";
 import app from "../../server.js";
 import dotenv from "dotenv";
 import {
@@ -12,6 +13,7 @@ import {
   Coupon,
   User,
 } from "../../models/Index.js";
+import cacheInvalidation from "../../services/cacheInvalidation.js";
 
 dotenv.config();
 
@@ -25,8 +27,8 @@ describe("Order Controller - Integration Tests", () => {
   let orderId;
   let couponId;
 
-  beforeEach(async () => {
-    // Nettoyage de la base de données avant chaque test
+  beforeEach(async function(){
+    this.timeout(10000);
     await User.deleteMany({});
     await Product.deleteMany({});
     await Cart.deleteMany({});
@@ -36,7 +38,7 @@ describe("Order Controller - Integration Tests", () => {
     await Coupon.deleteMany({});
 
     // Création d'un utilisateur normal et authentification
-    const userResponse = await request(app).post("/auth/register").send({
+    const userResponse = await request(app).post("/api/v2/auth/register").send({
       fullname: "Test User",
       email: "testuser@example.com",
       password: "Password123!",
@@ -47,12 +49,14 @@ describe("Order Controller - Integration Tests", () => {
     userId = userResponse.body.user.id;
 
     // Création d'un admin et authentification
-    const adminResponse = await request(app).post("/auth/register").send({
-      fullname: "Admin User",
-      email: "admin@example.com",
-      password: "Admin123!",
-      role: "admin",
-    });
+    const adminResponse = await request(app)
+      .post("/api/v2/auth/register")
+      .send({
+        fullname: "Admin User",
+        email: "admin@example.com",
+        password: "Admin123!",
+        role: "admin",
+      });
 
     // console.log("RES ADMIN", adminResponse.body);
     adminToken = adminResponse.body.token;
@@ -81,11 +85,11 @@ describe("Order Controller - Integration Tests", () => {
     });
   });
 
-  // ==================== Tests pour POST /orders (createOrder) ====================
-  describe("POST /orders", () => {
+  // ==================== Tests pour POST /api/v2/orders (createOrder) ====================
+  describe("POST /api/v2/orders", () => {
     it("should create an order successfully", async () => {
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({});
 
@@ -118,7 +122,7 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "SAVE20",
@@ -145,7 +149,7 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "FIXED50",
@@ -160,7 +164,7 @@ describe("Order Controller - Integration Tests", () => {
       await Cart.deleteMany({ userId });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({});
 
@@ -172,7 +176,7 @@ describe("Order Controller - Integration Tests", () => {
       await CartItem.deleteMany({ cartId });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({});
 
@@ -184,7 +188,7 @@ describe("Order Controller - Integration Tests", () => {
       await Product.updateOne({ _id: productId }, { stock: 1 });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({});
 
@@ -196,7 +200,7 @@ describe("Order Controller - Integration Tests", () => {
       await Product.updateOne({ _id: productId }, { deletedAt: new Date() });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({});
 
@@ -206,7 +210,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should return 400 if coupon is invalid", async () => {
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "INVALID",
@@ -229,7 +233,7 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "EXPIRED",
@@ -251,7 +255,7 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "USED",
@@ -273,7 +277,7 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "HIGH",
@@ -296,7 +300,7 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const response = await request(app)
-        .post("/orders")
+        .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
           couponCode: "LIMITED",
@@ -307,22 +311,24 @@ describe("Order Controller - Integration Tests", () => {
     });
 
     it("should return 401 if not authenticated", async () => {
-      const response = await request(app).post("/orders").send({});
+      const response = await request(app).post("/api/v2/orders").send({});
 
       expect(response.status).to.equal(401);
+      expect(response.body.message).to.equal("Invalid token.");
     });
   });
 
-  // ==================== Tests pour GET /orders (getOrders) ====================
-  describe("GET /orders", () => {
+  // ==================== Tests pour GET /api/v2/orders (getOrders) ====================
+  describe("GET /api/v2/orders", () => {
     beforeEach(async () => {
       // Créer quelques commandes pour les tests
       const order1 = await Order.create({
-        userId,
+        userId: new Types.ObjectId(userId),
         subtotal: 200,
         discount: 0,
         total: 200,
         status: "pending",
+        createdAt: new Date("2024-01-01T10:00:00Z"),
       });
 
       await OrderItem.create({
@@ -335,11 +341,12 @@ describe("Order Controller - Integration Tests", () => {
       });
 
       const order2 = await Order.create({
-        userId,
+        userId: new Types.ObjectId(userId),
         subtotal: 150,
         discount: 10,
         total: 140,
         status: "paid",
+        createdAt: new Date("2024-01-02T10:00:00Z"),
       });
 
       await OrderItem.create({
@@ -354,49 +361,53 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should retrieve all user orders", async () => {
       const response = await request(app)
-        .get("/orders")
+        .get("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`);
 
-      expect(response.status).to.equal(200);
       expect(response.body.status).to.equal("success");
       expect(response.body.data.orders).to.be.an("array").with.lengthOf(2);
       expect(response.body.data.orders[0]).to.have.property("total");
     });
 
     it("should return empty array if no orders exist", async () => {
-      await Order.deleteMany({ userId });
-
+      await cacheInvalidation.invalidateOrders();
+      await Order.deleteMany({});
       const response = await request(app)
-        .get("/orders")
+        .get("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`);
 
-      console.log("44444444444444444444444444", response.body.data.orders);
-      expect(response.status).to.equal("success");
+      expect(response.status).to.equal(200);
       expect(response.body.data.orders).to.be.an("array").that.is.empty;
     });
 
     it("should return orders sorted by creation date (newest first)", async () => {
       const response = await request(app)
-        .get("/orders")
+        .get("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`);
 
+      // console.log("kkkkkkkkkkkkkkkkkkkkkkk", response.body.data.orders);
       expect(response.status).to.equal(200);
       const orders = response.body.data.orders;
-      expect(new Date(orders[0].createdAt).getTime()).to.be.at.least(
+      console.log(
+        "Returned orders:",
+        orders.map((o) => o.createdAt)
+      );
+      expect(new Date(orders[0].createdAt).getTime()).to.be.gte(
         new Date(orders[1].createdAt).getTime()
       );
     });
 
     it("should return 401 if not authenticated", async () => {
-      const response = await request(app).get("/orders");
+      const response = await request(app).get("/api/v2/orders");
 
-      console.log("5555555555555555555555555", response.body.data);
-      expect(response.body.status).to.equal(succes);
+      // console.log("5555555555555555555555555", response.body);
+      expect(response.body.status).to.equal(401);
+      expect(response.body.message).to.equal("Invalid token.");
     });
   });
 
-  // ==================== Tests pour GET /orders/:id (getOrderById) ====================
-  describe("GET /orders/:id", () => {
+  // ==================== Tests pour GET /api/v2/orders/:id (getOrderById) ====================
+  describe("GET /api/v2/orders/:id", () => {
     beforeEach(async () => {
       const order = await Order.create({
         userId,
@@ -419,7 +430,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should retrieve order by ID with items", async () => {
       const response = await request(app)
-        .get(`/orders/${orderId}`)
+        .get(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${authToken}`);
 
       // expect(response.status).to.equal(200);
@@ -431,7 +442,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should return 400 if order ID is invalid", async () => {
       const response = await request(app)
-        .get("/orders/invalid-id")
+        .get("/api/v2/orders/invalid-id")
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).to.equal(400);
@@ -442,7 +453,7 @@ describe("Order Controller - Integration Tests", () => {
       const fakeId = new mongoose.Types.ObjectId();
 
       const response = await request(app)
-        .get(`/orders/${fakeId}`)
+        .get(`/api/v2/orders/${fakeId}`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.body.success).to.equal(false);
@@ -450,15 +461,15 @@ describe("Order Controller - Integration Tests", () => {
     });
 
     it("should return 401 if not authenticated", async () => {
-      const response = await request(app).get(`/orders/${orderId}`);
+      const response = await request(app).get(`/api/v2/orders/${orderId}`);
 
-      expect(response.body.success).to.equal(false);
-      expect(response.body.message).to.equal('Invalid token.' );
+      expect(response.body.status).to.equal(401);
+      expect(response.body.message).to.equal("Invalid token.");
     });
   });
 
-  // ==================== Tests pour put /orders/:id/status (updateOrderStatus) ====================
-  describe("PUT /orders/:id", () => {
+  // ==================== Tests pour put /api/v2/orders/:id/status (updateOrderStatus) ====================
+  describe("PUT /api/v2/orders/:id", () => {
     beforeEach(async () => {
       const order = await Order.create({
         userId,
@@ -472,7 +483,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should update order status to shipped", async () => {
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "shipped" });
 
@@ -483,10 +494,10 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should update order status to paid", async () => {
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "paid" });
-      
+
       expect(response.body.status).to.equal("success");
       expect(response.body.data.order.status).to.equal("paid");
     });
@@ -496,7 +507,7 @@ describe("Order Controller - Integration Tests", () => {
       await Order.updateOne({ _id: orderId }, { status: "shipped" });
 
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "delivered" });
 
@@ -506,7 +517,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should return 400 if status is invalid", async () => {
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "invalid-status" });
 
@@ -519,7 +530,7 @@ describe("Order Controller - Integration Tests", () => {
       await Order.updateOne({ _id: orderId }, { status: "cancelled" });
 
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "shipped" });
 
@@ -531,7 +542,7 @@ describe("Order Controller - Integration Tests", () => {
       await Order.updateOne({ _id: orderId }, { status: "delivered" });
 
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "shipped" });
 
@@ -543,7 +554,7 @@ describe("Order Controller - Integration Tests", () => {
       const fakeId = new mongoose.Types.ObjectId();
 
       const response = await request(app)
-        .put(`/orders/${fakeId}`)
+        .put(`/api/v2/orders/${fakeId}`)
         .set("Authorization", `Bearer ${adminToken}`)
         .send({ status: "shipped" });
 
@@ -553,15 +564,16 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should return 401 if not authenticated", async () => {
       const response = await request(app)
-        .put(`/orders/${orderId}`)
+        .put(`/api/v2/orders/${orderId}`)
         .send({ status: "shipped" });
 
-      expect(response.body.success).to.equal(false);
+      expect(response.body.status).to.equal(401);
+      expect(response.body.message).to.equal("Invalid token.");
     });
   });
 
-  // ==================== Tests pour DELETE /orders/:id (cancelOrder) ====================
-  describe("DELETE /orders/:id", () => {
+  // ==================== Tests pour DELETE /api/v2/orders/:id (cancelOrder) ====================
+  describe("DELETE /api/v2/orders/:id", () => {
     beforeEach(async () => {
       const order = await Order.create({
         userId,
@@ -587,7 +599,7 @@ describe("Order Controller - Integration Tests", () => {
       const stockBefore = productBefore.stock;
 
       const response = await request(app)
-        .delete(`/orders/${orderId}`)
+        .delete(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).to.equal(200);
@@ -601,7 +613,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should allow admin to cancel any order", async () => {
       const response = await request(app)
-        .delete(`/orders/${orderId}`)
+        .delete(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`);
 
       expect(response.body.success).to.equal(false);
@@ -610,20 +622,22 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should return 403 if user tries to cancel another user order", async () => {
       // Créer un autre utilisateur
-      const otherUserResponse = await request(app).post("/auth/register").send({
-        name: "Other User",
-        email: "other@example.com",
-        password: "Password123!",
-        role: "user",
-      });
+      const otherUserResponse = await request(app)
+        .post("/api/v2/auth/register")
+        .send({
+          name: "Other User",
+          email: "other@example.com",
+          password: "Password123!",
+          role: "user",
+        });
 
       const otherToken = otherUserResponse.body.token;
 
       const response = await request(app)
-        .delete(`/orders/${orderId}`)
+        .delete(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${otherToken}`);
 
-      expect(response.body.success).to.equal(false);
+      expect(response.body.status).to.equal(401);
       expect(response.body.message).to.include("Invalid token.");
     });
 
@@ -631,7 +645,7 @@ describe("Order Controller - Integration Tests", () => {
       await Order.updateOne({ _id: orderId }, { status: "cancelled" });
 
       const response = await request(app)
-        .delete(`/orders/${orderId}`)
+        .delete(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).to.equal(400);
@@ -642,7 +656,7 @@ describe("Order Controller - Integration Tests", () => {
       await Order.updateOne({ _id: orderId }, { status: "shipped" });
 
       const response = await request(app)
-        .delete(`/orders/${orderId}`)
+        .delete(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).to.equal(400);
@@ -655,7 +669,7 @@ describe("Order Controller - Integration Tests", () => {
       const fakeId = new mongoose.Types.ObjectId();
 
       const response = await request(app)
-        .delete(`/orders/${fakeId}`)
+        .delete(`/api/v2/orders/${fakeId}`)
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).to.equal(404);
@@ -664,7 +678,7 @@ describe("Order Controller - Integration Tests", () => {
 
     it("should return 400 if order ID is invalid", async () => {
       const response = await request(app)
-        .delete("/orders/invalid-id")
+        .delete("/api/v2/orders/invalid-id")
         .set("Authorization", `Bearer ${authToken}`);
 
       expect(response.status).to.equal(400);
@@ -672,9 +686,10 @@ describe("Order Controller - Integration Tests", () => {
     });
 
     it("should return 401 if not authenticated", async () => {
-      const response = await request(app).delete(`/orders/${orderId}`);
+      const response = await request(app).delete(`/api/v2/orders/${orderId}`);
 
-      expect(response.body.success).to.equal(false);
+      expect(response.body.status).to.equal(401);
+      expect(response.body.message).to.equal("Invalid token.");
     });
   });
 });

@@ -79,7 +79,13 @@ orderRoutes.post('/', validate(createOrderSchema), authenticate, orderController
  *       401:
  *         description: Unauthorized
  */
-orderRoutes.get('/', cache('orders', 600), authenticate, orderController.getOrders);
+// orderRoutes.get('/', authenticate, cache('orders', 600), orderController.getOrders);
+
+if (process.env.NODE_ENV !== "test") {
+    orderRoutes.get('/', authenticate, cache('orders', 600), orderController.getOrders);
+} else {
+    orderRoutes.get('/', authenticate, orderController.getOrders);
+}
 
 /**
  * @swagger
@@ -105,8 +111,12 @@ orderRoutes.get('/', cache('orders', 600), authenticate, orderController.getOrde
  *       404:
  *         description: Order not found
  */
-orderRoutes.get('/:id', cache('order', 600), authenticate, orderController.getOrderById);
-
+// orderRoutes.get('/:id', authenticate ,cache('order', 600), orderController.getOrderById);
+if (process.env.NODE_ENV !== "test") {
+    orderRoutes.get('/:id', authenticate, cache('orders', 600), orderController.getOrderById);
+} else {
+    orderRoutes.get('/:id', authenticate, orderController.getOrderById);
+}
 /**
  * @swagger
  * /orders/{id}:

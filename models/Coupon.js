@@ -40,10 +40,7 @@ const couponSchema = new mongoose.Schema({
         type: Number,
         default: null
     },
-    usedBy: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+  
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
