@@ -23,6 +23,8 @@
     "test:integration:product": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/productTest.js --timeout 10000 --exit",
     "test:unit:notification": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/notificationTest.js --timeout 5000 --exit",
     "test:integration:notification": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/notificationTest.js --timeout 10000 --exit",
+    "test:unit:log": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/logTest.js --timeout 5000 --exit",
+    "test:integration:log": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/logTest.js --timeout 10000 --exit",
     "mongo": "mongosh"
   },
   "repository": {
