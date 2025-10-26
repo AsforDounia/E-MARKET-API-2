@@ -68,7 +68,7 @@ cartRoutes.post('/add', authenticate, validate(addToCartSchema), cartController.
  *       401:
  *         description: Unauthorized
  */
-cartRoutes.get('/', cache('cart', 600), authenticate, cartController.getCart);
+cartRoutes.get('/',authenticate ,cache('cart', 600), cartController.getCart);
 
 /**
  * @swagger

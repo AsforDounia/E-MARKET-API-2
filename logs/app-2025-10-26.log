@@ -1,0 +1,972 @@
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:22:15.788Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:22:15.790Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:22:15.790Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:29:23.535Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:29:23.537Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:29:23.537Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:29:27.801Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:29:27.803Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:29:27.804Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:29:30.566Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:29:30.568Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:29:30.569Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:29:36.014Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:29:36.016Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:29:36.017Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:30:07.685Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:30:07.687Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:30:07.687Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:30:14.158Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:30:14.161Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:30:14.162Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:30:17.855Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:30:17.857Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:30:17.857Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:30:21.794Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:30:21.795Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:30:21.796Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:30:41.973Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:30:41.974Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:30:41.975Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:31:11.573Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:31:11.575Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:31:11.576Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:31:15.807Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:31:15.809Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:31:15.810Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:31:19.567Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:31:19.579Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:31:19.581Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:31:21.715Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:31:21.717Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:31:21.718Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:31:34.794Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:31:34.796Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:31:34.797Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:31:39.636Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:31:39.638Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:31:39.639Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:32:04.140Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:32:04.146Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:32:04.147Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:32:08.389Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:32:08.395Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:32:08.396Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:32:39.197Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:32:39.201Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:32:39.202Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:32:41.976Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:32:41.980Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:32:41.981Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:33:20.443Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:33:20.447Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:33:20.448Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:34:09.875Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:34:09.881Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:34:09.882Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:34:15.369Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:34:15.373Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:34:15.374Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:34:22.640Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:34:22.645Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:34:22.646Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:34:45.633Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:34:45.637Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:34:45.638Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:35:51.029Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:35:51.034Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:35:51.035Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:35:54.596Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:35:54.600Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:35:54.601Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:38:56.812Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:38:56.816Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:38:56.817Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:40:03.054Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:40:03.059Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:40:03.060Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:40:05.699Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:40:05.704Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:40:05.705Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:42:59.961Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:42:59.965Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:42:59.965Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:43:13.208Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:43:13.214Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:43:13.215Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:46:51.170Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:46:51.173Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:46:51.174Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:46:59.686Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:46:59.690Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:46:59.692Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:47:11.005Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:47:11.010Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:47:11.012Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:47:51.812Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:47:51.816Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:47:51.816Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:48:05.644Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:48:05.649Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:48:05.650Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:48:44.017Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:48:44.022Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:48:44.023Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:48:59.245Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:48:59.249Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:48:59.250Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:49:06.084Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:49:06.088Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:49:06.089Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:49:13.096Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:49:13.101Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:49:13.102Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:49:26.751Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:49:26.755Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:49:26.756Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:49:33.474Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:49:33.482Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:49:33.484Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:49:45.124Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:49:45.131Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:49:45.132Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:50:37.673Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:50:37.679Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:50:37.680Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:54:10.605Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:54:10.611Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:54:10.612Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:54:16.909Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:54:16.913Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:54:16.914Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T10:54:23.962Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T10:54:23.970Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T10:54:23.971Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:00:33.580Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:00:33.587Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:00:33.588Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:02:10.648Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:02:10.649Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:02:10.649Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:02:14.285Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:02:14.287Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:02:14.287Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:02:18.252Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:02:18.253Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:02:18.253Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:02:29.162Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:02:29.164Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:02:29.164Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:02:31.001Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:02:31.003Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:02:31.004Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:02:34.635Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:02:34.637Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:02:34.637Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:03:06.366Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:03:06.367Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:03:06.368Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:03:10.309Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:03:10.310Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:03:10.311Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:04:23.362Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:04:23.364Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:04:23.365Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:08:44.639Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:08:44.640Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:08:44.640Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:08:47.332Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:08:47.333Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:08:47.334Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:08:49.352Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:08:49.354Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:08:49.354Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:08:54.747Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:08:54.749Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:08:54.749Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:08:58.656Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:08:58.658Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:08:58.658Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:09:03.389Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:09:03.391Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:09:03.392Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:09:08.108Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:09:08.110Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:09:08.110Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:14:06.974Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:14:06.975Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:14:06.976Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:14:55.687Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:14:55.688Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:14:55.689Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:15:00.922Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:15:00.924Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:15:00.925Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:15:02.610Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:15:02.611Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:15:02.612Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:15:05.589Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:15:05.591Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:15:05.591Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:15:13.627Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:15:13.629Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:15:13.629Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:18:10.795Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:18:10.797Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:18:10.797Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:18:14.928Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:18:14.930Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:18:14.930Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:20:38.347Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:20:38.348Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:20:38.349Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:20:39.476Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:20:39.478Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:20:39.478Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:21:06.051Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:21:06.053Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:21:06.053Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:21:42.598Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:21:42.600Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:21:42.600Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:21:45.909Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:21:45.911Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:21:45.911Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:21:57.373Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:21:57.375Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:21:57.375Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:22:03.706Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:22:03.707Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:22:03.708Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:22:08.297Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:22:08.299Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:22:08.299Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:22:43.487Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:22:43.489Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:22:43.489Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:23:21.169Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:23:21.171Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:23:21.172Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:23:31.044Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:23:31.045Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:23:31.046Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:23:32.331Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:23:32.333Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:23:32.333Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:23:36.657Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:23:36.660Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:23:36.660Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:24:23.588Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:24:23.589Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:24:23.590Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:26:28.857Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:26:28.858Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:26:28.859Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:07.345Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:07.347Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:07.348Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:09.721Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:09.723Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:09.723Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:12.542Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:12.544Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:12.544Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:13.962Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:13.964Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:13.964Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:18.315Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:18.316Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:18.317Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:19.272Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:19.274Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:19.274Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:22.807Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:22.809Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:22.809Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:32.338Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:32.340Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:32.340Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:34.899Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:34.901Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:34.902Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:28:41.221Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:28:41.223Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:28:41.224Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:30:12.049Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:30:12.051Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:30:12.051Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:30:14.006Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:30:14.008Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:30:14.008Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:30:30.596Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:30:30.597Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:30:30.598Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:30:47.586Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:30:47.588Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:30:47.589Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:30:51.804Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:30:51.805Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:30:51.806Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:30:55.678Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:30:55.680Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:30:55.680Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:31:00.152Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:31:00.154Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:31:00.155Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:31:10.763Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:31:10.764Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:31:10.765Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:31:18.736Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:31:18.738Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:31:18.738Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:31:29.238Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:31:29.239Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:31:29.240Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:31:40.043Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:31:40.045Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:31:40.045Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:32:02.848Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:32:02.850Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:32:02.851Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:32:04.132Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:32:04.134Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:32:04.134Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:32:48.432Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:32:48.434Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:32:48.435Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:32:49.661Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:32:49.662Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:32:49.663Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:34:01.018Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:34:01.019Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:34:01.020Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:34:37.763Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:34:37.765Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:34:37.765Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:37:27.019Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:37:27.021Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:37:27.022Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:37:45.141Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:37:45.143Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:37:45.143Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:38:23.848Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:38:23.850Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:38:23.850Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:38:32.191Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:38:32.193Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:38:32.193Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:38:39.359Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:38:39.360Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:38:39.361Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:39:29.303Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:39:29.305Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:39:29.305Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:39:35.711Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:39:35.713Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:39:35.713Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:39:43.017Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:39:43.019Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:39:43.019Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:39:45.915Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:39:45.917Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:39:45.917Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:39:50.160Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:39:50.162Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:39:50.162Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:39:53.835Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:39:53.837Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:39:53.838Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:40:11.500Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:40:11.501Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:40:11.502Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:40:15.118Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:40:15.120Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:40:15.120Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:40:23.548Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:40:23.550Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:40:23.551Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:40:37.054Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:40:37.056Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:40:37.056Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:05.871Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:05.872Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:05.873Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:09.616Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:09.618Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:09.618Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:11.246Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:11.247Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:11.248Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:13.806Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:13.808Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:13.809Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:29.827Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:29.828Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:29.829Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:31.596Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:31.598Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:31.598Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:35.309Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:35.310Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:35.311Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:38.390Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:38.392Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:38.392Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:41.428Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:41.430Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:41.431Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:45.977Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:45.979Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:45.979Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:47.434Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:47.436Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:47.436Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:49.567Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:49.569Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:49.569Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:41:54.269Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:41:54.271Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:41:54.271Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:26.089Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:26.090Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:26.091Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:27.851Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:27.853Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:27.853Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:41.904Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:41.906Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:41.906Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:45.399Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:45.401Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:45.401Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:49.714Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:49.715Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:49.716Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:52.097Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:52.099Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:52.099Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:56.851Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:56.853Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:56.854Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:42:59.634Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:42:59.635Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:42:59.636Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:43:23.846Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:43:23.847Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:43:23.848Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:43:25.098Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:43:25.100Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:43:25.100Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:43:26.252Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:43:26.254Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:43:26.255Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:43:32.598Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:43:32.600Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:43:32.601Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:43:36.924Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:43:36.925Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:43:36.927Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:08.773Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:08.775Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:08.776Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:13.244Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:13.246Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:13.246Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:25.889Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:25.891Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:25.892Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:29.764Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:29.766Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:29.767Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:41.272Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:41.274Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:41.274Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:42.486Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:42.488Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:42.489Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:45.464Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:45.466Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:45.466Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:45:50.411Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:45:50.413Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:45:50.413Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:47:28.919Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:47:28.921Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:47:28.921Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:47:36.393Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:47:36.395Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:47:36.395Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:47:45.982Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:47:45.984Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:47:45.984Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:48:37.467Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:48:37.468Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:48:37.469Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:49:33.290Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:49:33.292Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:49:33.293Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:49:44.753Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:49:44.755Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:49:44.755Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:49:54.329Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:49:54.332Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:49:54.333Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:50:04.613Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:50:04.614Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:50:04.615Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:50:23.963Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:50:23.965Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:50:23.965Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:16.684Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:16.686Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:16.687Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:26.017Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:26.019Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:26.020Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:49.451Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:49.453Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:49.453Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:52.736Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:52.738Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:52.738Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:53.890Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:53.892Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:53.893Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:56.205Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:56.206Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:56.207Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:58.355Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:58.356Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:58.357Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:51:59.751Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:51:59.754Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:51:59.754Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:52:10.214Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:52:10.216Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:52:10.216Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:53:43.476Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:53:43.479Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:53:43.479Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:00.636Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:00.637Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:00.638Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:06.177Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:06.178Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:06.179Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:11.473Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:11.475Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:11.475Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:22.410Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:22.413Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:22.413Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:23.897Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:23.899Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:23.899Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:26.600Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:26.601Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:26.602Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:30.002Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:30.004Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:30.005Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:54:34.490Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:54:34.492Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:54:34.492Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:43.085Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:43.087Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:43.088Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:44.450Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:44.452Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:44.452Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:46.169Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:46.170Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:46.171Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:48.920Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:48.921Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:48.922Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:50.940Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:50.942Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:50.942Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:54.121Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:54.122Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:54.123Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:56.434Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:56.436Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:56.436Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:57:58.755Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:57:58.757Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:57:58.758Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:00.640Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:00.642Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:00.642Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:01.732Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:01.733Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:01.734Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:09.216Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:09.218Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:09.219Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:12.459Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:12.460Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:12.461Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:14.400Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:14.401Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:14.402Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:19.027Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:19.028Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:19.029Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T11:58:27.681Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T11:58:27.683Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T11:58:27.683Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:02:25.270Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:02:25.272Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:02:25.272Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:02:31.172Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:02:31.174Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:02:31.174Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:02:33.722Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:02:33.724Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:02:33.724Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:02:35.610Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:02:35.612Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:02:35.613Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:02:39.576Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:02:39.578Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:02:39.579Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:03:49.589Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:03:49.591Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:03:49.591Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:03:54.275Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:03:54.277Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:03:54.278Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:29.063Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:29.065Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:29.065Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:32.306Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:32.308Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:32.308Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:44.051Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:44.053Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:44.054Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:45.292Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:45.294Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:45.295Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:46.345Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:46.346Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:46.347Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:53.115Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:53.117Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:53.117Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:04:57.164Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:04:57.166Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:04:57.166Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:00.870Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:00.871Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:00.872Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:05.424Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:05.426Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:05.427Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:07.798Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:07.800Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:07.801Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:09.126Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:09.128Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:09.128Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:21.107Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:21.108Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:21.109Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:22.185Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:22.187Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:22.188Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:24.856Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:24.858Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:24.859Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:05:26.152Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:05:26.155Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:05:26.156Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:06:12.812Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:06:12.813Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:06:12.814Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:06:21.913Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:06:21.915Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:06:21.915Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:06:49.044Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:06:49.045Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:06:49.046Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:06:50.643Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:06:50.645Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:06:50.645Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:06:52.670Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:06:52.672Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:06:52.672Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:06:56.648Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:06:56.650Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:06:56.650Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:07:08.439Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:07:08.442Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:07:08.442Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:07:12.523Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:07:12.525Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:07:12.525Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:07:16.021Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:07:16.023Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:07:16.023Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:02.330Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:02.331Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:02.332Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:10.191Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:10.193Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:10.194Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:17.737Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:17.739Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:17.739Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:33.880Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:33.881Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:33.882Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:38.415Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:38.417Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:38.417Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:39.828Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:39.829Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:39.830Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:43.849Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:43.850Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:43.851Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:53.114Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:53.115Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:53.115Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:56.629Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:56.631Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:56.631Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:08:58.269Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:08:58.271Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:08:58.272Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:09:03.008Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:09:03.009Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:09:03.010Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:16.113Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:16.116Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:16.116Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:17.979Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:17.981Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:17.981Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:24.225Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:24.226Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:24.227Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:28.078Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:28.080Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:28.081Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:31.970Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:31.972Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:31.973Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:33.476Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:33.477Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:33.478Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:10:38.483Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:10:38.485Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:10:38.485Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:11:00.324Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:11:00.326Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:11:00.326Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:11:03.212Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:11:03.213Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:11:03.214Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:11:05.866Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:11:05.867Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:11:05.868Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:11:07.272Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:11:07.273Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:11:07.274Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:11:09.735Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:11:09.737Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:11:09.738Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:11:14.198Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:11:14.199Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:11:14.200Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:28:49.095Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:28:49.097Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:28:49.097Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:28:56.460Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:28:56.462Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:28:56.463Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:29:00.645Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:29:00.647Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:29:00.647Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:29:16.827Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:29:16.829Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:29:16.829Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:29:44.280Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:29:44.282Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:29:44.282Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:29:46.699Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:29:46.703Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:29:46.704Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:29:53.442Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:29:53.443Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:29:53.444Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:12.290Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:12.292Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:12.292Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:15.804Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:15.806Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:15.807Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:16.976Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:16.978Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:16.978Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:22.455Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:22.457Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:22.458Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:35.598Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:35.600Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:35.601Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:38.986Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:38.988Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:38.988Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:31:41.993Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:31:41.994Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:31:41.995Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:33:34.336Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:33:34.338Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:33:34.338Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:30.368Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:30.370Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:30.370Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:31.436Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:31.437Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:31.438Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:32.625Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:32.626Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:32.627Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:35.868Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:35.870Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:35.870Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:37.725Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:37.727Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:37.728Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:38.818Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:38.820Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:38.820Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:40.374Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:40.376Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:40.376Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:43.067Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:43.069Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:43.070Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:46.067Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:46.069Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:46.070Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:58.392Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:58.394Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:58.395Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:35:59.524Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:35:59.525Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:35:59.526Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:09.061Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:09.063Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:09.063Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:10.526Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:10.527Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:10.528Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:13.521Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:13.523Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:13.524Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:14.987Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:14.989Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:14.990Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:16.129Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:16.131Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:16.131Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:18.624Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:18.625Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:18.626Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:36:55.675Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:36:55.677Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:36:55.677Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:37:23.996Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:37:23.997Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:37:23.998Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:37:51.557Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:37:51.559Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:37:51.560Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:37:53.925Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:37:53.926Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:37:53.927Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:37:57.558Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:37:57.559Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:37:57.560Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:38:01.162Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:38:01.164Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:38:01.164Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:38:24.188Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:38:24.190Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:38:24.190Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:38:32.252Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:38:32.253Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:38:32.254Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:38:38.111Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:38:38.113Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:38:38.113Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:39:03.192Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:39:03.194Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:39:03.195Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:39:52.275Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:39:52.277Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:39:52.278Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:39:56.890Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:39:56.892Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:39:56.892Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:00.810Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:00.812Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:00.812Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:01.968Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:01.969Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:01.970Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:12.769Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:12.771Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:12.771Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:17.281Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:17.283Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:17.283Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:30.847Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:30.849Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:30.849Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:36.445Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:36.447Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:36.447Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:40:48.103Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:40:48.105Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:40:48.105Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:41:46.051Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:41:46.053Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:41:46.053Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:41:48.357Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:41:48.359Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:41:48.360Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:42:07.097Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:42:07.098Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:42:07.099Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:42:13.425Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:42:13.426Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:42:13.427Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:44:08.396Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:44:08.398Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:44:08.398Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:52:50.861Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:52:50.863Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:52:50.863Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:52:52.606Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:52:52.609Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:52:52.609Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:53:19.081Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:53:19.083Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:53:19.084Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T12:53:30.311Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T12:53:30.313Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T12:53:30.313Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T13:37:07.614Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T13:37:07.616Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T13:37:07.616Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T13:37:10.265Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T13:37:10.267Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T13:37:10.268Z"}
+{"level":"info","message":"Serveur démarré sur le port 3000","timestamp":"2025-10-26T13:37:19.861Z"}
+{"level":"warn","message":"Attention : mémoire presque pleine !","timestamp":"2025-10-26T13:37:19.863Z"}
+{"level":"error","message":"Erreur critique !","timestamp":"2025-10-26T13:37:19.863Z"}

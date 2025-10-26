@@ -13,7 +13,7 @@ async function createCoupon(req, res, next){
         const {code, type, value, minAmount, maxDiscount, expiresAt, isActive, usageLimit} = req.body;
 
         if(!code || !type || !value || !minAmount || !maxDiscount|| !expiresAt ){
-            throw new AppError("code, type, value, minAmount, maxDiscount, and expiresAt are reequired", 400);
+            throw new AppError("code, type, value, minAmount, maxDiscount, and expiresAt are required", 400);
         }
 
         // Vérifie que le type est valide
