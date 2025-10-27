@@ -62,4 +62,10 @@ Yup.addMethod(Yup.string, 'trimField', function(fieldName) {
   );
 });
 
+
+// Date validation methods
+Yup.addMethod(Yup.date, 'requiredField', function(fieldName) {
+  return this.required(`${fieldName} is required`);
+});
+
 export { Yup } ;

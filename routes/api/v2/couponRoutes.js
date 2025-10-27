@@ -2,7 +2,8 @@ import express from "express";
 import { authenticate, authorize } from "../../../middlewares/auth.js";
 import * as couponController from "../../../controllers/couponController.js";
 import cache from "../../../middlewares/redisCache.js";
-
+import { validate } from '../../../middlewares/validation/validate.js';
+import {createCouponSchema, updateCouponSchema} from "../../../middlewares/validation/schemas/couponSchemas.js"
 
 const couponRoutes = express.Router();
 
@@ -59,7 +60,7 @@ const couponRoutes = express.Router();
  *       401:
  *         description: Unauthorized
  */
-couponRoutes.post("/", authenticate, authorize(["admin", "seller"]), couponController.createCoupon);
+couponRoutes.post("/", authenticate, authorize(["admin", "seller"]), validate(createCouponSchema), couponController.createCoupon);
 
 /**
  * @swagger
@@ -75,7 +76,12 @@ couponRoutes.post("/", authenticate, authorize(["admin", "seller"]), couponContr
  *       401:
  *         description: Unauthorized
  */
-couponRoutes.get("/seller", cache('couponsSeller', 600), authenticate, couponController.getCouponsSeller);
+if (process.env.NODE_ENV !== "test") {
+    couponRoutes.get("/seller", authenticate, cache('couponsSeller', 600), couponController.getCouponsSeller);
+} else {
+    couponRoutes.get("/seller", authenticate, couponController.getCouponsSeller);
+}
+
 
 /**
  * @swagger
@@ -91,7 +97,7 @@ couponRoutes.get("/seller", cache('couponsSeller', 600), authenticate, couponCon
  *       401:
  *         description: Unauthorized
  */
-couponRoutes.get("/", cache('coupons', 600), authenticate, authorize(["admin"]), couponController.getAllCoupons);
+couponRoutes.get("/", authenticate, cache('coupons', 600), authorize(["admin"]), couponController.getAllCoupons);
 
 /**
  * @swagger
@@ -113,7 +119,7 @@ couponRoutes.get("/", cache('coupons', 600), authenticate, authorize(["admin"]),
  *       404:
  *         description: Coupon not found
  */
-couponRoutes.get("/:id", cache('coupon', 600), authenticate, couponController.getCouponById);
+couponRoutes.get("/:id", authenticate, cache('coupon', 600), couponController.getCouponById);
 
 /**
  * @swagger
@@ -163,6 +169,6 @@ couponRoutes.delete("/:id", authenticate, authorize(["admin", "seller"]), coupon
  *       404:
  *         description: Coupon not found
  */
-couponRoutes.put("/:id", authenticate, authorize(["admin", "seller"]), couponController.updateCoupon);
+couponRoutes.put("/:id", authenticate, authorize(["admin", "seller"]), validate(updateCouponSchema), couponController.updateCoupon);
 
 export default couponRoutes;

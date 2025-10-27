@@ -12,6 +12,7 @@ import Review from "./Review.js";
 import ProductImage from "./ProductImage.js";
 import Notification from './Notification.js';
 import UserNotification from './UserNotification.js';
+import UserCoupon from './UserCoupon.js';
 
 
 export {
@@ -28,5 +29,6 @@ export {
     Coupon,
     Review,
     Notification,
-    UserNotification
+    UserNotification,
+    UserCoupon
 };

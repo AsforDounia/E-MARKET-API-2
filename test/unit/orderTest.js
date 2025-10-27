@@ -1,33 +1,3 @@
-// import { expect } from Chai;
-// import Sinon from "sinon";
-// import { createOrder, getOrders, getOrderById, updateOrderStatus, cancelOrder} from "../../controllers/orderController";
-// import Order from "../../models/Order";
-
-// describe("Order Controller", () => {
-//     let req, res, next;
-
-//     beforeEach(()=>{
-//         req = {
-//             user: { id: "user123" },
-//             body: {},
-//             params: {},
-//         };
-//         res = {
-//             status: sinon.stub().returnsThis(),
-//             json: sinon.stub(),
-//         };
-//         next = sinon.stub();
-//     });
-
-//     afterEach(() => {
-//         sinon.restore();
-//     });
-
-//     describe("getOrders", () =>{
-
-//     })
-// })
-
 import { expect } from "chai";
 import sinon from "sinon";
 import mongoose from "mongoose";
@@ -47,13 +17,15 @@ import {
   Coupon,
 } from "../../models/Index.js";
 import { AppError } from "../../middlewares/errorHandler.js";
+import notificationService from "../../services/notificationService.js";
+import cacheInvalidation from "../../services/cacheInvalidation.js";
 
 describe("Order Controller", () => {
   let req, res, next;
 
   beforeEach(() => {
     req = {
-      user: { id: "user123", role: "user" },
+      user: { id: new mongoose.Types.ObjectId().toString(), role: "user" },
       body: {},
       params: {},
     };
@@ -89,7 +61,10 @@ describe("Order Controller", () => {
     });
 
     it("should create an order successfully", async () => {
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
       const productMock = {
         _id: "prod123",
         title: "Test Product",
@@ -110,7 +85,7 @@ describe("Order Controller", () => {
       const orderMock = [
         {
           _id: "order123",
-          userId: "user123",
+          userId: new mongoose.Types.ObjectId().toString(),
           subtotal: 200,
           discount: 0,
           total: 200,
@@ -149,7 +124,10 @@ describe("Order Controller", () => {
     });
 
     it("should return an error if cart is empty", async () => {
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
 
       sinon.stub(Cart, "findOne").resolves(cartMock);
       const populateStub = sinon.stub().resolves([]);
@@ -163,7 +141,10 @@ describe("Order Controller", () => {
     });
 
     it("should return an error if product stock is insufficient", async () => {
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
       const productMock = {
         _id: "prod123",
         title: "Test Product",
@@ -190,7 +171,10 @@ describe("Order Controller", () => {
     });
 
     it("should return an error if product is deleted", async () => {
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
       const productMock = {
         _id: "prod123",
         title: "Deleted Product",
@@ -220,7 +204,10 @@ describe("Order Controller", () => {
     it("should apply a percentage coupon successfully", async () => {
       req.body.couponCode = "SAVE20";
 
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
       const productMock = {
         _id: "prod123",
         title: "Test Product",
@@ -247,7 +234,7 @@ describe("Order Controller", () => {
       const orderMock = [
         {
           _id: "order123",
-          userId: "user123",
+          userId: new mongoose.Types.ObjectId().toString(),
           subtotal: 200,
           discount: 40,
           total: 160,
@@ -273,7 +260,10 @@ describe("Order Controller", () => {
     it("should apply fixed amount coupon correctly", async () => {
       req.body.couponCode = "FIXED50";
 
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
       const productMock = {
         _id: "prod123",
         title: "Test Product",
@@ -300,7 +290,7 @@ describe("Order Controller", () => {
       const orderMock = [
         {
           _id: "order123",
-          userId: "user123",
+          userId: new mongoose.Types.ObjectId().toString(),
           subtotal: 200,
           discount: 50,
           total: 150,
@@ -378,9 +368,13 @@ describe("Order Controller", () => {
     });
 
     it("should return an error if coupon has already been used", async () => {
+      const userId = new mongoose.Types.ObjectId();
       req.body.couponCode = "USED";
 
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId
+      };
       const productMock = {
         _id: "prod123",
         price: 100,
@@ -391,13 +385,18 @@ describe("Order Controller", () => {
       const couponMock = {
         code: "USED",
         isActive: true,
-        usedBy: ["user123"],
+        usedBy: [userId.toString()],
       };
 
       sinon.stub(Cart, "findOne").resolves(cartMock);
       const populateStub = sinon.stub().resolves(cartItemsMock);
       sinon.stub(CartItem, "find").returns({ populate: populateStub });
       sinon.stub(Coupon, "findOne").resolves(couponMock);
+
+      sinon.stub(Order, "create").resolves({});
+      sinon.stub(OrderItem, "create").resolves([]);
+      sinon.stub(Product, "updateOne").resolves({});
+      sinon.stub(CartItem, "deleteMany").resolves({});
 
       await createOrder(req, res, next);
 
@@ -409,7 +408,10 @@ describe("Order Controller", () => {
     it("should return an error if minimum coupon amount is not met", async () => {
       req.body.couponCode = "SAVE50";
 
-      const cartMock = { _id: "cart123", userId: "user123" };
+      const cartMock = {
+        _id: "cart123",
+        userId: new mongoose.Types.ObjectId().toString(),
+      };
       const productMock = {
         _id: "prod123",
         price: 50,
@@ -708,42 +710,60 @@ describe("Order Controller", () => {
 
     it("should cancel order successfully", async () => {
       req.params.id = "507f1f77bcf86cd799439011";
-      req.user.id = "user123";
+      req.user.id = new mongoose.Types.ObjectId().toString();
       req.user.role = "user";
 
       const orderMock = {
         _id: req.params.id,
-        userId: "user123",
+        userId: req.user.id,
         status: "pending",
         save: sinon.stub().resolves(),
       };
       const orderItemsMock = [{ productId: "prod123", quantity: 2 }];
 
+      // Simule la validation d'ID correcte
       sinon.stub(mongoose.Types.ObjectId, "isValid").returns(true);
-      sinon
-        .stub(Order, "findOne")
-        .returns({ session: () => Promise.resolve(orderMock) });
-      sinon
-        .stub(OrderItem, "find")
-        .returns({ session: () => Promise.resolve(orderItemsMock) });
+
+      // Simule les sessions mongoose
+      // const sessionMock = {
+      //   startTransaction: sinon.stub(),
+      //   commitTransaction: sinon.stub(),
+      //   abortTransaction: sinon.stub(),
+      //   endSession: sinon.stub(),
+      // };
+      // sinon.stub(mongoose, "startSession").resolves(sessionMock);
+
+      // Simule la requête .findOne(...).session(...)
+      sinon.stub(Order, "findOne").returns({
+        session: () => Promise.resolve(orderMock),
+      });
+
+      // Simule la requête .find(...).session(...)
+      sinon.stub(OrderItem, "find").returns({
+        session: () => Promise.resolve(orderItemsMock),
+      });
+
       const productUpdateStub = sinon.stub(Product, "updateOne").resolves({});
+      sinon.stub(notificationService, "emitOrderUpdated").returns();
+      sinon.stub(cacheInvalidation, "invalidateUserOrders").resolves();
 
       await cancelOrder(req, res, next);
 
+      console.log("888888888888888888888888888", orderMock.status);
       expect(orderMock.status).to.equal("cancelled");
+      expect(productUpdateStub.callCount).to.equal(1);
       expect(sessionMock.commitTransaction.calledOnce).to.be.true;
       expect(res.status.calledWith(200)).to.be.true;
       expect(res.json.firstCall.args[0].status).to.equal("success");
-      expect(productUpdateStub.callCount).to.equal(1);
     });
 
     it("should restore product stock when cancelling order", async () => {
       req.params.id = "507f1f77bcf86cd799439011";
-      req.user.id = "user123";
+      req.user.id = new mongoose.Types.ObjectId().toString();
       req.user.role = "user";
 
       const orderMock = {
-        userId: "user123",
+        userId: req.user.id,
         status: "pending",
         save: sinon.stub().resolves(),
       };
@@ -753,16 +773,27 @@ describe("Order Controller", () => {
       ];
 
       sinon.stub(mongoose.Types.ObjectId, "isValid").returns(true);
-      sinon
-        .stub(Order, "findOne")
-        .returns({ session: () => Promise.resolve(orderMock) });
-      sinon
-        .stub(OrderItem, "find")
-        .returns({ session: () => Promise.resolve(orderItemsMock) });
+      // const sessionMock = {
+      //   startTransaction: sinon.stub(),
+      //   commitTransaction: sinon.stub(),
+      //   abortTransaction: sinon.stub(),
+      //   endSession: sinon.stub(),
+      // };
+      // sinon.stub(mongoose, "startSession").resolves(sessionMock);
+
+      sinon.stub(Order, "findOne").returns({
+        session: () => Promise.resolve(orderMock),
+      });
+      sinon.stub(OrderItem, "find").returns({
+        session: () => Promise.resolve(orderItemsMock),
+      });
       const productUpdateStub = sinon.stub(Product, "updateOne").resolves({});
+      sinon.stub(notificationService, "emitOrderUpdated").returns();
+      sinon.stub(cacheInvalidation, "invalidateUserOrders").resolves();
 
       await cancelOrder(req, res, next);
 
+      console.log("6666666666666666666666666666", productUpdateStub.callCount);
       expect(productUpdateStub.callCount).to.equal(2);
       expect(productUpdateStub.firstCall.args[1]).to.deep.include({
         $inc: { stock: 2 },
@@ -786,8 +817,8 @@ describe("Order Controller", () => {
 
     it("should end session after completion", async () => {
       req.params.id = "507f1f77bcf86cd799439011";
-      req.user.id = "user123";
-      req.user.role = "user";
+      (req.user.id = new mongoose.Types.ObjectId().toString()),
+        (req.user.role = "user");
 
       const orderMock = {
         userId: "user123",
@@ -865,7 +896,7 @@ describe("Order Controller", () => {
       req.user.role = "admin";
 
       const orderMock = {
-        userId: "user123",
+        userId: new mongoose.Types.ObjectId().toString(),
         status: "pending",
         save: sinon.stub().resolves(),
       };
