@@ -37,7 +37,7 @@ async function getCategoryById(req, res, next) {
     }
 }
 
-async function createCategory(req, res) {
+async function createCategory(req, res, next) {
     try {
         const { name, description } = req.body;
 

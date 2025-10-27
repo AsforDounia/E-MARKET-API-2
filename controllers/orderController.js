@@ -11,7 +11,7 @@ const createOrder = async (req, res, next) => {
     let userId, subtotal, discount, total, orderId;
     try {
         await session.withTransaction(async () => {
-            const { couponCode } = req.body;
+            const { couponCodes } = req.body;
             userId = req.user.id;
 
             const cart = await Cart.findOne({ userId });
@@ -30,44 +30,60 @@ const createOrder = async (req, res, next) => {
             }
 
             discount = 0;
-            let couponId = null;
-            if (couponCode) {
-                const coupon = await Coupon.findOne({ code: couponCode, isActive: true }).session(session);
-                if (!coupon) throw new AppError('Invalid coupon', 400);
-                if (coupon.expiresAt && coupon.expiresAt < new Date()) throw new AppError('Coupon expired', 400);
+            let couponIds = [];
+            let appliedCoupons = [];
+            
+            if (couponCodes && Array.isArray(couponCodes) && couponCodes.length > 0) {
+                let currentSubtotal = subtotal;
                 
-                // Check if user has already used this coupon
-                const existingUsage = await UserCoupon.findOne({ user: userId, coupon: coupon._id }).session(session);
-                if (existingUsage) throw new AppError('Coupon already used', 400);
-                
-                // Check usage limit
-                if (coupon.usageLimit) {
-                    const usageCount = await UserCoupon.countDocuments({ coupon: coupon._id }).session(session);
-                    if (usageCount >= coupon.usageLimit) throw new AppError('Coupon usage limit reached', 400);
-                }
-                
-                if (subtotal < coupon.minAmount) throw new AppError(`Minimum amount ${coupon.minAmount} required`, 400);
+                for (const couponCode of couponCodes) {
+                    const coupon = await Coupon.findOne({ code: couponCode, isActive: true }).session(session);
+                    if (!coupon) throw new AppError(`Invalid coupon: ${couponCode}`, 400);
+                    if (coupon.expiresAt && coupon.expiresAt < new Date()) throw new AppError(`Coupon expired: ${couponCode}`, 400);
+                    
+                    // Check if user has already used this coupon
+                    const existingUsage = await UserCoupon.findOne({ user: userId, coupon: coupon._id }).session(session);
+                    if (existingUsage) throw new AppError(`Coupon already used: ${couponCode}`, 400);
+                    
+                    // Check usage limit
+                    if (coupon.usageLimit) {
+                        const usageCount = await UserCoupon.countDocuments({ coupon: coupon._id }).session(session);
+                        if (usageCount >= coupon.usageLimit) throw new AppError(`Coupon usage limit reached: ${couponCode}`, 400);
+                    }
+                    
+                    if (currentSubtotal < coupon.minAmount) throw new AppError(`Minimum amount ${coupon.minAmount} required for coupon: ${couponCode}`, 400);
 
-                if (coupon.type === 'percentage') {
-                    discount = (subtotal * coupon.value) / 100;
-                    if (coupon.maxDiscount) discount = Math.min(discount, coupon.maxDiscount);
-                } else {
-                    discount = Math.min(coupon.value, subtotal);
+                    let couponDiscount = 0;
+                    if (coupon.type === 'percentage') {
+                        couponDiscount = (currentSubtotal * coupon.value) / 100;
+                        if (coupon.maxDiscount) couponDiscount = Math.min(couponDiscount, coupon.maxDiscount);
+                    } else {
+                        couponDiscount = Math.min(coupon.value, currentSubtotal);
+                    }
+                    
+                    discount += couponDiscount;
+                    currentSubtotal -= couponDiscount;
+                    couponIds.push(coupon._id);
+                    
+                    appliedCoupons.push({
+                        code: coupon.code,
+                        type: coupon.type,
+                        value: coupon.value,
+                        discount: couponDiscount
+                    });
+                    
+                    // Record coupon usage
+                    await UserCoupon.create([{
+                        user: userId,
+                        coupon: coupon._id
+                    }], { session });
                 }
-                couponId = coupon._id;
-                
-                // Record coupon usage
-                await UserCoupon.create([{
-                    user: userId,
-                    coupon: coupon._id
-                }], { session });
             }
 
             total = subtotal - discount;
 
             const order = await Order.create([{
                 userId,
-                couponId,
                 subtotal,
                 discount,
                 total
