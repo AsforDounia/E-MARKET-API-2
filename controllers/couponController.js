@@ -54,10 +54,16 @@ async function createCoupon(req, res, next){
 async function getCouponsSeller(req, res, next){
     try {
         if(!req.user || !["admin", "seller"].includes(req.user.role)){
-            throw new AppError("Only sellers or admins can create coupons", 403);
+            throw new AppError("Only sellers or admins can get coupons", 403);
         }
 
-        const coupons = await Coupon.find({ createdBy: req.user._id });
+        if (role.req.user === "admin") {
+            userId = req.query.userId;
+
+        }else {
+                userId = req.user._id;
+        }
+        const coupons = await Coupon.find({ createdBy: userId });
 
         if(coupons.length === 0 ){
             res.status(200).json({

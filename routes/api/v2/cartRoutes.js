@@ -4,6 +4,7 @@ import { authenticate } from '../../../middlewares/auth.js';
 import { validate } from '../../../middlewares/validation/validate.js';
 import {addToCartSchema, updateCartItemSchema} from "../../../middlewares/validation/schemas/cartSchemas.js";
 import cache from '../../../middlewares/redisCache.js';
+import {createLimiter} from "../../../middlewares/security.js";
 
 const cartRoutes = express.Router();
 
@@ -52,7 +53,7 @@ const cartRoutes = express.Router();
  *       401:
  *         description: Unauthorized
  */
-cartRoutes.post('/add', authenticate, validate(addToCartSchema), cartController.addToCart);
+cartRoutes.post('/add', createLimiter(15, 100), authenticate, validate(addToCartSchema), cartController.addToCart);
 
 /**
  * @swagger
@@ -68,7 +69,7 @@ cartRoutes.post('/add', authenticate, validate(addToCartSchema), cartController.
  *       401:
  *         description: Unauthorized
  */
-cartRoutes.get('/',authenticate ,cache('cart', 600), cartController.getCart);
+cartRoutes.get('/', createLimiter(15, 100), authenticate ,cache('cart', 600), cartController.getCart);
 
 /**
  * @swagger
@@ -102,7 +103,7 @@ cartRoutes.get('/',authenticate ,cache('cart', 600), cartController.getCart);
  *       401:
  *         description: Unauthorized
  */
-cartRoutes.put('/item/:productId', authenticate, validate(updateCartItemSchema), cartController.updateCartItem);
+cartRoutes.put('/item/:productId', createLimiter(15, 100), authenticate, validate(updateCartItemSchema), cartController.updateCartItem);
 
 /**
  * @swagger
@@ -124,7 +125,7 @@ cartRoutes.put('/item/:productId', authenticate, validate(updateCartItemSchema),
  *       401:
  *         description: Unauthorized
  */
-cartRoutes.delete('/item/:productId', authenticate, cartController.removeFromCart);
+cartRoutes.delete('/item/:productId', createLimiter(15, 100), authenticate, cartController.removeFromCart);
 
 /**
  * @swagger
@@ -140,6 +141,6 @@ cartRoutes.delete('/item/:productId', authenticate, cartController.removeFromCar
  *       401:
  *         description: Unauthorized
  */
-cartRoutes.delete('/', authenticate, cartController.clearCart);
+cartRoutes.delete('/', createLimiter(15, 100), authenticate, cartController.clearCart);
 
 export default cartRoutes;
