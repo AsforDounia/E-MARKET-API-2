@@ -61,9 +61,9 @@ const userRoutes = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRoutes.get('/', cache('users', 600), authenticate, authorize(["admin"]), usertController.getAllUsers);
+userRoutes.get('/', createLimiter(15, 100), cache('users', 600), authenticate, authorize(["admin"]), usertController.getAllUsers);
 
-userRoutes.get("/profile", cache('userProfile', 600), authenticate, usertController.getUserProfile);
+userRoutes.get("/profile", createLimiter(15, 100), cache('userProfile', 600), authenticate, usertController.getUserProfile);
 /**
  * @swagger
  * /users/{id}:
@@ -86,7 +86,7 @@ userRoutes.get("/profile", cache('userProfile', 600), authenticate, usertControl
  *       404:
  *         description: User not found
  */
-userRoutes.get('/:id', cache('user', 600), authenticate, authorize(["admin"]),usertController.getUserById);
+userRoutes.get('/:id', createLimiter(15, 100), cache('user', 600), authenticate, authorize(["admin"]),usertController.getUserById);
 
 /**
  * @swagger
@@ -107,7 +107,7 @@ userRoutes.get('/:id', cache('user', 600), authenticate, authorize(["admin"]),us
  *         description: Invalid input
  */
 
-userRoutes.post('/',validate(createUserSchema), authenticate, authorize("admin"), usertController.createUser);
+userRoutes.post('/', createLimiter(15, 100),validate(createUserSchema), authenticate, authorize("admin"), usertController.createUser);
 
 
 /**
@@ -128,11 +128,11 @@ userRoutes.post('/',validate(createUserSchema), authenticate, authorize("admin")
  *       404:
  *         description: User not found
  */
-userRoutes.delete('/:id', authenticate, authorize(["admin"]), usertController.deleteUser);
+userRoutes.delete('/:id', createLimiter(15, 100), authenticate, authorize(["admin"]), usertController.deleteUser);
 
-userRoutes.put("/profile", authenticate, usertController.updateProfile);
+userRoutes.put("/profile", createLimiter(15, 100), authenticate, usertController.updateProfile);
 
 
-userRoutes.patch('/:id/role',authenticate, authorize("admin"), usertController.updateUserRole);
+userRoutes.patch('/:id/role', createLimiter(15, 100),authenticate, authorize("admin"), usertController.updateUserRole);
 
 export default userRoutes;

@@ -2,6 +2,7 @@ import express from "express";
 import * as notificationController from '../../../controllers/notificationController.js';
 import { authenticate } from '../../../middlewares/auth.js';
 import cache from "../../../middlewares/redisCache.js";
+import {createLimiter} from "../../../middlewares/security.js";
 
 const notificationRoutes = express.Router();
 
@@ -50,7 +51,7 @@ const notificationRoutes = express.Router();
  *       401:
  *         description: Unauthorized
  */
-notificationRoutes.get('/', cache('notifications', 60), authenticate, notificationController.getNotifications);
+notificationRoutes.get('/', createLimiter(15, 100), cache('notifications', 60), authenticate, notificationController.getNotifications);
 
 /**
  * @swagger
@@ -72,6 +73,6 @@ notificationRoutes.get('/', cache('notifications', 60), authenticate, notificati
  *       404:
  *         description: Notification not found
  */
-notificationRoutes.patch('/:id/read', authenticate, notificationController.markAsRead);
+notificationRoutes.patch('/:id/read', createLimiter(15, 100), authenticate, notificationController.markAsRead);
 
 export default notificationRoutes;

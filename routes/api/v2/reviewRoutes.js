@@ -4,6 +4,7 @@ import { authenticate } from '../../../middlewares/auth.js';
 import { validate } from "../../../middlewares/validation/validate.js";
 import { createReviewSchema, updateReviewSchema } from "../../../middlewares/validation/schemas/reviewSchemas.js";
 import cache from "../../../middlewares/redisCache.js";
+import {createLimiter} from "../../../middlewares/security.js";
 
 const reviewRoutes = express.Router();
 
@@ -68,7 +69,7 @@ const reviewRoutes = express.Router();
  *       401:
  *         description: Unauthorized
  */
-reviewRoutes.post('/', validate(createReviewSchema), authenticate, reviewController.addReview);
+reviewRoutes.post('/', createLimiter(15, 100), authenticate, validate(createReviewSchema), reviewController.addReview);
 
 /**
  * @swagger
@@ -92,7 +93,7 @@ reviewRoutes.post('/', validate(createReviewSchema), authenticate, reviewControl
  *               items:
  *                 $ref: '#/components/schemas/Review'
  */
-reviewRoutes.get('/:productId', cache('productReviews', 600), reviewController.getProductReviews);
+reviewRoutes.get('/:productId', createLimiter(15, 100), cache('productReviews', 600), reviewController.getProductReviews);
 
 /**
  * @swagger
@@ -127,7 +128,7 @@ reviewRoutes.get('/:productId', cache('productReviews', 600), reviewController.g
  *       404:
  *         description: Review not found
  */
-reviewRoutes.put('/:reviewId', validate(updateReviewSchema), authenticate, reviewController.updateReview);
+reviewRoutes.put('/:reviewId', createLimiter(15, 100), authenticate, validate(updateReviewSchema), reviewController.updateReview);
 
 /**
  * @swagger
@@ -149,6 +150,6 @@ reviewRoutes.put('/:reviewId', validate(updateReviewSchema), authenticate, revie
  *       404:
  *         description: Review not found
  */
-reviewRoutes.delete('/:reviewId', authenticate, reviewController.deleteReview);
+reviewRoutes.delete('/:reviewId', createLimiter(15, 100), authenticate, createLimiter(15, 100), reviewController.deleteReview);
 
 export default reviewRoutes;

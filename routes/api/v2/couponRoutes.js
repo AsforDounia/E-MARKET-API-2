@@ -3,7 +3,8 @@ import { authenticate, authorize } from "../../../middlewares/auth.js";
 import * as couponController from "../../../controllers/couponController.js";
 import cache from "../../../middlewares/redisCache.js";
 import { validate } from '../../../middlewares/validation/validate.js';
-import {createCouponSchema, updateCouponSchema} from "../../../middlewares/validation/schemas/couponSchemas.js"
+import {createCouponSchema, updateCouponSchema} from "../../../middlewares/validation/schemas/couponSchemas.js";
+import {createLimiter} from "../../../middlewares/security.js";
 
 const couponRoutes = express.Router();
 
@@ -60,7 +61,7 @@ const couponRoutes = express.Router();
  *       401:
  *         description: Unauthorized
  */
-couponRoutes.post("/", authenticate, authorize(["admin", "seller"]), validate(createCouponSchema), couponController.createCoupon);
+couponRoutes.post("/", createLimiter(15, 100), authenticate, authorize(["admin", "seller"]), validate(createCouponSchema), couponController.createCoupon);
 
 /**
  * @swagger
@@ -77,9 +78,9 @@ couponRoutes.post("/", authenticate, authorize(["admin", "seller"]), validate(cr
  *         description: Unauthorized
  */
 if (process.env.NODE_ENV !== "test") {
-    couponRoutes.get("/seller", authenticate, cache('couponsSeller', 600), couponController.getCouponsSeller);
+    couponRoutes.get("/seller", createLimiter(15, 100), authenticate, cache('couponsSeller', 600), couponController.getCouponsSeller);
 } else {
-    couponRoutes.get("/seller", authenticate, couponController.getCouponsSeller);
+    couponRoutes.get("/seller", createLimiter(15, 100), authenticate, couponController.getCouponsSeller);
 }
 
 
@@ -97,7 +98,7 @@ if (process.env.NODE_ENV !== "test") {
  *       401:
  *         description: Unauthorized
  */
-couponRoutes.get("/", authenticate, cache('coupons', 600), authorize(["admin"]), couponController.getAllCoupons);
+couponRoutes.get("/", createLimiter(15, 100), authenticate, cache('coupons', 600), authorize(["admin"]), couponController.getAllCoupons);
 
 /**
  * @swagger
@@ -119,7 +120,7 @@ couponRoutes.get("/", authenticate, cache('coupons', 600), authorize(["admin"]),
  *       404:
  *         description: Coupon not found
  */
-couponRoutes.get("/:id", authenticate, cache('coupon', 600), couponController.getCouponById);
+couponRoutes.get("/:id", createLimiter(15, 100), authenticate, cache('coupon', 600), couponController.getCouponById);
 
 /**
  * @swagger
@@ -141,7 +142,7 @@ couponRoutes.get("/:id", authenticate, cache('coupon', 600), couponController.ge
  *       404:
  *         description: Coupon not found
  */
-couponRoutes.delete("/:id", authenticate, authorize(["admin", "seller"]), couponController.deleteCoupon);
+couponRoutes.delete("/:id", createLimiter(15, 100), authenticate, authorize(["admin", "seller"]), couponController.deleteCoupon);
 
 /**
  * @swagger
@@ -169,6 +170,6 @@ couponRoutes.delete("/:id", authenticate, authorize(["admin", "seller"]), coupon
  *       404:
  *         description: Coupon not found
  */
-couponRoutes.put("/:id", authenticate, authorize(["admin", "seller"]), validate(updateCouponSchema), couponController.updateCoupon);
+couponRoutes.put("/:id", createLimiter(15, 100), authenticate, authorize(["admin", "seller"]), validate(updateCouponSchema), couponController.updateCoupon);
 
 export default couponRoutes;
