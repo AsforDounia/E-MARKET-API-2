@@ -204,7 +204,7 @@ productRoutes.put('/:id', validate( updateProductSchema ), authenticate ,authori
  *       404:
  *         description: Product not found
  */
-productRoutes.delete('/:id', authenticate ,authorize("seller", "admin"), productController.deleteProduct);
+productRoutes.delete('/:id', authenticate ,authorize(["seller", "admin"]), productController.deleteProduct);
 
 productRoutes.patch('/:id/visibility', authenticate, authorize("seller"), productController.updateProductVisibility);
 productRoutes.patch('/:id/validate', authenticate, authorize("admin"), productController.validateProduct);

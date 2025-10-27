@@ -6,8 +6,8 @@ import cacheInvalidation from '../services/cacheInvalidation.js';
 //creer un coupon
 async function createCoupon(req, res, next){
     try {
-        if (!req.user || req.user.role !== "seller") {
-            throw new AppError("Only sellers can create coupons", 403);
+        if (!req.user || req.user.role !== "seller" && req.user.role !== "admin") {
+            throw new AppError("Only sellers or admins can create coupons", 403);
         }
 
         const {code, type, value, minAmount, maxDiscount, expiresAt, isActive, usageLimit} = req.body;
