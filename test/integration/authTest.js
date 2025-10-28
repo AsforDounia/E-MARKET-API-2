@@ -53,7 +53,7 @@ describe('Auth Integration Tests', () => {
         it('should assign user role to second user', async () => {
             // Register first user (will be admin)
             await request(app)
-                .post('//api/v2auth/register')
+                .post('/api/v2/auth/register')
                 .send({
                     fullname: 'Admin User',
                     email: 'admin@example.com',

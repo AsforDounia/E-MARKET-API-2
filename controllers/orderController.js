@@ -1,4 +1,4 @@
-import { Order, OrderItem, Cart, CartItem, Product, Coupon, UserCoupon } from '../models/Index.js';
+import { Order, OrderItem, Cart, CartItem, Product, Coupon, UserCoupon, OrderCoupon } from '../models/Index.js';
 import { AppError } from '../middlewares/errorHandler.js';
 import mongoose from 'mongoose';
 import notificationService from '../services/notificationService.js';
@@ -30,7 +30,6 @@ const createOrder = async (req, res, next) => {
             }
 
             discount = 0;
-            let couponIds = [];
             let appliedCoupons = [];
             
             if (couponCodes && Array.isArray(couponCodes) && couponCodes.length > 0) {
@@ -63,16 +62,13 @@ const createOrder = async (req, res, next) => {
                     
                     discount += couponDiscount;
                     currentSubtotal -= couponDiscount;
-                    couponIds.push(coupon._id);
                     
                     appliedCoupons.push({
-                        code: coupon.code,
-                        type: coupon.type,
-                        value: coupon.value,
-                        discount: couponDiscount
+                        couponId: coupon._id,
+                        discountAmount: couponDiscount
                     });
                     
-                    // Record coupon usage
+                    // Record coupon usage in UserCoupon
                     await UserCoupon.create([{
                         user: userId,
                         coupon: coupon._id
@@ -90,6 +86,17 @@ const createOrder = async (req, res, next) => {
             }], { session });
 
             orderId = order[0]._id;
+
+            // Create OrderCoupon records for the applied coupons
+            if (appliedCoupons.length > 0) {
+                const orderCoupons = appliedCoupons.map(coupon => ({
+                    orderId: order[0]._id,
+                    couponId: coupon.couponId,
+                    discountAmount: coupon.discountAmount
+                }));
+                
+                await OrderCoupon.insertMany(orderCoupons, { session });
+            }
 
             for (const item of cartItems) {
                 await OrderItem.create([{
@@ -141,11 +148,24 @@ const getOrders = async (req, res, next) => {
     try {
         const userId = req.user.id;
         const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+        
+        // Populate coupons for each order
+        const ordersWithCoupons = await Promise.all(
+            orders.map(async (order) => {
+                const orderCoupons = await OrderCoupon.find({ orderId: order._id })
+                    .populate('couponId', 'code type value');
+                return {
+                    ...order.toObject(),
+                    coupons: orderCoupons
+                };
+            })
+        );
+        
         res.status(200).json({
             status: "success",
             message: 'Orders retrieved successfully',
             data:{
-                orders: orders
+                orders: ordersWithCoupons
             }
         });
     } catch (error) {
@@ -172,11 +192,20 @@ const getOrderById = async (req, res, next) => {
         }
 
         const items = await OrderItem.find({ orderId: id }).populate('productId', 'title imageUrls');
+        
+        // Get coupons used in this order
+        const orderCoupons = await OrderCoupon.find({ orderId: id })
+            .populate('couponId', 'code type value');
+        
         res.status(200).json({
             status: "success",
             message: 'Order retrieved successfully',
             data:{
-                order: { ...order.toObject(), items }
+                order: { 
+                    ...order.toObject(), 
+                    items,
+                    coupons: orderCoupons
+                }
             }
         });
     } catch (error) {
@@ -262,10 +291,11 @@ const cancelOrder = async (req, res, next) => {
                 );
             }
 
-            // If coupon was used, remove the usage record
-            if (order.couponId) {
+            // Get all coupons used in this order and remove usage records
+            const orderCoupons = await OrderCoupon.find({ orderId: id }).session(session);
+            for (const orderCoupon of orderCoupons) {
                 await UserCoupon.deleteOne(
-                    { user: order.userId, coupon: order.couponId },
+                    { user: order.userId, coupon: orderCoupon.couponId },
                     { session }
                 );
             }
