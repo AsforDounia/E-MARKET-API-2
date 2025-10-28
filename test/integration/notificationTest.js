@@ -77,7 +77,7 @@ describe("Notification Integration Tests", () => {
 
     it("should get all notifications for authenticated user", async () => {
       const response = await request(app)
-        .get("/notifications")
+        .get("/api/v2/notifications")
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(200);
 
@@ -94,9 +94,14 @@ describe("Notification Integration Tests", () => {
     });
 
     it("should return empty array when user has no notifications", async () => {
+      // Nettoyer complètement toutes les notifications
+      await UserNotification.deleteMany({});
+      await Notification.deleteMany({});
+
       const response = await request(app)
-        .get("/notifications")
+        .get("/api/v2/notifications")
         .set("Authorization", `Bearer ${sellerToken}`)
+        .query({ _t: Date.now() }) // Éviter le cache
         .expect(200);
 
       expect(response.body.data).to.be.an("array");
@@ -127,7 +132,7 @@ describe("Notification Integration Tests", () => {
 
       // Tester la pagination - page 1
       const response1 = await request(app)
-        .get("/notifications?page=1&limit=10")
+        .get("/api/v2/notifications?page=1&limit=10")
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(200);
 
@@ -137,7 +142,7 @@ describe("Notification Integration Tests", () => {
 
       // Tester la pagination - page 2
       const response2 = await request(app)
-        .get("/notifications?page=2&limit=10")
+        .get("/api/v2/notifications?page=2&limit=10")
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(200);
 
@@ -145,9 +150,12 @@ describe("Notification Integration Tests", () => {
     });
 
     it("should return 401 without authentication token", async () => {
-      const response = await request(app).get("/notifications").expect(401);
+      const response = await request(app)
+        .get("/api/v2/notifications")
+        .expect(401);
 
-      expect(response.body).to.have.property("success", false);
+      expect(response.body).to.have.property("status", 401);
+      expect(response.body).to.have.property("message");
     });
   });
 
@@ -172,7 +180,7 @@ describe("Notification Integration Tests", () => {
 
     it("should mark notification as read successfully", async () => {
       const response = await request(app)
-        .patch(`/notifications/${testUserNotification._id}/read`)
+        .patch(`/api/v2/notifications/${testUserNotification._id}/read`)
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(200);
 
@@ -191,7 +199,7 @@ describe("Notification Integration Tests", () => {
       const fakeId = faker.database.mongodbObjectId();
 
       const response = await request(app)
-        .patch(`/notifications/${fakeId}/read`)
+        .patch(`/api/v2/notifications/${fakeId}/read`)
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(404);
 
@@ -200,7 +208,7 @@ describe("Notification Integration Tests", () => {
 
     it("should return 400 for invalid notification ID", async () => {
       const response = await request(app)
-        .patch("/notifications/invalid-id/read")
+        .patch(`/api/v2/notifications/invalid-id/read`)
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(400);
 
@@ -216,7 +224,7 @@ describe("Notification Integration Tests", () => {
       });
 
       const response = await request(app)
-        .patch(`/notifications/${otherUserNotif._id}/read`)
+        .patch(`/api/v2/notifications/${otherUserNotif._id}/read`)
         .set("Authorization", `Bearer ${buyerToken}`)
         .expect(404);
 
@@ -231,10 +239,11 @@ describe("Notification Integration Tests", () => {
 
     it("should return 401 without authentication token", async () => {
       const response = await request(app)
-        .patch(`/notifications/${testUserNotification._id}/read`)
+        .patch(`/api/v2/notifications/${testUserNotification._id}/read`)
         .expect(401);
 
-      expect(response.body).to.have.property("success", false);
+      expect(response.body).to.have.property("status", 401);
+      expect(response.body).to.have.property("message");
     });
   });
 
