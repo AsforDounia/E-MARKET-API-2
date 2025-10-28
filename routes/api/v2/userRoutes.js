@@ -4,6 +4,8 @@ import { validate } from '../../../middlewares/validation/validate.js';
 import { createUserSchema } from '../../../middlewares/validation/schemas/userSchema.js';
 import { authenticate, authorize } from "../../../middlewares/auth.js";
 import cache from '../../../middlewares/redisCache.js';
+import {createLimiter} from "../../../middlewares/security.js";
+
 
 const userRoutes = express.Router();
 

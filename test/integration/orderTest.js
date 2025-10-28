@@ -28,7 +28,7 @@ describe("Order Controller - Integration Tests", () => {
   let couponId;
 
   beforeEach(async function(){
-    this.timeout(10000);
+    // this.timeout(10000);
     await User.deleteMany({});
     await Product.deleteMany({});
     await Cart.deleteMany({});
@@ -44,7 +44,7 @@ describe("Order Controller - Integration Tests", () => {
       password: "Password123!",
       role: "user",
     });
-    // console.log("REGISTER RESPONSE:", userResponse.body);
+    console.log("REGISTER RESPONSE:", userResponse.body);
     authToken = userResponse.body.token;
     userId = userResponse.body.user.id;
 
@@ -155,6 +155,7 @@ describe("Order Controller - Integration Tests", () => {
           couponCode: "FIXED50",
         });
 
+      console.log("reeeeeeSSSSSSSSSSSSSSSSSSSSS", response.body);
       expect(response.status).to.equal(201);
       expect(response.body.data.order.discount).to.equal(50);
       expect(response.body.data.order.total).to.equal(150);

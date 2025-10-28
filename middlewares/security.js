@@ -10,7 +10,12 @@ const securityMiddlewares = (app) => {
   // middleware pour autoriser les requetes cross-origin
   app.use(cors());
 };
+
 const createLimiter = (min, max) => {
+  if (process.env.NODE_ENV === "test") {
+    return (req, res, next) => next();
+  }
+
   return rateLimit({
     store: new MongoStore({
       uri: process.env.MONGO_URI,
@@ -21,7 +26,6 @@ const createLimiter = (min, max) => {
     max: max,
     message: "Request limit exceeded. Please wait before trying again",
   });
-
 };
 
-export default { securityMiddlewares, createLimiter };
+export { securityMiddlewares, createLimiter };
