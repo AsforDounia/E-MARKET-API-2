@@ -11,14 +11,6 @@ describe("Cart Integration Tests", () => {
   let productId1;
   let productId2;
 
-  // Connexion à la base de données de test avant tous les tests
-  before(async () => {
-    const mongoUri = process.env.MONGO_TEST_URI || "mongodb://localhost:27017/ecommerce-test";
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(mongoUri);
-    }
-  });
-
   // Nettoyage et création des données de test avant chaque test
   beforeEach(async () => {
     // Nettoyer toutes les collections
@@ -67,11 +59,6 @@ describe("Cart Integration Tests", () => {
 
     productId1 = product1._id.toString();
     productId2 = product2._id.toString();
-  });
-
-  // Déconnexion après tous les tests
-  after(async () => {
-    await mongoose.connection.close();
   });
 
   describe("POST /api/v2/cart/add - addToCart", () => {

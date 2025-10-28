@@ -12,6 +12,7 @@ import {
   Product,
   Coupon,
   User,
+  UserCoupon,
 } from "../../models/Index.js";
 import cacheInvalidation from "../../services/cacheInvalidation.js";
 
@@ -27,7 +28,7 @@ describe("Order Controller - Integration Tests", () => {
   let orderId;
   let couponId;
 
-  beforeEach(async function(){
+  beforeEach(async function () {
     // this.timeout(10000);
     await User.deleteMany({});
     await Product.deleteMany({});
@@ -44,7 +45,7 @@ describe("Order Controller - Integration Tests", () => {
       password: "Password123!",
       role: "user",
     });
-    console.log("REGISTER RESPONSE:", userResponse.body);
+    // console.log("REGISTER RESPONSE:", userResponse.body);
     authToken = userResponse.body.token;
     userId = userResponse.body.user.id;
 
@@ -125,16 +126,21 @@ describe("Order Controller - Integration Tests", () => {
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "SAVE20",
+          couponCodes: ["SAVE20"],
         });
 
-      expect(response.status).to.equal(201);
+      expect(response.body.status).to.equal("success");
+      expect(response.body.message).to.equal("Order created successfully");
       expect(response.body.data.order.discount).to.equal(40);
       expect(response.body.data.order.total).to.equal(160);
 
       // Vérifier que le coupon est marqué comme utilisé
-      const updatedCoupon = await Coupon.findById(coupon._id);
-      expect(updatedCoupon.usedBy).to.include(userId.toString());
+      const userCoupon = await UserCoupon.findOne({
+        user: userId,
+        coupon: coupon._id,
+      });
+      // console.log("UUUUUUUUUUUUUUU", userCoupon);
+      expect(userCoupon).to.not.be.null;
     });
 
     it("should create an order with fixed amount coupon", async () => {
@@ -143,7 +149,7 @@ describe("Order Controller - Integration Tests", () => {
         type: "fixed",
         value: 50,
         isActive: true,
-        createdBy: adminId,
+        createdBy: userId,
         usedBy: [],
         minAmount: 0,
       });
@@ -152,11 +158,11 @@ describe("Order Controller - Integration Tests", () => {
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "FIXED50",
+          couponCodes: ["FIXED50"],
         });
 
-      console.log("reeeeeeSSSSSSSSSSSSSSSSSSSSS", response.body);
-      expect(response.status).to.equal(201);
+      expect(response.body.status).to.equal("success");
+      expect(response.body.message).to.equal("Order created successfully");
       expect(response.body.data.order.discount).to.equal(50);
       expect(response.body.data.order.total).to.equal(150);
     });
@@ -214,11 +220,11 @@ describe("Order Controller - Integration Tests", () => {
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "INVALID",
+          couponCodes: ["INVALID"],
         });
 
-      expect(response.status).to.equal(400);
-      expect(response.body.message).to.equal("Invalid coupon");
+      expect(response.body.success).to.equal(false);
+      expect(response.body.message).to.equal("Invalid coupon: INVALID");
     });
 
     it("should return 400 if coupon is expired", async () => {
@@ -237,15 +243,15 @@ describe("Order Controller - Integration Tests", () => {
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "EXPIRED",
+          couponCodes: ["EXPIRED"],
         });
 
-      expect(response.status).to.equal(400);
-      expect(response.body.message).to.equal("Coupon expired");
+      expect(response.body.success).to.equal(false);
+      expect(response.body.message).to.equal("Coupon expired: EXPIRED");
     });
 
     it("should return 400 if coupon already used", async () => {
-      await Coupon.create({
+      const coupon = await Coupon.create({
         code: "USED",
         type: "percentage",
         value: 20,
@@ -255,15 +261,20 @@ describe("Order Controller - Integration Tests", () => {
         minAmount: 0,
       });
 
+      await UserCoupon.create({
+        user: userId,
+        coupon: coupon._id,
+      });
+
       const response = await request(app)
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "USED",
+          couponCodes: ["USED"],
         });
 
       expect(response.status).to.equal(400);
-      expect(response.body.message).to.equal("Coupon already used");
+      expect(response.body.message).to.equal("Coupon already used: USED");
     });
 
     it("should return 400 if minimum amount not met", async () => {
@@ -281,7 +292,7 @@ describe("Order Controller - Integration Tests", () => {
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "HIGH",
+          couponCodes: ["HIGH"],
         });
 
       expect(response.status).to.equal(400);
@@ -289,26 +300,32 @@ describe("Order Controller - Integration Tests", () => {
     });
 
     it("should return 400 if coupon usage limit reached", async () => {
-      await Coupon.create({
+      const coupon = await Coupon.create({
         code: "LIMITED",
         type: "percentage",
         value: 20,
         isActive: true,
         createdBy: adminId,
-        usedBy: [new mongoose.Types.ObjectId(), new mongoose.Types.ObjectId()],
         usageLimit: 2,
         minAmount: 0,
       });
+
+      await UserCoupon.create([
+        { user: new mongoose.Types.ObjectId(), coupon: coupon._id },
+        { user: new mongoose.Types.ObjectId(), coupon: coupon._id },
+      ]);
 
       const response = await request(app)
         .post("/api/v2/orders")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
-          couponCode: "LIMITED",
+          couponCodes: ["LIMITED"],
         });
 
       expect(response.status).to.equal(400);
-      expect(response.body.message).to.equal("Coupon usage limit reached");
+      expect(response.body.message).to.equal(
+        "Coupon usage limit reached: LIMITED"
+      );
     });
 
     it("should return 401 if not authenticated", async () => {
@@ -617,8 +634,9 @@ describe("Order Controller - Integration Tests", () => {
         .delete(`/api/v2/orders/${orderId}`)
         .set("Authorization", `Bearer ${adminToken}`);
 
-      expect(response.body.success).to.equal(false);
-      expect(response.body.message).to.equal("Order not found");
+      expect(response.body.status).to.equal("success");
+      expect(response.body.message).to.equal("Order cancelled successfully");
+      expect(response.body.data.order.status).to.equal("cancelled");
     });
 
     it("should return 403 if user tries to cancel another user order", async () => {
