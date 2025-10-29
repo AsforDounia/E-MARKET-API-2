@@ -2,3 +2,8 @@ MONGO_URI=
 PORT=
 JWT_SECRET=
 MONGO_URI_TEST=
+
+
+// Mongo Express (for development only)
+MONGO_EXPRESS_USERNAME=admin
+MONGO_EXPRESS_PASSWORD=change-me

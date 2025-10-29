@@ -29,7 +29,13 @@
     "test:unit:log": "cross-env NODE_ENV=test:unit mocha --no-config test/unit/logTest.js --timeout 5000 --exit",
     "test:integration:log": "cross-env NODE_ENV=test mocha --no-config test/setup.js test/integration/logTest.js --timeout 10000 --exit",
     "coverage": "cross-env NODE_ENV=test c8 --reporter=html --reporter=text --reporter=lcov mocha test/setup.js test/integration/**/*.js --timeout 10000 --exit",
-    "mongo": "mongosh"
+    "mongo": "mongosh",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f api",
+    "docker:restart": "docker compose restart api",
+    "docker:clean": "docker compose down -v && docker system prune -f"
   },
   "repository": {
     "type": "git",
