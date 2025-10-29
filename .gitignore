@@ -1,5 +1,7 @@
 node_modules
 .env
+.env.production
+.env.development
 .idea
 node_modules
 .devcontainer
