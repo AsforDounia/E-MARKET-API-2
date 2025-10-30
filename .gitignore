@@ -1,7 +1,6 @@
 node_modules
 .env
-.env.production
-.env.development
+.env.*
 .idea
 node_modules
 .devcontainer

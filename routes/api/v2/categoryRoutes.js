@@ -1,11 +1,14 @@
-import express from 'express';
+import express from "express";
 
 const categoryRoutes = express.Router();
-import * as categoryController from '../../../controllers/categoryController.js';
-import { validate } from '../../../middlewares/validation/validate.js';
-import { createCategorySchema, updateCategorySchema } from '../../../middlewares/validation/schemas/categorySchema.js';
-import cache from '../../../middlewares/redisCache.js';
-import {createLimiter} from "../../../middlewares/security.js";
+import * as categoryController from "../../../controllers/categoryController.js";
+import { validate } from "../../../middlewares/validation/validate.js";
+import {
+    createCategorySchema,
+    updateCategorySchema,
+} from "../../../middlewares/validation/schemas/categorySchema.js";
+import cache from "../../../middlewares/redisCache.js";
+import { createLimiter } from "../../../middlewares/security.js";
 
 /**
  * @swagger
@@ -50,7 +53,12 @@ import {createLimiter} from "../../../middlewares/security.js";
  *               items:
  *                 $ref: '#/components/schemas/Category'
  */
-categoryRoutes.get('/', createLimiter(15, 100), cache('categories', 600), categoryController.getAllCategories);
+categoryRoutes.get(
+    "/",
+    createLimiter(15, 100),
+    cache("categories", 600),
+    categoryController.getAllCategories
+);
 
 /**
  * @swagger
@@ -74,7 +82,12 @@ categoryRoutes.get('/', createLimiter(15, 100), cache('categories', 600), catego
  *       404:
  *         description: Category not found
  */
-categoryRoutes.get('/:id', createLimiter(15, 100), cache('category', 600), categoryController.getCategoryById);
+categoryRoutes.get(
+    "/:id",
+    createLimiter(15, 100),
+    cache("category", 600),
+    categoryController.getCategoryById
+);
 
 /**
  * @swagger
@@ -94,7 +107,12 @@ categoryRoutes.get('/:id', createLimiter(15, 100), cache('category', 600), categ
  *       400:
  *         description: Invalid input
  */
-categoryRoutes.post('/', createLimiter(15, 100), validate(createCategorySchema), categoryController.createCategory);
+categoryRoutes.post(
+    "/",
+    createLimiter(15, 100),
+    validate(createCategorySchema),
+    categoryController.createCategory
+);
 
 /**
  * @swagger
@@ -120,7 +138,12 @@ categoryRoutes.post('/', createLimiter(15, 100), validate(createCategorySchema),
  *       404:
  *         description: Category not found
  */
-categoryRoutes.put('/:id', createLimiter(15, 100), validate(updateCategorySchema), categoryController.updateCategory);
+categoryRoutes.put(
+    "/:id",
+    createLimiter(15, 100),
+    validate(updateCategorySchema),
+    categoryController.updateCategory
+);
 
 /**
  * @swagger
@@ -140,6 +163,6 @@ categoryRoutes.put('/:id', createLimiter(15, 100), validate(updateCategorySchema
  *       404:
  *         description: Category not found
  */
-categoryRoutes.delete('/:id', createLimiter(15, 100), categoryController.deleteCategory);
+categoryRoutes.delete("/:id", createLimiter(15, 100), categoryController.deleteCategory);
 
-export default categoryRoutes
+export default categoryRoutes;

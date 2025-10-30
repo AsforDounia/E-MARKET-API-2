@@ -1,10 +1,12 @@
-import express from 'express';
-import * as productController from '../../../controllers/productController.js';
-import { validate } from '../../../middlewares/validation/validate.js';
-import { createProductSchema, updateProductSchema } from '../../../middlewares/validation/schemas/productSchema.js';
+import express from "express";
+import * as productController from "../../../controllers/productController.js";
+import { validate } from "../../../middlewares/validation/validate.js";
+import {
+    createProductSchema,
+    updateProductSchema,
+} from "../../../middlewares/validation/schemas/productSchema.js";
 
 const productRoutes = express.Router();
-
 
 /**
  * @swagger
@@ -107,8 +109,7 @@ const productRoutes = express.Router();
  *                     name: "Electronics"
  */
 
-
-productRoutes.get('/', productController.getAllProducts);
+productRoutes.get("/", productController.getAllProducts);
 
 /**
  * @swagger
@@ -132,7 +133,7 @@ productRoutes.get('/', productController.getAllProducts);
  *       404:
  *         description: Product not found
  */
-productRoutes.get('/:id', productController.getProductById);
+productRoutes.get("/:id", productController.getProductById);
 
 /**
  * @swagger
@@ -152,7 +153,7 @@ productRoutes.get('/:id', productController.getProductById);
  *       400:
  *         description: Invalid input
  */
-productRoutes.post('/', validate(createProductSchema), productController.createProduct);
+productRoutes.post("/", validate(createProductSchema), productController.createProduct);
 
 /**
  * @swagger
@@ -178,7 +179,7 @@ productRoutes.post('/', validate(createProductSchema), productController.createP
  *       404:
  *         description: Product not found
  */
-productRoutes.put('/:id', validate(updateProductSchema), productController.updateProduct);
+productRoutes.put("/:id", validate(updateProductSchema), productController.updateProduct);
 
 /**
  * @swagger
@@ -198,7 +199,6 @@ productRoutes.put('/:id', validate(updateProductSchema), productController.updat
  *       404:
  *         description: Product not found
  */
-productRoutes.delete('/:id', productController.deleteProduct);
-
+productRoutes.delete("/:id", productController.deleteProduct);
 
 export default productRoutes;

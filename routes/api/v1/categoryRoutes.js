@@ -1,7 +1,10 @@
-import express from 'express';
-import * as categoryController from '../../../controllers/categoryController.js';
-import { validate } from '../../../middlewares/validation/validate.js';
-import { createCategorySchema, updateCategorySchema } from '../../../middlewares/validation/schemas/categorySchema.js';
+import express from "express";
+import * as categoryController from "../../../controllers/categoryController.js";
+import { validate } from "../../../middlewares/validation/validate.js";
+import {
+    createCategorySchema,
+    updateCategorySchema,
+} from "../../../middlewares/validation/schemas/categorySchema.js";
 
 const categoryRoutes = express.Router();
 
@@ -48,7 +51,7 @@ const categoryRoutes = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Category'
  */
-categoryRoutes.get('/', categoryController.getAllCategories);
+categoryRoutes.get("/", categoryController.getAllCategories);
 
 /**
  * @swagger
@@ -72,7 +75,7 @@ categoryRoutes.get('/', categoryController.getAllCategories);
  *       404:
  *         description: Category not found
  */
-categoryRoutes.get('/:id', categoryController.getCategoryById);
+categoryRoutes.get("/:id", categoryController.getCategoryById);
 
 /**
  * @swagger
@@ -92,7 +95,7 @@ categoryRoutes.get('/:id', categoryController.getCategoryById);
  *       400:
  *         description: Invalid input
  */
-categoryRoutes.post('/', validate(createCategorySchema), categoryController.createCategory);
+categoryRoutes.post("/", validate(createCategorySchema), categoryController.createCategory);
 
 /**
  * @swagger
@@ -118,7 +121,7 @@ categoryRoutes.post('/', validate(createCategorySchema), categoryController.crea
  *       404:
  *         description: Category not found
  */
-categoryRoutes.put('/:id', validate(updateCategorySchema), categoryController.updateCategory);
+categoryRoutes.put("/:id", validate(updateCategorySchema), categoryController.updateCategory);
 
 /**
  * @swagger
@@ -138,6 +141,6 @@ categoryRoutes.put('/:id', validate(updateCategorySchema), categoryController.up
  *       404:
  *         description: Category not found
  */
-categoryRoutes.delete('/:id', categoryController.deleteCategory);
+categoryRoutes.delete("/:id", categoryController.deleteCategory);
 
-export default categoryRoutes
+export default categoryRoutes;

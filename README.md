@@ -7,59 +7,70 @@ E-Market-API est une plateforme e-commerce complète et sécurisée permettant a
 ## 🚀 Fonctionnalités
 
 ### 🔐 Authentification & Autorisation
+
 - **Système JWT** : Authentification sécurisée avec tokens
 - **Gestion des rôles** : user, seller, admin avec permissions spécifiques
 - **Protection des routes** : Middleware d'autorisation par rôle
 
 ### 👥 Gestion des utilisateurs
+
 - **Inscription/Connexion** : Système complet d'authentification
 - **Profils utilisateurs** : Gestion et modification des profils
 - **Promotion de rôles** : Admin peut promouvoir user → seller
 
 ### 🛍️ Espace vendeurs
+
 - **Gestion des produits** : CRUD complet pour les sellers
 - **Upload d'images** : Multer + Sharp pour compression/optimisation
 - **Images multiples** : Support de plusieurs images par produit
 - **Gestion du stock** : Suivi de disponibilité en temps réel
 
 ### 🔍 Catalogue & Recherche
+
 - **Recherche avancée** : Par mots-clés, catégorie, prix
 - **Filtrage & tri** : Prix, popularité, date
 - **Pagination performante** : Navigation optimisée
 - **Cache mémoire** : Optimisation des requêtes fréquentes
 
 ### 🛒 Panier & Commandes
+
 - **Gestion du panier** : Ajout/modification/suppression d'articles
 - **Validation de commandes** : Vérification stock + création commande
 - **Suivi des statuts** : pending, paid, shipped, delivered, cancelled
 - **Paiement simulé** : Système de paiement intégré
 
 ### 🎫 Système de coupons
+
 - **Codes promo** : Création et gestion de coupons
 - **Types de réduction** : Montant fixe ou pourcentage
 - **Conditions d'usage** : Montant minimum, date d'expiration
 
 ### ⭐ Avis & Notations
+
 - **Système d'avis** : Notes et commentaires sur produits
 - **Modération** : Validation par administrateurs
 - **Un avis par produit** : Limitation par utilisateur
 
 ### 🔔 Notifications (🆕)
+
 - **Système asynchrone** : EventEmitter pour notifications temps réel
 - **Types de notifications** : Nouveaux produits, commandes, statuts
 - **Gestion des notifications** : Lecture/non-lu, historique
 
 ### 📊 Logging & Monitoring (🆕)
+
 - **Winston** : Système de logs avancé
 - **Rotation automatique** : Gestion des fichiers de logs
 - **Logs admin** : Interface de consultation des logs
 
 ### 🧪 Tests & Qualité
+
 - **Tests automatisés** : Mocha + Chai + Supertest
 - **Couverture de code** : Rapport avec nyc
 - **Tests d'intégration** : Validation complète des workflows
 
 ### 🔧 Outils & Automatisation (🆕)
+
 - **Scripts de seed** : Génération de données de test avec Faker.js
 - **Reset database** : Réinitialisation complète
 - **Versioning API** : Support de versions multiples
@@ -67,28 +78,34 @@ E-Market-API est une plateforme e-commerce complète et sécurisée permettant a
 ## 🛠️ Technologies utilisées
 
 ### Core
+
 - **Backend** : Node.js, Express.js
 - **Base de données** : MongoDB avec Mongoose
 - **Authentification** : JWT, bcrypt
 
 ### Sécurité
+
 - **Protection** : helmet, cors, express-rate-limit
 - **Validation** : Joi / express-validator
 - **Variables d'environnement** : dotenv
 
 ### Upload & Media
+
 - **Upload de fichiers** : Multer
 - **Traitement d'images** : Sharp (compression/optimisation)
 
 ### Logging & Monitoring
+
 - **Logs** : Winston
 - **Rotation des logs** : winston-daily-rotate-file
 
 ### Tests
+
 - **Framework de tests** : Mocha + Chai + Supertest
 - **Couverture** : nyc
 
 ### Développement
+
 - **Documentation** : Swagger UI
 - **Données de test** : Faker.js
 - **Développement** : Nodemon
@@ -184,77 +201,85 @@ E-Market-API/
 ### Étapes d'installation
 
 1. **Cloner le repository**
-   ```bash
-   git clone https://github.com/AsforDounia/E-Market-API.git
-   cd E-Market-API
-   ```
+
+    ```bash
+    git clone https://github.com/AsforDounia/E-Market-API.git
+    cd E-Market-API
+    ```
 
 2. **Installer les dépendances**
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. **Configuration de l'environnement**
-   ```bash
-   cp ".env.example" .env
-   ```
-   
-   Modifier le fichier `.env` :
-   ```env
-   # Database
-   MONGO_URI=mongodb://localhost:27017/emarket
-   
-   # Server
-   PORT=3000
-   NODE_ENV=development
-   
-   # JWT
-   JWT_SECRET=your_super_secret_jwt_key
-   JWT_EXPIRE=7d
-   
-   # Upload
-   MAX_FILE_SIZE=5000000
-   UPLOAD_PATH=./uploads
-   
-   # Rate Limiting
-   RATE_LIMIT_WINDOW=15
-   RATE_LIMIT_MAX_REQUESTS=100
-   ```
+
+    ```bash
+    cp ".env.example" .env
+    ```
+
+    Modifier le fichier `.env` :
+
+    ```env
+    # Database
+    MONGO_URI=mongodb://localhost:27017/emarket
+
+    # Server
+    PORT=3000
+    NODE_ENV=development
+
+    # JWT
+    JWT_SECRET=your_super_secret_jwt_key
+    JWT_EXPIRE=7d
+
+    # Upload
+    MAX_FILE_SIZE=5000000
+    UPLOAD_PATH=./uploads
+
+    # Rate Limiting
+    RATE_LIMIT_WINDOW=15
+    RATE_LIMIT_MAX_REQUESTS=100
+    ```
 
 4. **Créer les dossiers nécessaires**
-   ```bash
-   mkdir uploads logs
-   ```
+
+    ```bash
+    mkdir uploads logs
+    ```
 
 5. **Initialiser la base de données**
-   ```bash
-   # Réinitialiser la base (optionnel)
-   npm run reset-db
-   
-   # Insérer les données de test
-   npm run seed
-   ```
+
+    ```bash
+    # Réinitialiser la base (optionnel)
+    npm run reset-db
+
+    # Insérer les données de test
+    npm run seed
+    ```
 
 6. **Démarrer l'application**
-   ```bash
-   # Mode développement
-   npm run dev
-   
-   # Mode production
-   npm start
-   
-   # Lancer les tests
-   npm test
-   
-   # Rapport de couverture
-   npm run coverage
-   ```
+
+    ```bash
+    # Mode développement
+    npm run dev
+
+    # Mode production
+    npm start
+
+    # Lancer les tests
+    npm test
+
+    # Rapport de couverture
+    npm run coverage
+    ```
 
 ## 📚 Documentation API
 
 ### Accès à la documentation
 
 Une fois l'application démarrée, accédez à la documentation Swagger :
+
 ```
 http://localhost:3000/api-docs
 ```
@@ -262,18 +287,21 @@ http://localhost:3000/api-docs
 ### Endpoints principaux
 
 #### 🔐 Authentification
+
 - `POST /api/v1/auth/register` - Inscription utilisateur
 - `POST /api/v1/auth/login` - Connexion utilisateur
 - `GET /api/v1/auth/profile` - Profil utilisateur (protégé)
 - `PUT /api/v1/auth/profile` - Modifier profil (protégé)
 
 #### 👥 Utilisateurs
+
 - `GET /api/v1/users` - Liste utilisateurs (admin)
 - `GET /api/v1/users/:id` - Détails utilisateur
 - `PUT /api/v1/users/:id/role` - Modifier rôle (admin)
 - `DELETE /api/v1/users/:id` - Supprimer utilisateur (admin)
 
 #### 🛍️ Produits
+
 - `GET /api/v1/products` - Liste produits (pagination, filtres)
 - `GET /api/v1/products/:id` - Détails produit
 - `POST /api/v1/products` - Créer produit (seller)
@@ -282,6 +310,7 @@ http://localhost:3000/api-docs
 - `POST /api/v1/products/:id/images` - Upload images (seller)
 
 #### 📂 Catégories
+
 - `GET /api/v1/categories` - Liste catégories
 - `GET /api/v1/categories/:id` - Détails catégorie
 - `POST /api/v1/categories` - Créer catégorie (admin)
@@ -289,6 +318,7 @@ http://localhost:3000/api-docs
 - `DELETE /api/v1/categories/:id` - Supprimer catégorie (admin)
 
 #### 🛒 Panier & Commandes
+
 - `GET /api/v1/cart` - Voir panier (protégé)
 - `POST /api/v1/cart/items` - Ajouter au panier (protégé)
 - `PUT /api/v1/cart/items/:id` - Modifier quantité (protégé)
@@ -299,6 +329,7 @@ http://localhost:3000/api-docs
 - `PUT /api/v1/orders/:id/status` - Modifier statut (seller/admin)
 
 #### 🎫 Coupons
+
 - `GET /api/v1/coupons` - Liste coupons (admin)
 - `POST /api/v1/coupons` - Créer coupon (admin)
 - `POST /api/v1/coupons/validate` - Valider coupon (protégé)
@@ -306,22 +337,26 @@ http://localhost:3000/api-docs
 - `DELETE /api/v1/coupons/:id` - Supprimer coupon (admin)
 
 #### ⭐ Avis
+
 - `GET /api/v1/products/:id/reviews` - Avis d'un produit
 - `POST /api/v1/products/:id/reviews` - Créer avis (protégé)
 - `PUT /api/v1/reviews/:id` - Modifier avis (protégé)
 - `DELETE /api/v1/reviews/:id` - Supprimer avis (protégé/admin)
 
 #### 🔔 Notifications
+
 - `GET /api/v1/notifications` - Mes notifications (protégé)
 - `PATCH /api/v1/notifications/:id/read` - Marquer comme lu (protégé)
 
 #### 🔧 Administration
+
 - `GET /api/v1/admin/logs` - Consulter logs (admin)
 - `GET /api/v1/admin/stats` - Statistiques (admin)
 
 ## 🧪 Tests
 
 ### Tests automatisés
+
 Le projet inclut une suite complète de tests :
 
 ```bash
@@ -336,24 +371,27 @@ npm run test:watch
 ```
 
 ### Tests avec Postman
+
 Une collection Postman est disponible dans le dossier `postman/` :
 
 1. **Import de la collection**
-   - Ouvrir Postman
-   - Importer `E-Market-API.postman_collection.json`
-   - Importer `E-Market-API.postman_environment.json`
+    - Ouvrir Postman
+    - Importer `E-Market-API.postman_collection.json`
+    - Importer `E-Market-API.postman_environment.json`
 
 2. **Configuration**
-   - Variable `{{api}}` : `http://localhost:3000/api/v1`
-   - Variable `{{token}}` : Sera automatiquement définie après login
+    - Variable `{{api}}` : `http://localhost:3000/api/v1`
+    - Variable `{{token}}` : Sera automatiquement définie après login
 
 3. **Workflow de test**
-   - Commencer par "Auth > Register" ou "Auth > Login"
-   - Le token JWT sera automatiquement sauvegardé
-   - Tester les autres endpoints protégés
+    - Commencer par "Auth > Register" ou "Auth > Login"
+    - Le token JWT sera automatiquement sauvegardé
+    - Tester les autres endpoints protégés
 
 ### Couverture de tests
+
 Objectif : > 70% de couverture de code
+
 - Tests unitaires pour les services et utilitaires
 - Tests d'intégration pour les endpoints API
 - Tests de sécurité pour l'authentification et autorisation
@@ -361,6 +399,7 @@ Objectif : > 70% de couverture de code
 ## 📊 Modèles de données
 
 ### User
+
 ```javascript
 {
   fullname: String (requis),
@@ -376,6 +415,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Product
+
 ```javascript
 {
   title: String (requis),
@@ -395,6 +435,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Category
+
 ```javascript
 {
   name: String (requis, unique),
@@ -408,6 +449,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Cart
+
 ```javascript
 {
   userId: ObjectId (requis),
@@ -422,6 +464,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Order
+
 ```javascript
 {
   userId: ObjectId (requis),
@@ -445,6 +488,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Coupon
+
 ```javascript
 {
   code: String (requis, unique),
@@ -461,6 +505,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Review
+
 ```javascript
 {
   userId: ObjectId (requis),
@@ -474,6 +519,7 @@ Objectif : > 70% de couverture de code
 ```
 
 ### Notification
+
 ```javascript
 {
   userId: ObjectId (requis),
@@ -489,20 +535,24 @@ Objectif : > 70% de couverture de code
 ## 🔧 Scripts disponibles
 
 ### Développement
+
 - `npm start` - Démarre l'application en mode production
 - `npm run dev` - Démarre l'application en mode développement avec nodemon
 
 ### Base de données
+
 - `npm run seed` - Insère les données de test avec Faker.js
 - `npm run reset-db` - Réinitialise complètement la base de données
 
 ### Tests
+
 - `npm test` - Lance tous les tests
 - `npm run test:unit` - Lance uniquement les tests unitaires
 - `npm run test:integration` - Lance uniquement les tests d'intégration
 - `npm run coverage` - Génère le rapport de couverture de code
 
 ### Utilitaires
+
 - `npm run logs:clean` - Nettoie les anciens fichiers de logs
 - `npm run docs:generate` - Génère la documentation API
 
@@ -524,7 +574,7 @@ Ce projet est sous licence ISC.
 - **Souad Arziki** - [GitHub](https://github.com/souadarz)
 - **Mohammed Boukab** - [GitHub](https://github.com/Mo7amed-Boukab)
 
-*Projet développé en squad dans le cadre de la formation*
+_Projet développé en squad dans le cadre de la formation_
 
 ## 🐛 Signaler un bug
 

@@ -1,26 +1,21 @@
 {
-  "all": true,
-  "include": [
-    "controllers/**/*.js",
-    "models/**/*.js",
-    "routes/**/*.js",
-    "services/**/*.js",
-    "middlewares/**/*.js"
-  ],
-  "exclude": [
-    "test/**",
-    "node_modules/**",
-    "coverage/**",
-    "*.config.js",
-    "server.js",
-    "config/**"
-  ],
-  "reporter": [
-    "html",
-    "text",
-    "text-summary",
-    "lcov"
-  ],
-  "report-dir": "./coverage",
-  "clean": true
+    "all": true,
+    "include": [
+        "controllers/**/*.js",
+        "models/**/*.js",
+        "routes/**/*.js",
+        "services/**/*.js",
+        "middlewares/**/*.js"
+    ],
+    "exclude": [
+        "test/**",
+        "node_modules/**",
+        "coverage/**",
+        "*.config.js",
+        "server.js",
+        "config/**"
+    ],
+    "reporter": ["html", "text", "text-summary", "lcov"],
+    "report-dir": "./coverage",
+    "clean": true
 }

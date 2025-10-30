@@ -1,4 +1,4 @@
-import redis from '../config/redis.js';
+import redis from "../config/redis.js";
 
 class RedisCacheService {
     async get(key) {
@@ -6,7 +6,7 @@ class RedisCacheService {
             const data = await redis.get(key);
             return data ? JSON.parse(data) : null;
         } catch (error) {
-            console.error('Redis GET error:', error);
+            console.error("Redis GET error:", error);
             return null;
         }
     }
@@ -21,7 +21,7 @@ class RedisCacheService {
             }
             return true;
         } catch (error) {
-            console.error('Redis SET error:', error);
+            console.error("Redis SET error:", error);
             return false;
         }
     }
@@ -31,7 +31,7 @@ class RedisCacheService {
             await redis.del(key);
             return true;
         } catch (error) {
-            console.error('Redis DELETE error:', error);
+            console.error("Redis DELETE error:", error);
             return false;
         }
     }
@@ -44,7 +44,7 @@ class RedisCacheService {
             }
             return true;
         } catch (error) {
-            console.error('Redis DELETE PATTERN error:', error);
+            console.error("Redis DELETE PATTERN error:", error);
             return false;
         }
     }
@@ -54,7 +54,7 @@ class RedisCacheService {
             await redis.flushdb();
             return true;
         } catch (error) {
-            console.error('Redis CLEAR error:', error);
+            console.error("Redis CLEAR error:", error);
             return false;
         }
     }

@@ -1,11 +1,10 @@
-import express from 'express';
-import * as usertController from '../../../controllers/userController.js';
-import { validate } from '../../../middlewares/validation/validate.js';
-import { createUserSchema } from '../../../middlewares/validation/schemas/userSchema.js';
+import express from "express";
+import * as usertController from "../../../controllers/userController.js";
+import { validate } from "../../../middlewares/validation/validate.js";
+import { createUserSchema } from "../../../middlewares/validation/schemas/userSchema.js";
 import { authenticate, authorize } from "../../../middlewares/auth.js";
-import cache from '../../../middlewares/redisCache.js';
-import {createLimiter} from "../../../middlewares/security.js";
-
+import cache from "../../../middlewares/redisCache.js";
+import { createLimiter } from "../../../middlewares/security.js";
 
 const userRoutes = express.Router();
 
@@ -46,7 +45,6 @@ const userRoutes = express.Router();
  *           format: date-time
  */
 
-
 /**
  * @swagger
  * /users:
@@ -63,9 +61,22 @@ const userRoutes = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRoutes.get('/', createLimiter(15, 100), cache('users', 600), authenticate, authorize(["admin"]), usertController.getAllUsers);
+userRoutes.get(
+    "/",
+    createLimiter(15, 100),
+    cache("users", 600),
+    authenticate,
+    authorize(["admin"]),
+    usertController.getAllUsers
+);
 
-userRoutes.get("/profile", createLimiter(15, 100), cache('userProfile', 600), authenticate, usertController.getUserProfile);
+userRoutes.get(
+    "/profile",
+    createLimiter(15, 100),
+    cache("userProfile", 600),
+    authenticate,
+    usertController.getUserProfile
+);
 /**
  * @swagger
  * /users/{id}:
@@ -88,7 +99,14 @@ userRoutes.get("/profile", createLimiter(15, 100), cache('userProfile', 600), au
  *       404:
  *         description: User not found
  */
-userRoutes.get('/:id', createLimiter(15, 100), cache('user', 600), authenticate, authorize(["admin"]),usertController.getUserById);
+userRoutes.get(
+    "/:id",
+    createLimiter(15, 100),
+    cache("user", 600),
+    authenticate,
+    authorize(["admin"]),
+    usertController.getUserById
+);
 
 /**
  * @swagger
@@ -109,8 +127,14 @@ userRoutes.get('/:id', createLimiter(15, 100), cache('user', 600), authenticate,
  *         description: Invalid input
  */
 
-userRoutes.post('/', createLimiter(15, 100),validate(createUserSchema), authenticate, authorize("admin"), usertController.createUser);
-
+userRoutes.post(
+    "/",
+    createLimiter(15, 100),
+    validate(createUserSchema),
+    authenticate,
+    authorize("admin"),
+    usertController.createUser
+);
 
 /**
  * @swagger
@@ -130,11 +154,22 @@ userRoutes.post('/', createLimiter(15, 100),validate(createUserSchema), authenti
  *       404:
  *         description: User not found
  */
-userRoutes.delete('/:id', createLimiter(15, 100), authenticate, authorize(["admin"]), usertController.deleteUser);
+userRoutes.delete(
+    "/:id",
+    createLimiter(15, 100),
+    authenticate,
+    authorize(["admin"]),
+    usertController.deleteUser
+);
 
 userRoutes.put("/profile", createLimiter(15, 100), authenticate, usertController.updateProfile);
 
-
-userRoutes.patch('/:id/role', createLimiter(15, 100),authenticate, authorize("admin"), usertController.updateUserRole);
+userRoutes.patch(
+    "/:id/role",
+    createLimiter(15, 100),
+    authenticate,
+    authorize("admin"),
+    usertController.updateUserRole
+);
 
 export default userRoutes;
