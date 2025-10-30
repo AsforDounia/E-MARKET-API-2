@@ -52,11 +52,11 @@ const notificationRoutes = express.Router();
  *         description: Unauthorized
  */
 notificationRoutes.get(
-  "/",
-  createLimiter(15, 100),
-  authenticate,
-  cache("notifications", 60),
-  notificationController.getNotifications
+    "/",
+    createLimiter(15, 100),
+    authenticate,
+    cache("notifications", 60),
+    notificationController.getNotifications
 );
 
 /**
@@ -80,10 +80,10 @@ notificationRoutes.get(
  *         description: Notification not found
  */
 notificationRoutes.patch(
-  "/:id/read",
-  createLimiter(15, 100),
-  authenticate,
-  notificationController.markAsRead
+    "/:id/read",
+    createLimiter(15, 100),
+    authenticate,
+    notificationController.markAsRead
 );
 
 export default notificationRoutes;

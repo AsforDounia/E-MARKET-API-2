@@ -1,4 +1,4 @@
-import { ProductCategory } from '../models/Index.js';
+import { ProductCategory } from "../models/Index.js";
 
 /**
  * Récupère les catégories d'un produit
@@ -6,9 +6,12 @@ import { ProductCategory } from '../models/Index.js';
  * @returns {Promise<Array>} - Liste des catégories
  */
 async function getProductCategories(productId) {
-    const links = await ProductCategory.find({ product: productId }).populate({ path: 'category', strictPopulate: false });
-    
-    return links.map(link => link.category);
+    const links = await ProductCategory.find({ product: productId }).populate({
+        path: "category",
+        strictPopulate: false,
+    });
+
+    return links.map((link) => link.category);
 }
 
 export { getProductCategories };

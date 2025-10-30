@@ -1,7 +1,10 @@
-import express from 'express';
-import * as authController  from '../../../controllers/authController.js';
-import { validate } from '../../../middlewares/validation/validate.js';
-import { registerSchema, loginSchema } from '../../../middlewares/validation/schemas/authSchemas.js';
+import express from "express";
+import * as authController from "../../../controllers/authController.js";
+import { validate } from "../../../middlewares/validation/validate.js";
+import {
+    registerSchema,
+    loginSchema,
+} from "../../../middlewares/validation/schemas/authSchemas.js";
 import { createLimiter } from "../../../middlewares/security.js";
 
 const router = express.Router();
@@ -37,7 +40,7 @@ const router = express.Router();
  *       400:
  *         description: Invalid input
  */
-router.post('/register', createLimiter(1, 5), validate(registerSchema), authController.register);
+router.post("/register", createLimiter(1, 5), validate(registerSchema), authController.register);
 
 /**
  * @swagger
@@ -66,7 +69,7 @@ router.post('/register', createLimiter(1, 5), validate(registerSchema), authCont
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', createLimiter(1, 10), validate(loginSchema), authController.login);
+router.post("/login", createLimiter(1, 10), validate(loginSchema), authController.login);
 
 /**
  * @swagger
@@ -78,6 +81,6 @@ router.post('/login', createLimiter(1, 10), validate(loginSchema), authControlle
  *       200:
  *         description: Logout successful
  */
-router.post('/logout', authController.logout);
+router.post("/logout", authController.logout);
 
 export default router;

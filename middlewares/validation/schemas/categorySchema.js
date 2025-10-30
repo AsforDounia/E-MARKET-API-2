@@ -1,11 +1,9 @@
 import { Yup } from "../yupExtensions.js";
 
 const createCategorySchema = Yup.object().shape({
-    name: Yup.string()
-    .requiredField('Name'),
+    name: Yup.string().requiredField("Name"),
 
-    description: Yup.string()
-    .requiredField('Description'),
+    description: Yup.string().requiredField("Description"),
 });
 
 const updateCategorySchema = Yup.object().shape({
@@ -13,4 +11,4 @@ const updateCategorySchema = Yup.object().shape({
     description: Yup.string().trimField("Description"),
 });
 
-export { createCategorySchema, updateCategorySchema }
+export { createCategorySchema, updateCategorySchema };
