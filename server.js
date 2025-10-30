@@ -6,6 +6,8 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { swaggerUi, specsV1, specsV2, swaggerOptions } from "./swagger/swagger.js";
 import {securityMiddlewares} from "./middlewares/security.js";
 import redis from './config/redis.js';
+import compression from "compression";
+
 
 // API Versioning
 import v1Routes from './routes/api/v1/index.js';
@@ -21,6 +23,17 @@ if (process.env.NODE_ENV !== "test") {
 
 //aplication de tous les middlwares de securité (helemt,rate-limit,cors)
 securityMiddlewares(app);
+
+app.use(compression({
+    level: 6, // Niveau de compression (0-9)
+    threshold: 1024, // Compresser seulement si > 1KB
+    filter: (req, res) => {
+        if (req.headers['x-no-compression']) {
+            return false;
+        }
+        return compression.filter(req, res);
+    }
+}));
 
 // Middleware pour parser JSON
 app.use(express.json());
