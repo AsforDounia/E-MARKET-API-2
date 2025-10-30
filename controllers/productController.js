@@ -288,12 +288,14 @@ async function updateProductVisibility (req, res, next) {
             throw new AppError('isVisible must be a boolean', 400);
         }
 
-        const product = await Product.findOne({
-            _id: id,
-            deletedAt: null
-        });
+        // const product = await Product.findOne({
+        //     _id: id,
+        //     deletedAt: null
+        // });
 
+        const product = await Product.findById(id);
         if (!product) throw new AppError('Product not found', 404);
+        if (product.deletedAt) throw new AppError("Cannot update a deleted product", 400);
 
         if (req.user.role === "seller" && product.sellerId.toString() !== req.user._id.toString()) {
             throw new AppError('You are not authorized to update this product', 403);
@@ -332,12 +334,13 @@ async function validateProduct(req, res, next) {
     try {
         const { id } = req.params;
         if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
-        const product = await Product.findOne({
-            _id: id,
-            deletedAt: null
-        });
-
+        // const product = await Product.findOne({
+        //     _id: id,
+        //     deletedAt: null
+        // });
+        const product = await Product.findById(id);
         if (!product) throw new AppError('Product not found', 404);
+        if (product.deletedAt) throw new AppError("Cannot validate a deleted product", 400);
 
         // Approve the product
         product.validationStatus = 'approved';
@@ -368,12 +371,13 @@ async function rejectProduct(req, res, next) {
         if (!ObjectId.isValid(id)) throw new AppError("Invalid product ID", 400);
         const { reason } = req.body;
         
-        const product = await Product.findOne({
-            _id: id,
-            deletedAt: null
-        });
-
+        // const product = await Product.findOne({
+        //     _id: id,
+        //     deletedAt: null
+        // });
+        const product = await Product.findById(id);
         if (!product) throw new AppError('Product not found', 404);
+        if (product.deletedAt) throw new AppError("Cannot reject a deleted product", 400);
 
         // Reject the product
         product.validationStatus = 'rejected';
