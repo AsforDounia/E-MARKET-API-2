@@ -4,18 +4,38 @@ import { AppError } from '../middlewares/errorHandler.js';
 
 export const register = async (req, res, next) => {
     try {
-        const { fullname, email, password, role } = req.body;
+        const { fullname, email, password, passwordConfirmation, role } = req.body;
+        if (password !== passwordConfirmation) {
+            throw new AppError('Password and password confirmation do not match', 400);
+        }
         const existingUser = await User.findOne({ email });
         if (existingUser) throw new AppError('Email already in use', 400);
 
         const userCount = await User.countDocuments();
-        const userRole = userCount === 0 ? 'admin' : (role || 'user');
+
+        let userRole;
+        if (userCount === 0) {
+            userRole = 'admin';
+        } else if (role === 'seller' || role === 'user') {
+            userRole = role;
+        } else {
+            userRole = 'user';
+        }
+        
         const user = await User.create({ fullname, email, password, role: userRole });
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-        
         res.status(201).json({
-            token,
-            user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role }
+            success: true,
+            message: 'User registered successfully',
+            data: {
+                token,
+                user: { 
+                    id: user._id, 
+                    fullname: user.fullname, 
+                    email: user.email, 
+                    role: user.role 
+                }
+            }
         });
     } catch (error) {
         next(error);
@@ -35,8 +55,17 @@ export const login = async (req, res, next) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         
         res.json({
-            token,
-            user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role }
+            success: true,
+            message: 'Logged in successfully',
+            data: {
+                token,
+                user: {
+                    id: user._id,
+                    fullname: user.fullname,
+                    email: user.email,
+                    role: user.role
+                }
+            }
         });
     } catch (error) {
         next(error);
@@ -54,7 +83,10 @@ export const logout = async (req, res, next) => {
             expiresAt: new Date(decoded.exp * 1000)
         });
 
-        res.json({ message: 'Logged out successfully' });
+        res.json({
+            success: true,
+            message: 'Logged out successfully'
+        });
     } catch (error) {
         next(error);
     }
