@@ -95,6 +95,7 @@ async function deleteUser(req, res, next) {
         if (!ObjectId.isValid(id)) throw new AppError("Invalid user ID", 400);
         const user = await User.findById(id);
         if (!user) throw new AppError("User not found", 404);
+        if(user.deletedAt) throw new AppError("User already deleted", 400);
         user.deletedAt = new Date();
         await user.save();
         
@@ -120,7 +121,6 @@ async function getUserProfile(req, res, next) {
     if (!req.user) {
       return res.status(401).json({ success: false, message: "Utilisateur non authentifié" });
     }
-
     return res.status(200).json({ success: true, user: req.user });
   } catch (err) {
     next(err);
@@ -176,12 +176,13 @@ async function updateProfile(req, res, next) {
         const { role } = req.body;
         if (!['user', 'seller', 'admin'].includes(role)) throw new AppError('Invalid role', 400);
 
-        const user = await User.findByIdAndUpdate(
-            id,
-            { role },
-            { new: true, runValidators: true }
-        );
+        const user = await User.findById(id);
         if (!user) throw new AppError('User not found', 404);
+
+        if (user.deletedAt !== null) throw new AppError('Cannot update role of a deleted user', 400);
+
+        user.role = role;
+        await user.save();
 
         // Invalidate users cache
         await cacheInvalidation.invalidateSpecificUser(id);
