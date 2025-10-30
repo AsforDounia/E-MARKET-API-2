@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { faker } from '@faker-js/faker';
@@ -88,10 +89,11 @@ async function seedDatabase() {
 }
 
 export default seedDatabase;
+seedDatabase();
 
 // Si on exécute ce fichier directement avec `node seed.js`
-if (import.meta.url === `file://${process.argv[1]}`) {
-  seedDatabase()
-    .then(() => process.exit(0))
-    .catch(() => process.exit(1));
-}
+// if (import.meta.url === `file://${process.argv[1]}`) {
+//   seedDatabase()
+//     .then(() => process.exit(0))
+//     .catch(() => process.exit(1));
+// }
