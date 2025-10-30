@@ -90,7 +90,7 @@ async function seedDatabase() {
 export default seedDatabase;
 
 // Si on exécute ce fichier directement avec `node seed.js`
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1]?.endsWith('seed.js')){
   seedDatabase()
     .then(() => process.exit(0))
     .catch(() => process.exit(1));
