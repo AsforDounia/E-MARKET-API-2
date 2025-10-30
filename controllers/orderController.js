@@ -20,6 +20,7 @@ const createOrder = async (req, res, next) => {
     let userId, subtotal, discount, total, orderId;
     try {
         await session.withTransaction(async () => {
+            //recuperation du panier de l'utilisateur avec les articles
             const { couponCodes } = req.body;
             userId = req.user.id;
 
@@ -29,6 +30,7 @@ const createOrder = async (req, res, next) => {
             const cartItems = await CartItem.find({ cartId: cart._id }).populate("productId");
             if (cartItems.length === 0) throw new AppError("Cart is empty", 400);
 
+            // calcul de subtotal
             subtotal = 0;
             for (const item of cartItems) {
                 const product = item.productId;
@@ -40,6 +42,7 @@ const createOrder = async (req, res, next) => {
                 subtotal += product.price * item.quantity;
             }
 
+            //gestion des coupons
             discount = 0;
             const appliedCoupons = [];
 
@@ -78,6 +81,7 @@ const createOrder = async (req, res, next) => {
                             400
                         );
 
+                    // calcul du montant du reduction
                     let couponDiscount = 0;
                     if (coupon.type === "percentage") {
                         couponDiscount = (currentSubtotal * coupon.value) / 100;
@@ -110,6 +114,7 @@ const createOrder = async (req, res, next) => {
 
             total = subtotal - discount;
 
+            // creation de la commande
             const order = await Order.create(
                 [
                     {
