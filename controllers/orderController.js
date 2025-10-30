@@ -30,7 +30,7 @@ const createOrder = async (req, res, next) => {
             }
 
             discount = 0;
-            let appliedCoupons = [];
+            const appliedCoupons = [];
             
             if (couponCodes && Array.isArray(couponCodes) && couponCodes.length > 0) {
                 let currentSubtotal = subtotal;
