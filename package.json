@@ -7,8 +7,6 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
     "migrate": "node migrations/migrate.js",
     "seed": "node migrations/seed.js",
     "reset": "node migrations/reset-db.js",

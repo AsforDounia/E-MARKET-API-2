@@ -38,30 +38,29 @@ describe("Order Controller - Integration Tests", () => {
     await OrderItem.deleteMany({});
     await Coupon.deleteMany({});
 
-    // Création d'un utilisateur normal et authentification
-    const userResponse = await request(app).post("/api/v2/auth/register").send({
-      fullname: "Test User",
-      email: "testuser@example.com",
-      password: "Password123!",
-      role: "user",
-    });
-    // console.log("REGISTER RESPONSE:", userResponse.body);
-    authToken = userResponse.body.token;
-    userId = userResponse.body.user.id;
-
-    // Création d'un admin et authentification
     const adminResponse = await request(app)
       .post("/api/v2/auth/register")
       .send({
         fullname: "Admin User",
         email: "admin@example.com",
         password: "Admin123!",
-        role: "admin",
+        passwordConfirmation: "Admin123!",
       });
 
-    // console.log("RES ADMIN", adminResponse.body);
-    adminToken = adminResponse.body.token;
-    adminId = adminResponse.body.user.id;
+    adminToken = adminResponse.body.data.token;
+    adminId = adminResponse.body.data.user.id;
+
+    // Création d'un utilisateur normal et authentification
+    const userResponse = await request(app).post("/api/v2/auth/register").send({
+      fullname: "Test User",
+      email: "testuser@example.com",
+      password: "Password123!",
+      passwordConfirmation: "Password123!",
+      role: "user",
+    });
+    
+    authToken = userResponse.body.data.token;
+    userId = userResponse.body.data.user.id;
 
     // Création d'un produit
     const product = await Product.create({

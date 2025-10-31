@@ -17,14 +17,15 @@ describe('Auth Integration Tests', () => {
                 .send({
                     fullname: 'Test User',
                     email: 'test@example.com',
-                    password: 'password123'
+                    password: 'password123',
+                    passwordConfirmation: 'password123'
                 });
 
             expect(res.status).to.equal(201);
-            expect(res.body).to.have.property('token');
-            expect(res.body.user).to.have.property('email', 'test@example.com');
-            expect(res.body.user).to.have.property('fullname', 'Test User');
-            expect(res.body.user).to.have.property('role', 'admin'); // First user should be admin
+            expect(res.body.data).to.have.property('token');
+            expect(res.body.data.user).to.have.property('email', 'test@example.com');
+            expect(res.body.data.user).to.have.property('fullname', 'Test User');
+            expect(res.body.data.user).to.have.property('role', 'admin'); // First user should be admin
         });
 
         it('should return error if email already exists', async () => {
@@ -34,7 +35,8 @@ describe('Auth Integration Tests', () => {
                 .send({
                     fullname: 'Test User',
                     email: 'duplicate@example.com',
-                    password: 'password123'
+                    password: 'password123',
+                    passwordConfirmation: 'password123'
                 });
 
             // Try to register with same email
@@ -43,7 +45,8 @@ describe('Auth Integration Tests', () => {
                 .send({
                     fullname: 'Another User',
                     email: 'duplicate@example.com',
-                    password: 'password456'
+                    password: 'password456',
+                    passwordConfirmation: 'password456'
                 });
 
             expect(res.status).to.equal(400);
@@ -57,7 +60,8 @@ describe('Auth Integration Tests', () => {
                 .send({
                     fullname: 'Admin User',
                     email: 'admin@example.com',
-                    password: 'password123'
+                    password: 'password123',
+                    passwordConfirmation: 'password123'
                 });
 
             // Register second user (should be user role)
@@ -66,11 +70,12 @@ describe('Auth Integration Tests', () => {
                 .send({
                     fullname: 'Regular User',
                     email: 'user@example.com',
-                    password: 'password123'
+                    password: 'password123',
+                    passwordConfirmation: 'password123'
                 });
 
             expect(res.status).to.equal(201);
-            expect(res.body.user).to.have.property('role', 'user');
+            expect(res.body.data.user).to.have.property('role', 'user');
         });
     });
 
@@ -80,7 +85,8 @@ describe('Auth Integration Tests', () => {
             await request(app).post('/api/v2/auth/register').send({
                 fullname: 'Test User',
                 email: 'test@example.com',
-                password: 'password123'
+                password: 'password123',
+                passwordConfirmation: 'password123'
             });
         });
 
@@ -93,8 +99,8 @@ describe('Auth Integration Tests', () => {
                 });
 
             expect(res.status).to.equal(200);
-            expect(res.body).to.have.property('token');
-            expect(res.body.user).to.have.property('email', 'test@example.com');
+            expect(res.body.data).to.have.property('token');
+            expect(res.body.data.user).to.have.property('email', 'test@example.com');
         });
 
         it('should return error with invalid email', async () => {
@@ -141,10 +147,11 @@ describe('Auth Integration Tests', () => {
                 .send({
                     fullname: 'Test User',
                     email: 'test@example.com',
-                    password: 'password123'
+                    password: 'password123',
+                    passwordConfirmation: 'password123'
                 });
 
-            const token = registerRes.body.token;
+            const token = registerRes.body.data.token;
 
             // Logout with token
             const res = await request(app)

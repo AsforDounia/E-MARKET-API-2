@@ -72,6 +72,7 @@ async function updateCategory(req, res, next) {
 
         const category = await Category.findById(id);
         if (!category) throw new AppError("Category not found", 404);
+        if(category.deletedAt) throw new AppError("Cannot update a deleted category", 400);
 
         if (name) {
 
