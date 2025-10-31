@@ -47,7 +47,7 @@ describe("Product Integration Tests", () => {
       throw new Error(`Login failed: ${JSON.stringify(res.body)}`);
     }
 
-    token = res.body.token;
+    token = res.body.data.token;
     console.log("Seller logged in successfully");
   });
 
