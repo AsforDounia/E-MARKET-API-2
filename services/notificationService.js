@@ -26,7 +26,7 @@ class NotificationService extends EventEmitter {
         this.emit('ORDER_UPDATED', orderData);
     }
 
-    async handlePublishProduct(data, next){
+    async handlePublishProduct(data){
         try {
 
             if (!data.productId || !data.sellerId || !data.title) {
@@ -53,7 +53,7 @@ class NotificationService extends EventEmitter {
         console.log('The Product <', data.title, '> is published and the notification sent to all subscribers.');
 
         } catch (error) {
-            next(error);
+            console.error('Error creating product notification:', error);
         }
     }
 
