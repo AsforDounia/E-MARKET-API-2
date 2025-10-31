@@ -44,14 +44,67 @@ const cartRoutes = express.Router();
  *             properties:
  *               productId:
  *                 type: string
+ *                 example: "507f1f77bcf86cd799439011"
  *               quantity:
  *                 type: number
  *                 minimum: 1
+ *                 example: 2
  *     responses:
  *       200:
- *         description: Item added to cart
+ *         description: Item added to cart successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 message:
+ *                   type: string
+ *                   example: "Product added to cart successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     cart:
+ *                       type: object
+ *                       properties:
+ *                         _id:
+ *                           type: string
+ *                         userId:
+ *                           type: string
+ *                         items:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               productId:
+ *                                 type: object
+ *                                 properties:
+ *                                   _id:
+ *                                     type: string
+ *                                   title:
+ *                                     type: string
+ *                                   price:
+ *                                     type: number
+ *                                   stock:
+ *                                     type: number
+ *                                   imageUrls:
+ *                                     type: array
+ *                                     items:
+ *                                       type: string
+ *                               quantity:
+ *                                 type: number
+ *                         totalAmount:
+ *                           type: number
+ *                           description: Sum of all items (price × quantity)
+ *                           example: 2999.98
+ *       400:
+ *         description: Invalid input or insufficient stock
  *       401:
  *         description: Unauthorized
+ *       404:
+ *         description: Product not found
  */
 cartRoutes.post('/add', createLimiter(15, 100), authenticate, validate(addToCartSchema), cartController.addToCart);
 
@@ -65,7 +118,31 @@ cartRoutes.post('/add', createLimiter(15, 100), authenticate, validate(addToCart
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Cart retrieved
+ *         description: Cart retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 message:
+ *                   type: string
+ *                   example: "Cart retrieved successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     cart:
+ *                       type: object
+ *                       properties:
+ *                         items:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                         totalAmount:
+ *                           type: number
+ *                           example: 2999.98
  *       401:
  *         description: Unauthorized
  */

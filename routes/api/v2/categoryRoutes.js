@@ -82,17 +82,44 @@ categoryRoutes.get('/:id', createLimiter(15, 100), cache('category', 600), categ
  *   post:
  *     summary: Create a new category
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Category'
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Electronics"
+ *               description:
+ *                 type: string
+ *                 example: "Electronic devices and gadgets"
  *     responses:
  *       201:
- *         description: Category created
+ *         description: Category created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     category:
+ *                       $ref: '#/components/schemas/Category'
  *       400:
  *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
  */
 categoryRoutes.post('/', createLimiter(15, 100), validate(createCategorySchema), categoryController.createCategory);
 
@@ -102,6 +129,8 @@ categoryRoutes.post('/', createLimiter(15, 100), validate(createCategorySchema),
  *   put:
  *     summary: Update a category
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -113,10 +142,33 @@ categoryRoutes.post('/', createLimiter(15, 100), validate(createCategorySchema),
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Category'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Category updated
+ *         description: Category updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     category:
+ *                       $ref: '#/components/schemas/Category'
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Category not found
  */
@@ -128,6 +180,8 @@ categoryRoutes.put('/:id', createLimiter(15, 100), validate(updateCategorySchema
  *   delete:
  *     summary: Delete a category (soft delete)
  *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -136,7 +190,23 @@ categoryRoutes.put('/:id', createLimiter(15, 100), validate(updateCategorySchema
  *           type: string
  *     responses:
  *       200:
- *         description: Category deleted
+ *         description: Category soft-deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     category:
+ *                       $ref: '#/components/schemas/Category'
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: Category not found
  */

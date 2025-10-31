@@ -35,19 +35,86 @@ const notificationRoutes = express.Router();
  * @swagger
  * /notifications:
  *   get:
- *     summary: Get user notifications
+ *     summary: Get user notifications with pagination
  *     tags: [Notifications]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: number
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: number
+ *           default: 10
+ *         description: Items per page
  *     responses:
  *       200:
- *         description: List of notifications
+ *         description: Notifications retrieved successfully with pagination
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Notification'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: UserNotification ID
+ *                       isRead:
+ *                         type: boolean
+ *                         example: false
+ *                       readAt:
+ *                         type: string
+ *                         format: date-time
+ *                         nullable: true
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       notification:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           type:
+ *                             type: string
+ *                             enum: [product, order, system]
+ *                           title:
+ *                             type: string
+ *                           message:
+ *                             type: string
+ *                           priority:
+ *                             type: string
+ *                           productId:
+ *                             type: string
+ *                             nullable: true
+ *                           senderId:
+ *                             type: string
+ *                           createdAt:
+ *                             type: string
+ *                             format: date-time
+ *                 pagination:
+ *                   type: object
+ *                   properties:
+ *                     currentPage:
+ *                       type: number
+ *                       example: 1
+ *                     totalPages:
+ *                       type: number
+ *                       example: 5
+ *                     total:
+ *                       type: number
+ *                       example: 48
  *       401:
  *         description: Unauthorized
  */

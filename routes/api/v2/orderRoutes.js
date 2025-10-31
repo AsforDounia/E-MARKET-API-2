@@ -17,18 +17,61 @@ const orderRoutes = express.Router();
  *       properties:
  *         _id:
  *           type: string
+ *           example: "507f1f77bcf86cd799439011"
  *         userId:
  *           type: string
+ *           example: "507f1f77bcf86cd799439012"
+ *         subtotal:
+ *           type: number
+ *           description: Total before discounts
+ *           example: 1999.99
+ *         discount:
+ *           type: number
+ *           description: Total discount applied
+ *           example: 200.00
+ *         total:
+ *           type: number
+ *           description: Final amount after discounts
+ *           example: 1799.99
+ *         status:
+ *           type: string
+ *           enum: [pending, paid, shipped, delivered, cancelled]
+ *           default: pending
+ *           example: "pending"
  *         items:
  *           type: array
  *           items:
  *             type: object
- *         totalAmount:
- *           type: number
- *         status:
- *           type: string
- *           enum: [pending, paid, shipped, delivered, cancelled]
+ *             properties:
+ *               productId:
+ *                 type: string
+ *               productTitle:
+ *                 type: string
+ *               quantity:
+ *                 type: number
+ *               priceAtOrder:
+ *                 type: number
+ *               sellerId:
+ *                 type: string
+ *         coupons:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               couponId:
+ *                 type: string
+ *               code:
+ *                 type: string
+ *               discountAmount:
+ *                 type: number
+ *           example:
+ *             - couponId: "507f1f77bcf86cd799439013"
+ *               code: "SAVE20"
+ *               discountAmount: 200.00
  *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
  *           type: string
  *           format: date-time
  */
@@ -37,7 +80,7 @@ const orderRoutes = express.Router();
  * @swagger
  * /orders:
  *   post:
- *     summary: Create a new order
+ *     summary: Create a new order from cart
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
@@ -48,13 +91,51 @@ const orderRoutes = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               shippingAddress:
- *                 type: object
- *               paymentMethod:
- *                 type: string
+ *               couponCodes:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array of coupon codes to apply to the order
+ *                 example: ["SAVE20", "WELCOME10"]
+ *           example:
+ *             couponCodes: ["SAVE20"]
  *     responses:
  *       201:
- *         description: Order created
+ *         description: Order created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 message:
+ *                   type: string
+ *                   example: "Order created successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     order:
+ *                       type: object
+ *                       properties:
+ *                         orderId:
+ *                           type: string
+ *                           example: "507f1f77bcf86cd799439011"
+ *                         userId:
+ *                           type: string
+ *                           example: "507f1f77bcf86cd799439012"
+ *                         subtotal:
+ *                           type: number
+ *                           example: 1999.99
+ *                         discount:
+ *                           type: number
+ *                           example: 200.00
+ *                         total:
+ *                           type: number
+ *                           example: 1799.99
+ *       400:
+ *         description: Invalid input or cart is empty
  *       401:
  *         description: Unauthorized
  */
@@ -70,13 +151,25 @@ orderRoutes.post('/', createLimiter(15, 100), validate(createOrderSchema), authe
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: List of orders
+ *         description: User orders retrieved successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Order'
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 message:
+ *                   type: string
+ *                   example: "Orders retrieved successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     orders:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Order'
  *       401:
  *         description: Unauthorized
  */

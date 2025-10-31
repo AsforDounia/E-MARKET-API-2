@@ -18,25 +18,48 @@ const couponRoutes = express.Router();
  *         - code
  *         - type
  *         - value
+ *         - minAmount
+ *         - maxDiscount
+ *         - expiresAt
  *       properties:
  *         _id:
  *           type: string
+ *           example: "507f1f77bcf86cd799439011"
  *         code:
  *           type: string
+ *           example: "SAVE20"
  *         type:
  *           type: string
  *           enum: [percentage, fixed]
+ *           example: "percentage"
  *         value:
  *           type: number
+ *           example: 20
  *         minAmount:
  *           type: number
+ *           example: 100
  *         maxDiscount:
  *           type: number
+ *           example: 500
  *         usageLimit:
  *           type: number
+ *           example: 100
  *         isActive:
  *           type: boolean
+ *           default: true
+ *           example: true
+ *         createdBy:
+ *           type: string
+ *           description: Seller or admin who created the coupon
+ *           example: "507f1f77bcf86cd799439012"
  *         expiresAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-12-31T23:59:59.000Z"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
  *           type: string
  *           format: date-time
  */
@@ -88,15 +111,65 @@ if (process.env.NODE_ENV !== "test") {
  * @swagger
  * /coupons:
  *   get:
- *     summary: Get all coupons (admin only)
+ *     summary: Get all coupons with pagination (admin only)
  *     tags: [Coupons]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum: [percentage, fixed]
+ *         description: Filter by coupon type
+ *       - in: query
+ *         name: isActive
+ *         schema:
+ *           type: boolean
+ *         description: Filter by active status
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: number
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: number
+ *           default: 15
+ *         description: Items per page
  *     responses:
  *       200:
- *         description: List of all coupons
+ *         description: Coupons retrieved successfully with pagination
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Coupons retrieved successfully"
+ *                 currentPage:
+ *                   type: number
+ *                   example: 1
+ *                 totalPages:
+ *                   type: number
+ *                   example: 3
+ *                 totalCoupon:
+ *                   type: number
+ *                   example: 45
+ *                 coupons:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Coupon'
  *       401:
  *         description: Unauthorized
+ *       403:
+ *         description: Admin access required
  */
 couponRoutes.get("/", createLimiter(15, 100), authenticate, cache('coupons', 600), authorize(["admin"]), couponController.getAllCoupons);
 

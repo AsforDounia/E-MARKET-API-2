@@ -75,7 +75,7 @@ reviewRoutes.post('/', createLimiter(15, 100), authenticate, validate(createRevi
  * @swagger
  * /reviews/{productId}:
  *   get:
- *     summary: Get product reviews
+ *     summary: Get product reviews with average rating
  *     tags: [Reviews]
  *     parameters:
  *       - in: path
@@ -85,13 +85,34 @@ reviewRoutes.post('/', createLimiter(15, 100), authenticate, validate(createRevi
  *           type: string
  *     responses:
  *       200:
- *         description: List of product reviews
+ *         description: Reviews retrieved successfully with average rating
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Review'
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 message:
+ *                   type: string
+ *                   example: "Reviews retrieved successfully"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     reviews:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Review'
+ *                     averageRating:
+ *                       type: number
+ *                       format: float
+ *                       minimum: 0
+ *                       maximum: 5
+ *                       description: Average rating of all reviews
+ *                       example: 4.5
+ *       404:
+ *         description: Product not found
  */
 reviewRoutes.get('/:productId', createLimiter(15, 100), cache('productReviews', 600), reviewController.getProductReviews);
 

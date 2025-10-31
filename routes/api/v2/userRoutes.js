@@ -32,8 +32,9 @@ const userRoutes = express.Router();
  *           minLength: 6
  *         role:
  *           type: string
- *           enum: [user, admin]
+ *           enum: [user, seller, admin]
  *           default: user
+ *           example: "user"
  *         deletedAt:
  *           type: string
  *           format: date-time
@@ -65,7 +66,26 @@ const userRoutes = express.Router();
  */
 userRoutes.get('/', createLimiter(15, 100), cache('users', 600), authenticate, authorize(["admin"]), usertController.getAllUsers);
 
+/**
+ * @swagger
+ * /users/profile:
+ *   get:
+ *     summary: Get current user profile
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ */
 userRoutes.get("/profile", createLimiter(15, 100), cache('userProfile', 600), authenticate, usertController.getUserProfile);
+
 /**
  * @swagger
  * /users/{id}:
@@ -132,9 +152,75 @@ userRoutes.post('/', createLimiter(15, 100),validate(createUserSchema), authenti
  */
 userRoutes.delete('/:id', createLimiter(15, 100), authenticate, authorize(["admin"]), usertController.deleteUser);
 
+/**
+ * @swagger
+ * /users/profile:
+ *   put:
+ *     summary: Update current user profile
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fullname:
+ *                 type: string
+ *                 example: "John Doe"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "john.doe@example.com"
+ *     responses:
+ *       200:
+ *         description: Profile updated successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
 userRoutes.put("/profile", createLimiter(15, 100), authenticate, usertController.updateProfile);
 
-
+/**
+ * @swagger
+ * /users/{id}/role:
+ *   patch:
+ *     summary: Update user role (admin only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [user, seller, admin]
+ *                 example: "seller"
+ *     responses:
+ *       200:
+ *         description: User role updated successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Admin access required
+ *       404:
+ *         description: User not found
+ */
 userRoutes.patch('/:id/role', createLimiter(15, 100),authenticate, authorize("admin"), usertController.updateUserRole);
 
 export default userRoutes;
