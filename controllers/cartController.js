@@ -37,7 +37,7 @@ export const addToCart = async (req, res, next) => {
     const userId = req.user.id;
     const product = await Product.findById(productId);
     if (!product) throw new AppError("Product not found", 404);
-
+    if(product.deletedAt) throw new AppError("Product not available", 400);
     if (product.stock < quantity) throw new AppError("Insufficient stock", 400);
 
     const cart = await getOrCreateCart(userId);
@@ -146,6 +146,8 @@ export const updateCartItem = async (req, res, next) => {
     const cart = await getExistingCart(userId);
 
     const product = await Product.findById(productId);
+    if(!product) throw new AppError("Product not found", 404);
+    if(product.deletedAt) throw new AppError("Product not available", 400);
     if (product.stock < quantity) throw new AppError("Insufficient stock", 400);
 
     const updated = await CartItem.updateOne(

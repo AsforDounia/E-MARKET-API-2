@@ -34,7 +34,7 @@ export async function optimizeImages(req, res, next) {
     );
     next();
   } catch (err) {
-    console.error("Erreur d’optimisation image:", error);
+    console.error("Erreur d’optimisation image:", err);
     next(err);
   }
 }
