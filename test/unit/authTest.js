@@ -22,7 +22,12 @@ describe('Auth Controller - Unit Tests', () => {
 
     describe('register', () => {
         it('should register a new user successfully', async () => {
-            req.body = { fullname: 'Test User', email: 'test@test.com', password: 'password123' };
+            req.body = { 
+                fullname: 'Test User', 
+                email: 'test@test.com', 
+                password: 'password123',
+                passwordConfirmation: 'password123'
+            };
             
             sinon.stub(User, 'findOne').resolves(null);
             sinon.stub(User, 'countDocuments').resolves(1);
@@ -38,12 +43,17 @@ describe('Auth Controller - Unit Tests', () => {
 
             expect(res.status.calledWith(201)).to.be.true;
             expect(res.json.calledOnce).to.be.true;
-            expect(res.json.firstCall.args[0]).to.have.property('token');
-            expect(res.json.firstCall.args[0]).to.have.property('user');
+            expect(res.json.firstCall.args[0].data).to.have.property('token');
+            expect(res.json.firstCall.args[0].data).to.have.property('user');
         });
 
         it('should return error if email already exists', async () => {
-            req.body = { fullname: 'Test User', email: 'existing@test.com', password: 'password123' };
+            req.body = { 
+                fullname: 'Test User', 
+                email: 'existing@test.com', 
+                password: 'password123',
+                passwordConfirmation: 'password123'
+            };
             
             sinon.stub(User, 'findOne').resolves({ email: 'existing@test.com' });
 
@@ -53,8 +63,27 @@ describe('Auth Controller - Unit Tests', () => {
             expect(next.firstCall.args[0].message).to.equal('Email already in use');
         });
 
+        it('should return error if passwords do not match', async () => {
+            req.body = { 
+                fullname: 'Test User', 
+                email: 'test@test.com', 
+                password: 'password123',
+                passwordConfirmation: 'password456'
+            };
+
+            await authController.register(req, res, next);
+
+            expect(next.calledOnce).to.be.true;
+            expect(next.firstCall.args[0].message).to.equal('Password and password confirmation do not match');
+        });
+
         it('should assign admin role to first user', async () => {
-            req.body = { fullname: 'First User', email: 'first@test.com', password: 'password123' };
+            req.body = { 
+                fullname: 'First User', 
+                email: 'first@test.com', 
+                password: 'password123',
+                passwordConfirmation: 'password123'
+            };
             
             sinon.stub(User, 'findOne').resolves(null);
             sinon.stub(User, 'countDocuments').resolves(0);
@@ -90,8 +119,8 @@ describe('Auth Controller - Unit Tests', () => {
             await authController.login(req, res, next);
 
             expect(res.json.calledOnce).to.be.true;
-            expect(res.json.firstCall.args[0]).to.have.property('token');
-            expect(res.json.firstCall.args[0]).to.have.property('user');
+            expect(res.json.firstCall.args[0].data).to.have.property('token');
+            expect(res.json.firstCall.args[0].data).to.have.property('user');
         });
 
         it('should return error with invalid email', async () => {
