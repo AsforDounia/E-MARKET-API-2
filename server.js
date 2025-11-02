@@ -24,6 +24,11 @@ import redis from "./config/redis.js";
 // API Versioning
 import v1Routes from "./routes/api/v1/index.js";
 import v2Routes from "./routes/api/v2/index.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // dotenvFlow.config();
 
@@ -60,9 +65,12 @@ app.get("/api-docs/v2/swagger.json", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.json(specsV2);
 });
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specsV1, swaggerOptions));
 
-// Main API docs with dropdown selector (V1 as default)
+// Servir les fichiers statiques de swagger-ui
+app.use("/api-docs", express.static(path.join(__dirname, "../node_modules/swagger-ui-dist")));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(null, swaggerOptions));
+
 // Permet d'accéder aux fichiers uploadés
 app.use("/uploads", express.static("uploads"));
 
