@@ -2,6 +2,10 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import MongoStore from "rate-limit-mongo";
+import dotenvFlow, { config } from "dotenv-flow";
+
+dotenvFlow.config();
+console.log(process.env.NODE_ENV );
 
 const securityMiddlewares = (app) => {
     //middlware pour sécuriser les headers HTTP
