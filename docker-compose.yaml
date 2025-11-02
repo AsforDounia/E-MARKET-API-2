@@ -34,6 +34,8 @@ services:
         restart: unless-stopped
         ports:
             - "8081:8081"
+        env_file:
+            - .env.production
         environment:
             ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
             ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
