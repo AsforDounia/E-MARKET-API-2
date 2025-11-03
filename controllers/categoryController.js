@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 import { AppError } from "../middlewares/errorHandler.js";
 import { Category } from "../models/Index.js";
-import cacheInvalidation from '../services/cacheInvalidation.js';
+import cacheInvalidation from "../services/cacheInvalidation.js";
 const ObjectId = mongoose.Types.ObjectId;
 
-async function getAllCategories(req, res, next){
+async function getAllCategories(req, res, next) {
     try {
         const categories = await Category.find();
         return res.status(200).json({
             success: true,
-            message: 'Categories retrieved successfully',
+            message: "Categories retrieved successfully",
             data: {
-                categories: categories
-            }
+                categories: categories,
+            },
         });
     } catch (err) {
         next(err);
@@ -27,13 +27,13 @@ async function getCategoryById(req, res, next) {
         if (!category) throw new AppError("Category not found", 404);
         res.status(200).json({
             success: true,
-            message: 'Category retrieved successfully',
+            message: "Category retrieved successfully",
             data: {
-                category: category
-            }
+                category: category,
+            },
         });
     } catch (err) {
-        next(err)
+        next(err);
     }
 }
 
@@ -53,16 +53,15 @@ async function createCategory(req, res, next) {
 
         res.status(201).json({
             success: true,
-            message: 'Category created successfully',
+            message: "Category created successfully",
             data: {
-                category: category
-            }
+                category: category,
+            },
         });
     } catch (err) {
-        next(err)
+        next(err);
     }
 }
-
 
 async function updateCategory(req, res, next) {
     try {
@@ -74,13 +73,13 @@ async function updateCategory(req, res, next) {
         if (!category) throw new AppError("Category not found", 404);
 
         if (name) {
-
             name = name.trim();
             if (!name) throw new AppError("Name cannot be empty", 400);
 
             const existingCat = await Category.findOne({ name });
-            if (existingCat && existingCat._id.toString() !== id) throw new AppError("Name already in use", 400);
-            
+            if (existingCat && existingCat._id.toString() !== id)
+                throw new AppError("Name already in use", 400);
+
             category.name = name;
         }
         if (description) {
@@ -98,10 +97,10 @@ async function updateCategory(req, res, next) {
 
         res.status(200).json({
             success: true,
-            message: 'Category updated successfully',
+            message: "Category updated successfully",
             data: {
-                category: category
-            }
+                category: category,
+            },
         });
     } catch (err) {
         next(err);
@@ -123,10 +122,10 @@ async function deleteCategory(req, res, next) {
 
         res.status(200).json({
             success: true,
-            message: 'Category soft-deleted successfully'
+            message: "Category soft-deleted successfully",
         });
     } catch (err) {
         next(err);
     }
 }
-export { getAllCategories, getCategoryById, createCategory, updateCategory, deleteCategory }
+export { getAllCategories, getCategoryById, createCategory, updateCategory, deleteCategory };

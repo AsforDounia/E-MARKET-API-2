@@ -1,6 +1,7 @@
 npm-debug.log
 .env
-.env.*
+.env.developement
+.env.test
 .git
 .gitignore
 *.md

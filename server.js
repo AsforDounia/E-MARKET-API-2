@@ -11,15 +11,16 @@ import { trackResponseTime } from './controllers/performanceController.js';
 
 
 // API Versioning
-import v1Routes from './routes/api/v1/index.js';
-import v2Routes from './routes/api/v2/index.js';
+import v1Routes from "./routes/api/v1/index.js";
+import v2Routes from "./routes/api/v2/index.js";
 
+dotenvFlow.config();
 
 const app = express();
 
 // Connexion à MongoDB
 if (process.env.NODE_ENV !== "test") {
-  connectDB();
+    connectDB();
 }
 
 //aplication de tous les middlwares de securité (helemt,rate-limit,cors)
@@ -48,21 +49,20 @@ app.get("/", (req, res) => {
 });
 
 // API Versioning
-app.use('/api/v1', v1Routes);
-app.use('/api/v2', v2Routes);
+app.use("/api/v1", v1Routes);
+app.use("/api/v2", v2Routes);
 
 // Swagger documentation
-app.get('/api-docs/v1/swagger.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.json(specsV1);
+app.get("/api-docs/v1/swagger.json", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.json(specsV1);
 });
 
-app.get('/api-docs/v2/swagger.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.json(specsV2);
+app.get("/api-docs/v2/swagger.json", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.json(specsV2);
 });
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specsV1, swaggerOptions));
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specsV1, swaggerOptions));
 
 // Main API docs with dropdown selector (V1 as default)
 // Permet d'accéder aux fichiers uploadés
@@ -72,12 +72,14 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Test Redis connection
-redis.ping().then(() => {
-    console.log('Redis ping successful');
-}).catch(err => {
-    console.error('Redis ping failed:', err.message);
-});
-
+redis
+    .ping()
+    .then(() => {
+        console.log("Redis ping successful");
+    })
+    .catch((err) => {
+        console.error("Redis ping failed:", err.message);
+    });
 
 logger.info("Serveur démarré sur le port 3000");
 logger.warn("Attention : mémoire presque pleine !");
@@ -86,9 +88,9 @@ logger.error("Erreur critique !");
 const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 }
 
 export default app;

@@ -1,5 +1,4 @@
-import redisCacheService from '../services/redisCacheService.js';
-import redis from '../config/redis.js';
+import redisCacheService from "../services/redisCacheService.js";
 
 const cache = (keyPrefix, ttlSeconds = 300) => {
     return async (req, res, next) => {
@@ -9,7 +8,7 @@ const cache = (keyPrefix, ttlSeconds = 300) => {
 
             // Check if data is cached
             const cachedData = await redisCacheService.get(cacheKey);
-            
+
             if (cachedData) {
                 // ✅ Increment cache hits
                 await redis.incr('cache:hits').catch(err => console.error('Redis incr error:', err));
@@ -19,23 +18,20 @@ const cache = (keyPrefix, ttlSeconds = 300) => {
                     fromCache: true
                 });
             }
-            
-            // ✅ Increment cache misses
-            await redis.incr('cache:misses').catch(err => console.error('Redis incr error:', err));
-            
+
             // Override res.json to cache the response data
             const originalJson = res.json;
-            res.json = function(data) {
+            res.json = function (data) {
                 // Cache only 200 responses
                 if (res.statusCode === 200) {
                     redisCacheService.set(cacheKey, data, ttlSeconds);
                 }
                 return originalJson.call(this, data);
             };
-            
+
             next();
         } catch (error) {
-            console.error('Cache middleware error:', error);
+            console.error("Cache middleware error:", error);
             next();
         }
     };
