@@ -1,31 +1,31 @@
 services:
-    mongo:
-        image: mongo:7.0
-        container_name: mongo
-        command: ["--replSet", "rs0", "--bind_ip_all"]
-        ports:
-            - "27017:27017"
-        volumes:
-            - mongo-data:/data/db
-        networks:
-            - dev_net
-        healthcheck:
-            test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }" | mongosh --quiet
-            interval: 5s
-            timeout: 10s
-            retries: 5
-            start_period: 10s
+  mongo:
+    image: mongo:7.0
+    container_name: mongo
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - dev_net
+    healthcheck:
+      test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }" | mongosh --quiet
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
 
-    redis:
-        image: redis:7-alpine
-        container_name: redis
-        ports:
-            - "6379:6379"
-        volumes:
-            - redis-data:/data
-        networks:
-            - dev_net
-        command: redis-server --appendonly yes
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - dev_net
+    command: redis-server --appendonly yes
 
     # Mongo Express - Interface Web pour MongoDB
     mongo-express:
@@ -70,9 +70,9 @@ services:
             - dev_net
 
 volumes:
-    redis-data:
-    mongo-data:
+  redis-data:
+  mongo-data:
 
 networks:
-    dev_net:
-        driver: bridge
+  dev_net:
+    driver: bridge

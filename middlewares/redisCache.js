@@ -10,7 +10,13 @@ const cache = (keyPrefix, ttlSeconds = 300) => {
             const cachedData = await redisCacheService.get(cacheKey);
 
             if (cachedData) {
-                return res.json(cachedData);
+                // ✅ Increment cache hits
+                await redis.incr('cache:hits').catch(err => console.error('Redis incr error:', err));
+                
+                return res.json({
+                    ...cachedData,
+                    fromCache: true
+                });
             }
 
             // Override res.json to cache the response data
