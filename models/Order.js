@@ -34,6 +34,13 @@ const orderSchema = new mongoose.Schema(
         collection: "orders",
         timestamps: true,
     }
-);
+}, {
+    collection: 'orders',
+    timestamps: true
+});
 
-export default mongoose.model("Order", orderSchema);
+orderSchema.index({ userId: 1 });
+orderSchema.index({ status: 1 });
+orderSchema.index({ userId: 1, createdAt: -1 });
+orderSchema.index({ createdAt: -1 });
+export default mongoose.model('Order', orderSchema);

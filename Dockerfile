@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy application code
 COPY . .
@@ -25,4 +25,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
 
 COPY .env.production .env
 # Start application
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
