@@ -15,23 +15,13 @@ const securityMiddlewares = (app) => {
     app.use(cors());
 
     app.use((req, res, next) => {
-        // Si c'est une route Swagger, utiliser une CSP permissive
-        if (req.path.startsWith('/api-docs')) {
-            helmet({
-                contentSecurityPolicy: {
-                    directives: {
-                        defaultSrc: ["'self'"],
-                        styleSrc: ["'self'", "'unsafe-inline'"],
-                        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-                        imgSrc: ["'self'", "data:", "https:"],
-                    },
-                },
+       if (req.path.startsWith("/api-docs")) {
+            return helmet({
+                contentSecurityPolicy: false, // Désactive CSP pour Swagger uniquement
             })(req, res, next);
-        } else {
-            // CSP stricte pour les autres routes
-            helmet()(req, res, next);
         }
-    });
+        helmet()(req, res, next);
+  });
 };
 
 const createLimiter = (min, max) => {

@@ -66,9 +66,6 @@ app.get("/api-docs/v2/swagger.json", (req, res) => {
     res.json(specsV2);
 });
 
-// Servir les fichiers statiques de swagger-ui
-app.use("/api-docs", express.static(path.join(__dirname, "../node_modules/swagger-ui-dist")));
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(null, swaggerOptions));
 
 // Permet d'accéder aux fichiers uploadés

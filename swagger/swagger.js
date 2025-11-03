@@ -6,9 +6,12 @@ const baseDefinition = {
     openapi: "3.0.0",
     servers: [
         {
-            url: "http://localhost:3000",
-            description: "Development server",
-        },
+            url:
+                process.env.NODE_ENV === "production"
+                ? "http://44.200.68.111:3000"
+                : "http://localhost:3000",
+            description: "E-Market API Server",
+    },
     ],
 };
 
