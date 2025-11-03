@@ -63,7 +63,18 @@ services:
     volumes:
       - ./uploads:/app/uploads
       - ./logs:/app/logs
-      - ./src:/app/src  # Hot reload pour le dev
+      - ./src:/app/src
+      - ./controllers:/app/controllers
+      - ./routes:/app/routes
+      - ./middlewares:/app/middlewares
+      - ./models:/app/models
+      - ./services:/app/services
+      - ./config:/app/config
+      - ./server.js:/app/server.js
+      - ./swagger:/app/swagger
+      - ./migrations:/app/migrations
+      # Exclude node_modules to prevent platform conflicts
+    command: npm run dev
     depends_on:
       mongo:
         condition: service_healthy

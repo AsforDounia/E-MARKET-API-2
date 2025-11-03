@@ -42,4 +42,8 @@ UserSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
+// Indexes - Remove duplicate email index (already unique in schema)
+UserSchema.index({ role: 1 });
+UserSchema.index({ deletedAt: 1 });
+
 export default mongoose.model('User', UserSchema);

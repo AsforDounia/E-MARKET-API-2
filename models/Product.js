@@ -68,4 +68,27 @@ const ProductSchema = new Schema({
     timestamps: true
 });
 
+
+// Index simples
+ProductSchema.index({ sellerId: 1 });
+ProductSchema.index({ validationStatus: 1 });
+ProductSchema.index({ price: 1 });
+ProductSchema.index({ stock: 1 });
+ProductSchema.index({ deletedAt: 1 });
+
+// Index composé pour requêtes fréquentes
+ProductSchema.index({ sellerId: 1, createdAt: -1 });
+ProductSchema.index({ validationStatus: 1, isVisible: 1, deletedAt: 1 });
+
+// Index text search pour recherche
+ProductSchema.index({
+    title: 'text',
+    description: 'text'
+}, {
+    weights: {
+        title: 10,
+        description: 5
+    },
+    name: 'ProductTextIndex'
+});
 export default mongoose.model('Product', ProductSchema);

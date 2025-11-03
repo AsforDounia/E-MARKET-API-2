@@ -147,7 +147,19 @@ const createOrder = async (req, res, next) => {
 const getOrders = async (req, res, next) => {
     try {
         const userId = req.user.id;
-        const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+        const { page = 1, limit = 10, status } = req.query;
+        
+        const filter = { userId };
+        if (status) filter.status = status;
+        
+        const skip = (Number(page) - 1) * Number(limit);
+        
+        const orders = await Order.find(filter)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(Number(limit));
+        
+        const totalOrders = await Order.countDocuments(filter);
         
         // Populate coupons for each order
         const ordersWithCoupons = await Promise.all(
@@ -164,6 +176,14 @@ const getOrders = async (req, res, next) => {
         res.status(200).json({
             status: "success",
             message: 'Orders retrieved successfully',
+            metadata: {
+                total: totalOrders,
+                currentPage: Number(page),
+                totalPages: Math.ceil(totalOrders / Number(limit)),
+                pageSize: Number(limit),
+                hasNextPage: Number(page) < Math.ceil(totalOrders / Number(limit)),
+                hasPreviousPage: Number(page) > 1
+            },
             data:{
                 orders: ordersWithCoupons
             }

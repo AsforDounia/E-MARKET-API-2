@@ -35,7 +35,8 @@
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f api",
     "docker:restart": "docker compose restart api",
-    "docker:clean": "docker compose down -v && docker system prune -f"
+    "docker:clean": "docker compose down -v && docker system prune -f",
+    "profile:check": "node scripts/checkPerformance.js"
   },
   "repository": {
     "type": "git",

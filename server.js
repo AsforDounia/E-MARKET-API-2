@@ -7,6 +7,7 @@ import { swaggerUi, specsV1, specsV2, swaggerOptions } from "./swagger/swagger.j
 import {securityMiddlewares} from "./middlewares/security.js";
 import redis from './config/redis.js';
 import compression from "compression";
+import { trackResponseTime } from './controllers/performanceController.js';
 
 
 // API Versioning
@@ -23,6 +24,8 @@ if (process.env.NODE_ENV !== "test") {
 
 //aplication de tous les middlwares de securité (helemt,rate-limit,cors)
 securityMiddlewares(app);
+
+app.use(trackResponseTime);
 
 app.use(compression({
     level: 6, // Niveau de compression (0-9)
@@ -41,7 +44,7 @@ app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("E-Market API is running!");
+  res.send("E-Market API is running 3!");
 });
 
 // API Versioning

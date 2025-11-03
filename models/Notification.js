@@ -54,4 +54,10 @@ const notificationSchema = new mongoose.Schema({
   timestamps: true
 });
 
+
+notificationSchema.index({ targetAudience: 1 });
+notificationSchema.index({ senderId: 1 });
+notificationSchema.index({ createdAt: -1 });
+notificationSchema.index({ priority: 1, createdAt: -1 });
+
 export default mongoose.model('Notification', notificationSchema);

@@ -1,4 +1,5 @@
 import redisCacheService from '../services/redisCacheService.js';
+import redis from '../config/redis.js';
 
 const cache = (keyPrefix, ttlSeconds = 300) => {
     return async (req, res, next) => {
@@ -10,9 +11,17 @@ const cache = (keyPrefix, ttlSeconds = 300) => {
             const cachedData = await redisCacheService.get(cacheKey);
             
             if (cachedData) {
-                return res.json(cachedData);
+                // ✅ Increment cache hits
+                await redis.incr('cache:hits').catch(err => console.error('Redis incr error:', err));
+                
+                return res.json({
+                    ...cachedData,
+                    fromCache: true
+                });
             }
             
+            // ✅ Increment cache misses
+            await redis.incr('cache:misses').catch(err => console.error('Redis incr error:', err));
             
             // Override res.json to cache the response data
             const originalJson = res.json;
