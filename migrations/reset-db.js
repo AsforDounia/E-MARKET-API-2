@@ -1,10 +1,13 @@
 // seeds/reset-db.js
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import { User, Category, Product, ProductCategory } from "../models/Index.js";
 import seedDatabase from "./seed.js";
+import DotenvFlow from "dotenv-flow";
 
-dotenv.config();
+DotenvFlow.config({ node_env: "production", override: true });
+
+// dotenv.config();
 
 async function resetDatabase() {
     try {

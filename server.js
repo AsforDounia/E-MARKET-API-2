@@ -1,3 +1,17 @@
+// Set NODE_ENV FIRST, before any imports
+process.env.NODE_ENV = process.env.NODE_ENV || "development";
+console.log("Current NODE_ENV:", process.env.NODE_ENV);
+
+import DotenvFlow from "dotenv-flow";
+
+// Configure dotenv-flow to look in the current directory
+DotenvFlow.config({
+  node_env: process.env.NODE_ENV,
+  silent: false,
+  path: process.cwd(), // Explicitly set the path to current working directory
+});
+
+
 import express from "express";
 import connectDB from "./config/database.js";
 import logger from "./middlewares/logger.js";
@@ -6,12 +20,17 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import { swaggerUi, specsV1, specsV2, swaggerOptions } from "./swagger/swagger.js";
 import { securityMiddlewares } from "./middlewares/security.js";
 import redis from "./config/redis.js";
-import dotenvFlow from "dotenv-flow";
+// import dotenvFlow from "dotenv-flow";
 // API Versioning
 import v1Routes from "./routes/api/v1/index.js";
 import v2Routes from "./routes/api/v2/index.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenvFlow.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// dotenvFlow.config();
 
 const app = express();
 
@@ -46,9 +65,9 @@ app.get("/api-docs/v2/swagger.json", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.json(specsV2);
 });
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specsV1, swaggerOptions));
 
-// Main API docs with dropdown selector (V1 as default)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(null, swaggerOptions));
+
 // Permet d'accéder aux fichiers uploadés
 app.use("/uploads", express.static("uploads"));
 
