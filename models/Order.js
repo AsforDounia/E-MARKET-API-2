@@ -34,10 +34,7 @@ const orderSchema = new mongoose.Schema(
         collection: "orders",
         timestamps: true,
     }
-}, {
-    collection: 'orders',
-    timestamps: true
-});
+);
 
 orderSchema.index({ userId: 1 });
 orderSchema.index({ status: 1 });
