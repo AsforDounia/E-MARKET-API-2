@@ -2,6 +2,12 @@ import mongoose from 'mongoose';
 
 export async function enableProfiling() {
     try {
+        // Skip profiling in production environments
+        if (process.env.NODE_ENV === 'production' || process.env.MONGO_URI?.includes('mongodb.net')) {
+            console.log('MongoDB Profiling skipped in production environment.');
+            return;
+        }
+        
         const db = mongoose.connection.db;
         
         // Enable profiling level 1 (slow queries > 100ms)
