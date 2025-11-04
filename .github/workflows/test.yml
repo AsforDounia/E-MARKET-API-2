@@ -51,8 +51,8 @@ jobs:
         run: |
           echo "NODE_ENV=test" >> .env
           echo "PORT=5000" >> .env
-          echo "MONGO_URI_TEST=mongodb://root:password@localhost:27017/emarket_test?authSource=admin" >> .env
-          echo "MONGODB_URI=mongodb://root:password@localhost:27017/emarket_test?authSource=admin" >> .env
+          echo "MONGO_URI_TEST=mongodb://localhost:27017/emarket_test_3?replicaSet=rs0" >> .env
+          echo "MONGO_URI=mongodb://localhost:27017/emarket_3?replicaSet=rs0" >> .env
           echo "REDIS_URL=redis://localhost:6379" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "JWT_EXPIRES_IN=7d" >> .env
