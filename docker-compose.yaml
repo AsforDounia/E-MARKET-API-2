@@ -27,25 +27,23 @@ services:
       - dev_net
     command: redis-server --appendonly yes
 
-    # Mongo Express - Interface Web pour MongoDB
-    mongo-express:
-        image: mongo-express:latest
-        container_name: mongo_express
-        restart: unless-stopped
-        ports:
-            - "8081:8081"
-        env_file:
-            - .env.production
-        environment:
-            ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
-            ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
-            ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
-            ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
-        depends_on:
-            mongo:
-                condition: service_healthy
-        networks:
-            - dev_net
+  # Mongo Express - Interface Web pour MongoDB
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo_express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - dev_net
 
   # API
   api:
@@ -58,7 +56,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=3000
-      - MONGO_URI=mongodb://mongo:27017/emarket_3?replicaSet=rs0
+      - MONGO_URI=${MONGO_URI}
       - MONGO_URI_TEST=mongodb://localhost:27017/emarket_test_3?replicaSet=rs0&directConnection=true
       - JWT_SECRET=${JWT_SECRET}
       - REDIS_HOST=redis

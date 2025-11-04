@@ -19,7 +19,6 @@ const connectDB = async () => {
             socketTimeoutMS: 45000, // Close sockets after 45s
             serverSelectionTimeoutMS: 10000, // Timeout after 10s (increased)
             family: 4,              // Use IPv4
-            directConnection: true  // Direct connection without replica set if not available
         });
 
         const dbName = process.env.NODE_ENV === 'test' ? 'TEST' : 'PRODUCTION';
