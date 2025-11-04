@@ -9,10 +9,19 @@ console.log(process.env.NODE_ENV );
 
 const securityMiddlewares = (app) => {
     //middlware pour sécuriser les headers HTTP
-    app.use(helmet());
+    // app.use(helmet());
 
     // middleware pour autoriser les requetes cross-origin
     app.use(cors());
+
+    app.use((req, res, next) => {
+       if (req.path.startsWith("/api-docs")) {
+            return helmet({
+                contentSecurityPolicy: false, // Désactive CSP pour Swagger uniquement
+            })(req, res, next);
+        }
+        helmet()(req, res, next);
+  });
 };
 
 const createLimiter = (min, max) => {

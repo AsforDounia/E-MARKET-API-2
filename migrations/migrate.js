@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+import DotenvFlow from "dotenv-flow";
 
-dotenv.config();
+DotenvFlow.config({ node_env: "production", override: true });
+
+// dotenv.config();
 
 const migrations = [
     {
