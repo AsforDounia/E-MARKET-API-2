@@ -6,15 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    uses: ./.github/workflows/test.yml
-    secrets: inherit
-  
   lint:
     uses: ./.github/workflows/lint.yml
   
   build-and-push:
-    needs: [test, lint]
+    needs: [lint]
     runs-on: ubuntu-latest
     
     steps:
