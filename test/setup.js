@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 before(async function () {
-    this.timeout(10000);
+    this.timeout(30000);
 
     const mongoUri = process.env.MONGO_URI_TEST;
 
@@ -14,7 +14,10 @@ before(async function () {
     console.log("Connecting to MongoDB for tests...");
 
     try {
-        await mongoose.connect(mongoUri);
+        await mongoose.connect(mongoUri, {
+            serverSelectionTimeoutMS: 30000,
+            connectTimeoutMS: 30000
+        });
         console.log("✓ Connected to MongoDB");
     } catch (error) {
         console.error("✗ Failed to connect to MongoDB:", error.message);
@@ -23,6 +26,7 @@ before(async function () {
 });
 
 after(async function () {
+    this.timeout(30000);
     console.log("Cleaning up test database...");
     try {
         await mongoose.connection.dropDatabase();
