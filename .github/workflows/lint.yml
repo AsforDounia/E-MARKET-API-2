@@ -5,6 +5,7 @@ on:
     branches: [ main, Dounia, mohamed, souadBranch ]
   pull_request:
     branches: [ main ]
+  workflow_call:
 
 jobs:
   eslint:
