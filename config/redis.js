@@ -1,13 +1,13 @@
 import Redis from "ioredis";
 
-const redisConfig = {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
+const redisConfig = (process.env.REDIS_URL,{
+    // host: process.env.REDIS_HOST,
+    // port: process.env.REDIS_PORT,
+    // password: process.env.REDIS_PASSWORD,
     retryDelayOnFailover: 100,
     maxRetriesPerRequest: 3,
     lazyConnect: true,
-};
+});
 
 const redis = new Redis(redisConfig);
 
