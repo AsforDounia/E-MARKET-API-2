@@ -49,12 +49,13 @@ jobs:
       
       - name: Create test environment file
         run: |
-          echo "NODE_ENV=test" >> .env.test
-          echo "PORT=5000" >> .env.test
-          echo "MONGODB_URI=mongodb://root:password@localhost:27017/emarket_test?authSource=admin" >> .env.test
-          echo "REDIS_URL=redis://localhost:6379" >> .env.test
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env.test
-          echo "JWT_EXPIRES_IN=7d" >> .env.test
+          echo "NODE_ENV=test" >> .env
+          echo "PORT=5000" >> .env
+          echo "MONGO_URI_TEST=mongodb://root:password@localhost:27017/emarket_test?authSource=admin" >> .env
+          echo "MONGODB_URI=mongodb://root:password@localhost:27017/emarket_test?authSource=admin" >> .env
+          echo "REDIS_URL=redis://localhost:6379" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "JWT_EXPIRES_IN=7d" >> .env
       
       - name: Run unit tests
         run: npm run test:unit
