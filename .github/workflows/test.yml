@@ -10,33 +10,21 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: password
-        options: >-
-          --health-cmd "mongosh --eval 'db.runCommand({ ping: 1 })'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Start MongoDB Replica Set
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: '7.0'
+          mongodb-replica-set: rs0
+          mongodb-port: 27017
+      
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.8.0
+        with:
+          redis-version: 7
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
