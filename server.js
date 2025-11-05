@@ -65,7 +65,7 @@ app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("E-Market API is running 4!");
+  res.send("E-Market API is running 11!");
 });
 
 // API Versioning
