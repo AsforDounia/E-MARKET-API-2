@@ -61,11 +61,15 @@ app.use(express.json());
 // Test route
 app.get("/", (req, res) => {
   res.send("E-Market API is running last heroku test!");
-});
+}); 
 
 // API Versioning
 app.use("/api/v1", v1Routes);
 app.use("/api/v2", v2Routes);
+
+app.get('/hello ', (req,res) => {
+   res.send("hello world");
+});
 
 // Swagger documentation
 app.get("/api-docs/v1/swagger.json", (req, res) => {
