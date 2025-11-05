@@ -1,15 +1,31 @@
 import Redis from "ioredis";
 
-const redisConfig = (process.env.REDIS_URL,{
-    // host: process.env.REDIS_HOST,
-    // port: process.env.REDIS_PORT,
-    // password: process.env.REDIS_PASSWORD,
-    retryDelayOnFailover: 100,
-    maxRetriesPerRequest: 3,
-    lazyConnect: true,
-});
+// Check if Redis URL is provided (for Upstash or Heroku Redis)
+const redisUrl = process.env.UPSTASH_REDIS_URL || process.env.REDIS_URL;
 
-const redis = new Redis(redisConfig);
+let redis;
+
+if (redisUrl) {
+    // Use connection URL if provided
+    redis = new Redis(redisUrl, {
+        retryDelayOnFailover: 100,
+        maxRetriesPerRequest: 3,
+        lazyConnect: true,
+        enableOfflineQueue: false,
+        connectTimeout: 10000,
+    });
+} else {
+    // Fallback to individual config (for local development)
+    redis = new Redis({
+        host: process.env.REDIS_HOST || '127.0.0.1',
+        port: process.env.REDIS_PORT || 6379,
+        password: process.env.REDIS_PASSWORD || undefined,
+        retryDelayOnFailover: 100,
+        maxRetriesPerRequest: 3,
+        lazyConnect: true,
+        enableOfflineQueue: false,
+    });
+}
 
 redis.on("connect", () => {
     console.log("Redis connected successfully");
