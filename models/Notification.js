@@ -7,7 +7,7 @@ const notificationSchema = new mongoose.Schema(
             required: true,
             index: true,
         },
-
+      
         title: {
             type: String,
             required: true,
@@ -52,4 +52,9 @@ const notificationSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.model("Notification", notificationSchema);
+notificationSchema.index({ targetAudience: 1 });
+notificationSchema.index({ senderId: 1 });
+notificationSchema.index({ createdAt: -1 });
+notificationSchema.index({ priority: 1, createdAt: -1 });
+
+export default mongoose.model('Notification', notificationSchema);
