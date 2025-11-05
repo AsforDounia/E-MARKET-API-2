@@ -28,12 +28,6 @@ import { trackResponseTime } from './controllers/performanceController.js';
 import v1Routes from "./routes/api/v1/index.js";
 import v2Routes from "./routes/api/v2/index.js";
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// dotenvFlow.config();
 
 const app = express();
 
