@@ -13,6 +13,7 @@ DotenvFlow.config({
 
 
 import express from "express";
+import dotenvFlow from "dotenv-flow";
 import connectDB from "./config/database.js";
 import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notFound.js";
