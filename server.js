@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1", v1Routes);
 app.use("/api/v2", v2Routes);
 
-app.get('/hello ', (req,res) => {
+app.get('/hello', (req,res) => {
    res.send("hello world");
 });
 
