@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   apps: [{
     name: 'e-market-api',
     script: './server.js',
