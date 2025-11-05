@@ -1,16 +1,15 @@
-
-import express from "express";
-import authRoutes from "./authRoutes.js";
-import userRoutes from "./userRoutes.js";
-import productRoutes from "./productRoutes.js";
-import categoryRoutes from "./categoryRoutes.js";
-import cartRoutes from "./cartRoutes.js";
-import orderRoutes from "./orderRoutes.js";
-import couponRoutes from "./couponRoutes.js";
-import reviewRoutes from "./reviewRoutes.js";
-import notificationRoutes from "./notificationRoutes.js";
-import adminLogsRoutes from "./adminRoutes.js"
+import express from 'express';
+import authRoutes from './authRoutes.js';
+import userRoutes from './userRoutes.js';
+import productRoutes from './productRoutes.js';
+import categoryRoutes from './categoryRoutes.js';
+import cartRoutes from './cartRoutes.js';
+import orderRoutes from './orderRoutes.js';
+import couponRoutes from './couponRoutes.js';
+import reviewRoutes from './reviewRoutes.js';
+import notificationRoutes from './notificationRoutes.js';
 import performanceRoutes from './performanceRoutes.js';
+import adminLogsRoutes from "./adminRoutes.js"
 
 const router = express.Router();
 

@@ -25,6 +25,7 @@ import redis from './config/redis.js';
 import compression from "compression";
 import { trackResponseTime } from './controllers/performanceController.js';
 
+
 // API Versioning
 import v1Routes from "./routes/api/v1/index.js";
 import v2Routes from "./routes/api/v2/index.js";
