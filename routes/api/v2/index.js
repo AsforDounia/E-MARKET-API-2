@@ -27,6 +27,4 @@ router.use("/admin", adminLogsRoutes);
 router.use('/performance', performanceRoutes);
 
 
-const router = express.Router();
-
 export default router;
