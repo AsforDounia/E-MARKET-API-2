@@ -42,7 +42,7 @@ describe("Product Integration Tests", () => {
             throw new Error(`Login failed: ${JSON.stringify(res.body)}`);
         }
 
-        token = res.body.token;
+        token = res.body.data.token;
         console.log("Seller logged in successfully");
     });
 
@@ -77,6 +77,7 @@ describe("Product Integration Tests", () => {
 
             expect(res.status).to.equal(201);
             expect(res.body).to.have.property("success", true);
+            expect(res.body).to.have.property("message", "Product created successfully (awaiting admin validation)");
             expect(res.body.data).to.have.property("title", productData.title);
         });
 

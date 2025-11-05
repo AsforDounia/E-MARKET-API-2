@@ -19,10 +19,12 @@ describe("Auth Integration Tests", () => {
             });
 
             expect(res.status).to.equal(201);
-            expect(res.body).to.have.property("token");
-            expect(res.body.user).to.have.property("email", "test@example.com");
-            expect(res.body.user).to.have.property("fullname", "Test User");
-            expect(res.body.user).to.have.property("role", "admin"); // First user should be admin
+            expect(res.body).to.have.property("success", true);
+            expect(res.body).to.have.property("message", "User registered successfully");
+            expect(res.body.data).to.have.property("token");
+            expect(res.body.data.user).to.have.property("email", "test@example.com");
+            expect(res.body.data.user).to.have.property("fullname", "Test User");
+            expect(res.body.data.user).to.have.property("role", "admin"); // First user should be admin
         });
 
         it("should return error if email already exists", async () => {
@@ -60,7 +62,8 @@ describe("Auth Integration Tests", () => {
             });
 
             expect(res.status).to.equal(201);
-            expect(res.body.user).to.have.property("role", "user");
+            expect(res.body).to.have.property("success", true);
+            expect(res.body.data.user).to.have.property("role", "user");
         });
     });
 
@@ -81,8 +84,10 @@ describe("Auth Integration Tests", () => {
             });
 
             expect(res.status).to.equal(200);
-            expect(res.body).to.have.property("token");
-            expect(res.body.user).to.have.property("email", "test@example.com");
+            expect(res.body).to.have.property("success", true);
+            expect(res.body).to.have.property("message", "Login successful");
+            expect(res.body.data).to.have.property("token");
+            expect(res.body.data.user).to.have.property("email", "test@example.com");
         });
 
         it("should return error with invalid email", async () => {
@@ -124,7 +129,7 @@ describe("Auth Integration Tests", () => {
                 password: "password123",
             });
 
-            const token = registerRes.body.token;
+            const token = registerRes.body.data.token;
 
             // Logout with token
             const res = await request(app)
@@ -132,6 +137,7 @@ describe("Auth Integration Tests", () => {
                 .set("Authorization", `Bearer ${token}`);
 
             expect(res.status).to.equal(200);
+            expect(res.body).to.have.property("success", true);
             expect(res.body).to.have.property("message", "Logged out successfully");
         });
 

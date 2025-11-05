@@ -56,7 +56,7 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(next.calledOnce).to.be.true;
             const error = next.firstCall.args[0];
             expect(error).to.be.instanceOf(AppError);
-            expect(error.message).to.equal("Only sellers can create coupons");
+            expect(error.message).to.equal("Only sellers or admins can create coupons");
             expect(error.statusCode).to.equal(403);
         });
 
@@ -158,8 +158,8 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(res.json.calledOnce).to.be.true;
 
             const jsonCall = res.json.firstCall.args[0];
-            expect(jsonCall.message).to.equal("Coupon created succesfuly");
-            expect(jsonCall.data).to.deep.equal(mockCoupon);
+            expect(jsonCall.message).to.equal("Coupon created successfully");
+            expect(jsonCall.data.coupon).to.deep.equal(mockCoupon);
         });
 
         it("should handle database errors", async () => {
@@ -184,7 +184,7 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(next.calledOnce).to.be.true;
             const error = next.firstCall.args[0];
             expect(error).to.be.instanceOf(AppError);
-            expect(error.message).to.equal("Only sellers or admins can create coupons");
+            expect(error.message).to.equal("Only sellers or admins can get coupons");
             expect(error.statusCode).to.equal(403);
         });
 
@@ -244,9 +244,9 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(res.status.calledWith(200)).to.be.true;
             const jsonCall = res.json.firstCall.args[0];
             expect(jsonCall.success).to.be.true;
-            expect(jsonCall.currentPage).to.equal(1);
-            expect(jsonCall.totalPages).to.equal(2);
-            expect(jsonCall.totalCoupon).to.equal(25);
+            expect(jsonCall.metadata.currentPage).to.equal(1);
+            expect(jsonCall.metadata.totalPages).to.equal(2);
+            expect(jsonCall.metadata.total).to.equal(25);
         });
 
         it("should return coupons with custom pagination", async () => {
@@ -318,7 +318,6 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(next.calledOnce).to.be.true;
             const error = next.firstCall.args[0];
             expect(error).to.be.instanceOf(AppError);
-            F;
             expect(error.message).to.equal("Only sellers or admins can access coupons");
             expect(error.statusCode).to.equal(403);
         });

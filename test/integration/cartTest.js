@@ -69,7 +69,7 @@ describe("Cart Integration Tests", () => {
                 .send({ productId: productId1, quantity: 2 })
                 .expect(200);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Product added to cart successfully");
             expect(response.body.data.cart.items).to.have.lengthOf(1);
             expect(response.body.data.cart.items[0].quantity).to.equal(2);
@@ -158,7 +158,6 @@ describe("Cart Integration Tests", () => {
                 .post("/api/v2/cart/add")
                 .send({ productId: productId1, quantity: 2 })
                 .expect(401);
-            console.log("6666666666666666666666", response.body);
             expect(response.body.status).to.equal(401);
             expect(response.body.message).to.equal("Invalid token.");
         });
@@ -171,7 +170,7 @@ describe("Cart Integration Tests", () => {
                 .set("Authorization", `Bearer ${authToken}`)
                 .expect(200);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Cart is empty");
             expect(response.body.data.cart.items).to.be.an("array").that.is.empty;
             expect(response.body.data.cart.totalAmount).to.equal(0);
@@ -195,7 +194,7 @@ describe("Cart Integration Tests", () => {
                 .set("Authorization", `Bearer ${authToken}`)
                 .expect(200);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Cart retrieved successfully");
             expect(response.body.data.cart.items).to.have.lengthOf(2);
             expect(response.body.data.cart.totalAmount).to.equal(250);
@@ -207,10 +206,8 @@ describe("Cart Integration Tests", () => {
         });
 
         it("should return error when not authenticated", async () => {
-            console.log("88888888888888855555555");
             const response = await request(app).get("/api/v2/cart").expect(401);
 
-            console.log("888888888888888888888888888", response.body);
             expect(response.body.status).to.equal(401);
             expect(response.body.message).to.equal("Invalid token.");
         });
@@ -236,7 +233,7 @@ describe("Cart Integration Tests", () => {
                 .set("Authorization", `Bearer ${authToken}`)
                 .expect(200);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Product removed from cart successfully");
             expect(response.body.data.cart.items).to.have.lengthOf(1);
             expect(response.body.data.cart.totalAmount).to.equal(50);
@@ -308,7 +305,7 @@ describe("Cart Integration Tests", () => {
                 .send({ quantity: 5 })
                 .expect(200);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Cart item updated successfully");
             expect(response.body.data.cart.items[0].quantity).to.equal(5);
             expect(response.body.data.cart.totalAmount).to.equal(500);
@@ -372,7 +369,7 @@ describe("Cart Integration Tests", () => {
                 .set("Authorization", `Bearer ${authToken}`)
                 .expect(200);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Cart cleared successfully");
 
             // Vérifier dans la base de données
@@ -439,7 +436,6 @@ describe("Cart Integration Tests", () => {
                 .get("/api/v2/cart")
                 .set("Authorization", `Bearer ${authToken}`);
 
-            // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkk",response.body.data.cart.items);
             expect(response.body.data.cart.items).to.have.lengthOf(2);
 
             const product1Item = response.body.data.cart.items.find(

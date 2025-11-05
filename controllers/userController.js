@@ -119,10 +119,19 @@ async function deleteUser(req, res, next) {
 async function getUserProfile(req, res, next) {
     try {
         if (!req.user) {
-            return res.status(401).json({ success: false, message: "Utilisateur non authentifié" });
+            return res.status(401).json({
+                success: false,
+                message: "Utilisateur non authentifié"
+            });
         }
 
-        return res.status(200).json({ success: true, user: req.user });
+        return res.status(200).json({
+            success: true,
+            message: 'User profile retrieved successfully',
+            data: {
+                user: req.user
+            }
+        });
     } catch (err) {
         next(err);
     }
@@ -165,8 +174,11 @@ async function updateProfile(req, res, next) {
         await cacheInvalidation.invalidateSpecificUser(req.user._id);
 
         res.status(200).json({
+            success: true,
             message: "Profile updated successfully",
-            updatedUser,
+            data: {
+                user: updatedUser
+            }
         });
     } catch (err) {
         next(err);

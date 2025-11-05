@@ -38,8 +38,10 @@ describe("Auth Controller - Unit Tests", () => {
 
             expect(res.status.calledWith(201)).to.be.true;
             expect(res.json.calledOnce).to.be.true;
-            expect(res.json.firstCall.args[0]).to.have.property("token");
-            expect(res.json.firstCall.args[0]).to.have.property("user");
+            expect(res.json.firstCall.args[0]).to.have.property("success", true);
+            expect(res.json.firstCall.args[0]).to.have.property("message");
+            expect(res.json.firstCall.args[0].data).to.have.property("token");
+            expect(res.json.firstCall.args[0].data).to.have.property("user");
         });
 
         it("should return error if email already exists", async () => {
@@ -94,8 +96,10 @@ describe("Auth Controller - Unit Tests", () => {
             await authController.login(req, res, next);
 
             expect(res.json.calledOnce).to.be.true;
-            expect(res.json.firstCall.args[0]).to.have.property("token");
-            expect(res.json.firstCall.args[0]).to.have.property("user");
+            expect(res.json.firstCall.args[0]).to.have.property("success", true);
+            expect(res.json.firstCall.args[0]).to.have.property("message");
+            expect(res.json.firstCall.args[0].data).to.have.property("token");
+            expect(res.json.firstCall.args[0].data).to.have.property("user");
         });
 
         it("should return error with invalid email", async () => {
@@ -146,6 +150,7 @@ describe("Auth Controller - Unit Tests", () => {
             await authController.logout(req, res, next);
 
             expect(res.json.calledOnce).to.be.true;
+            expect(res.json.firstCall.args[0]).to.have.property("success", true);
             expect(res.json.firstCall.args[0].message).to.equal("Logged out successfully");
         });
 

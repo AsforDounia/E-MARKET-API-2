@@ -171,7 +171,7 @@ const createOrder = async (req, res, next) => {
         await cacheInvalidation.invalidateUserOrders(userId);
 
         res.status(201).json({
-            status: "success",
+            success: true,
             message: "Order created successfully",
             data: {
                 order: {
@@ -179,9 +179,9 @@ const createOrder = async (req, res, next) => {
                     userId,
                     subtotal,
                     discount,
-                    total,
-                },
-            },
+                    total
+                }
+            }
         });
     } catch (error) {
         next(error);
@@ -221,7 +221,7 @@ const getOrders = async (req, res, next) => {
         );
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: 'Orders retrieved successfully',
             metadata: {
                 total: totalOrders,
@@ -231,7 +231,7 @@ const getOrders = async (req, res, next) => {
                 hasNextPage: Number(page) < Math.ceil(totalOrders / Number(limit)),
                 hasPreviousPage: Number(page) > 1
             },
-            data:{
+            data: {
                 orders: ordersWithCoupons
             }
         });
@@ -269,15 +269,15 @@ const getOrderById = async (req, res, next) => {
         );
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Order retrieved successfully",
             data: {
                 order: {
                     ...order.toObject(),
                     items,
-                    coupons: orderCoupons,
-                },
-            },
+                    coupons: orderCoupons
+                }
+            }
         });
     } catch (error) {
         next(error);
@@ -315,11 +315,11 @@ const updateOrderStatus = async (req, res, next) => {
         await cacheInvalidation.invalidateUserOrders(order.userId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Order status updated",
             data: {
-                order: order,
-            },
+                order
+            }
         });
     } catch (error) {
         next(error);
@@ -383,11 +383,11 @@ const cancelOrder = async (req, res, next) => {
         await cacheInvalidation.invalidateUserOrders(order.userId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Order cancelled successfully",
             data: {
-                order: order,
-            },
+                order
+            }
         });
     } catch (error) {
         next(error);

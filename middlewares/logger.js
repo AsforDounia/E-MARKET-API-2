@@ -35,9 +35,12 @@ const errorRotateFileTransport = new transports.DailyRotateFile({
 });
 
 const logger = createLogger({
-    level: "info",
+    level: process.env.NODE_ENV === 'test' ? 'silent' : 'info',
     format: combine(errors({ stack: true }), timestamp(), json()),
-    transports: [
+    transports: process.env.NODE_ENV === 'test' ? [
+        dailyRotateFileTransport,
+        errorRotateFileTransport,
+    ] : [
         // Console
         new transports.Console(),
         dailyRotateFileTransport,

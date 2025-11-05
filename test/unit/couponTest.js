@@ -52,7 +52,7 @@ describe("Coupon Controller - Unit Tests", () => {
 
             expect(mockNext.calledOnce).to.be.true;
             const error = mockNext.firstCall.args[0];
-            expect(error.message).to.equal("Only sellers can create coupons");
+            expect(error.message).to.equal("Only sellers or admins can create coupons");
             expect(error.statusCode).to.equal(403);
         });
 
@@ -164,8 +164,8 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(mockRes.status.calledWith(201)).to.be.true;
             expect(mockRes.json.calledOnce).to.be.true;
             const response = mockRes.json.firstCall.args[0];
-            expect(response.message).to.equal("Coupon created succesfuly");
-            expect(response.data).to.deep.equal(mockCoupon);
+            expect(response.message).to.equal("Coupon created successfully");
+            expect(response.data.coupon).to.deep.equal(mockCoupon);
         });
     });
 
@@ -177,7 +177,7 @@ describe("Coupon Controller - Unit Tests", () => {
 
             expect(mockNext.calledOnce).to.be.true;
             const error = mockNext.firstCall.args[0];
-            expect(error.message).to.equal("Only sellers or admins can create coupons");
+            expect(error.message).to.equal("Only sellers or admins can get coupons");
             expect(error.statusCode).to.equal(403);
         });
 
@@ -227,9 +227,9 @@ describe("Coupon Controller - Unit Tests", () => {
             expect(mockRes.status.calledWith(200)).to.be.true;
             const response = mockRes.json.firstCall.args[0];
             expect(response.success).to.be.true;
-            expect(response.currentPage).to.equal(1);
-            expect(response.totalPages).to.equal(2);
-            expect(response.totalCoupon).to.equal(25);
+            expect(response.metadata.currentPage).to.equal(1);
+            expect(response.metadata.totalPages).to.equal(2);
+            expect(response.metadata.total).to.equal(25);
         });
 
         it("should filter coupons by type and isActive", async () => {

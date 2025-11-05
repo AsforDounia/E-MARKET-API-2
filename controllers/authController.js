@@ -14,8 +14,12 @@ export const register = async (req, res, next) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
         res.status(201).json({
-            token,
-            user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role },
+            success: true,
+            message: 'User registered successfully',
+            data: {
+                token,
+                user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role }
+            }
         });
     } catch (error) {
         next(error);
@@ -35,8 +39,12 @@ export const login = async (req, res, next) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
         res.json({
-            token,
-            user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role },
+            success: true,
+            message: 'Login successful',
+            data: {
+                token,
+                user: { id: user._id, fullname: user.fullname, email: user.email, role: user.role }
+            }
         });
     } catch (error) {
         next(error);
@@ -54,7 +62,10 @@ export const logout = async (req, res, next) => {
             expiresAt: new Date(decoded.exp * 1000),
         });
 
-        res.json({ message: "Logged out successfully" });
+        res.json({
+            success: true,
+            message: "Logged out successfully"
+        });
     } catch (error) {
         next(error);
     }

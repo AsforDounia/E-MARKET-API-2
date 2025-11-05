@@ -48,7 +48,13 @@ async function createCoupon(req, res, next) {
         // Invalidate coupons cache
         await cacheInvalidation.invalidateCoupons();
 
-        res.status(201).json({ message: "Coupon created succesfuly", data: coupon });
+        res.status(201).json({
+            success: true,
+            message: "Coupon created successfully",
+            data: {
+                coupon
+            }
+        });
     } catch (error) {
         next(error);
     }
@@ -106,10 +112,17 @@ async function getAllCoupons(req, res, next) {
         res.status(200).json({
             success: true,
             message: "Coupons retrieved successfully",
-            currentPage: Number(page),
-            totalPages: Math.ceil(totalCoupon / limit),
-            totalCoupon,
-            coupons,
+            metadata: {
+                total: totalCoupon,
+                currentPage: Number(page),
+                totalPages: Math.ceil(totalCoupon / Number(limit)),
+                pageSize: Number(limit),
+                hasNextPage: Number(page) < Math.ceil(totalCoupon / Number(limit)),
+                hasPreviousPage: Number(page) > 1
+            },
+            data: {
+                coupons
+            }
         });
     } catch (error) {
         next(error);

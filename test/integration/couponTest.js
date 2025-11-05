@@ -62,7 +62,6 @@ describe("Coupon Controller - Integration Tests", () => {
             await Coupon.deleteMany({});
             await User.deleteMany({});
 
-            console.log("Database cleaned after tests");
         } catch (error) {
             console.error("Error in after hook:", error.message);
         }
@@ -84,10 +83,11 @@ describe("Coupon Controller - Integration Tests", () => {
                 });
 
             expect(response.status).to.equal(201);
-            expect(response.body.message).to.equal("Coupon created succesfuly");
-            expect(response.body.data.code).to.equal("SAVE20");
-            expect(response.body.data.type).to.equal("percentage");
-            couponId = response.body.data._id;
+            expect(response.body.success).to.equal(true);
+            expect(response.body.message).to.equal("Coupon created successfully");
+            expect(response.body.data.coupon.code).to.equal("SAVE20");
+            expect(response.body.data.coupon.type).to.equal("percentage");
+            couponId = response.body.data.coupon._id;
         });
 
         it("should fail if not authenticated", async () => {
@@ -188,7 +188,7 @@ describe("Coupon Controller - Integration Tests", () => {
                 });
 
             expect(response.status).to.equal(201);
-            expect(response.body.data.code).to.equal("LOWERCASE20");
+            expect(response.body.data.coupon.code).to.equal("LOWERCASE20");
         });
 
         it("should trim whitespace from coupon code", async () => {
@@ -205,7 +205,7 @@ describe("Coupon Controller - Integration Tests", () => {
                 });
 
             expect(response.status).to.equal(201);
-            expect(response.body.data.code).to.equal("TRIMME");
+            expect(response.body.data.coupon.code).to.equal("TRIMME");
         });
     });
 
@@ -302,8 +302,8 @@ describe("Coupon Controller - Integration Tests", () => {
 
             expect(response.status).to.equal(200);
             expect(response.body.success).to.be.true;
-            expect(response.body.coupons).to.have.lengthOf(2);
-            expect(response.body.currentPage).to.equal(1);
+            expect(response.body.data.coupons).to.have.lengthOf(2);
+            expect(response.body.metadata.currentPage).to.equal(1);
         });
 
         it("should filter by type", async () => {
@@ -312,8 +312,8 @@ describe("Coupon Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${adminToken}`);
 
             expect(response.status).to.equal(200);
-            expect(response.body.coupons).to.have.lengthOf(1);
-            expect(response.body.coupons[0].type).to.equal("percentage");
+            expect(response.body.data.coupons).to.have.lengthOf(1);
+            expect(response.body.data.coupons[0].type).to.equal("percentage");
         });
 
         it("should filter by isActive", async () => {
@@ -322,8 +322,8 @@ describe("Coupon Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${adminToken}`);
 
             expect(response.status).to.equal(200);
-            expect(response.body.coupons).to.have.lengthOf(1);
-            expect(response.body.coupons[0].isActive).to.be.true;
+            expect(response.body.data.coupons).to.have.lengthOf(1);
+            expect(response.body.data.coupons[0].isActive).to.be.true;
         });
 
         it("should handle pagination with no results", async () => {
@@ -332,7 +332,7 @@ describe("Coupon Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${adminToken}`);
 
             expect(response.status).to.equal(200);
-            expect(response.body.coupons).to.have.lengthOf(0);
+            expect(response.body.data.coupons).to.have.lengthOf(0);
         });
     });
 

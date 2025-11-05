@@ -60,11 +60,11 @@ export const addToCart = async (req, res, next) => {
         await cacheInvalidation.invalidateUserCart(userId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Product added to cart successfully",
             data: {
-                cart: cartData,
-            },
+                cart: cartData
+            }
         });
     } catch (error) {
         next(error);
@@ -79,22 +79,22 @@ export const getCart = async (req, res, next) => {
 
         if (!cart) {
             return res.status(200).json({
-                status: "success",
+                success: true,
                 message: "Cart is empty",
                 data: {
-                    cart: { items: [], totalAmount: 0 },
-                },
+                    cart: { items: [], totalAmount: 0 }
+                }
             });
         }
 
         const cartData = await buildCartResponse(cart);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Cart retrieved successfully",
             data: {
-                cart: cartData,
-            },
+                cart: cartData
+            }
         });
     } catch (error) {
         next(error);
@@ -118,11 +118,11 @@ export const removeFromCart = async (req, res, next) => {
         await cacheInvalidation.invalidateUserCart(userId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Product removed from cart successfully",
             data: {
-                cart: cartData,
-            },
+                cart: cartData
+            }
         });
     } catch (error) {
         next(error);
@@ -150,11 +150,11 @@ export const updateCartItem = async (req, res, next) => {
         await cacheInvalidation.invalidateUserCart(userId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Cart item updated successfully",
             data: {
-                cart: cartData,
-            },
+                cart: cartData
+            }
         });
     } catch (error) {
         next(error);
@@ -173,11 +173,11 @@ export const clearCart = async (req, res, next) => {
         await cacheInvalidation.invalidateUserCart(userId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Cart cleared successfully",
             data: {
-                cart: cart,
-            },
+                cart
+            }
         });
     } catch (error) {
         next(error);

@@ -7,11 +7,11 @@ describe("Logger Unit Tests", () => {
     // ==================== LOGGER CONFIGURATION ====================
     describe("Logger Configuration", () => {
         it("should have correct log level", () => {
-            expect(logger.level).to.equal("info");
+            expect(logger.level).to.equal("silent");
         });
 
-        it("should have three transports (Console, Daily Rotate, Error Rotate)", () => {
-            expect(logger.transports).to.have.lengthOf(3);
+        it("should have two transports (Daily Rotate, Error Rotate)", () => {
+            expect(logger.transports).to.have.lengthOf(2);
         });
 
         it("should create logs directory", () => {

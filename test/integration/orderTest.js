@@ -45,9 +45,8 @@ describe("Order Controller - Integration Tests", () => {
             password: "Password123!",
             role: "user",
         });
-        // console.log("REGISTER RESPONSE:", userResponse.body);
-        authToken = userResponse.body.token;
-        userId = userResponse.body.user.id;
+        authToken = userResponse.body.data.token;
+        userId = userResponse.body.data.user.id;
 
         // Création d'un admin et authentification
         const adminResponse = await request(app).post("/api/v2/auth/register").send({
@@ -57,9 +56,8 @@ describe("Order Controller - Integration Tests", () => {
             role: "admin",
         });
 
-        // console.log("RES ADMIN", adminResponse.body);
-        adminToken = adminResponse.body.token;
-        adminId = adminResponse.body.user.id;
+        adminToken = adminResponse.body.data.token;
+        adminId = adminResponse.body.data.user.id;
 
         // Création d'un produit
         const product = await Product.create({
@@ -93,7 +91,7 @@ describe("Order Controller - Integration Tests", () => {
                 .send({});
 
             expect(response.status).to.equal(201);
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Order created successfully");
             expect(response.body.data.order).to.have.property("subtotal", 200);
             expect(response.body.data.order).to.have.property("discount", 0);
@@ -127,7 +125,7 @@ describe("Order Controller - Integration Tests", () => {
                     couponCodes: ["SAVE20"],
                 });
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Order created successfully");
             expect(response.body.data.order.discount).to.equal(40);
             expect(response.body.data.order.total).to.equal(160);
@@ -137,7 +135,6 @@ describe("Order Controller - Integration Tests", () => {
                 user: userId,
                 coupon: coupon._id,
             });
-            // console.log("UUUUUUUUUUUUUUU", userCoupon);
             expect(userCoupon).to.not.be.null;
         });
 
@@ -159,7 +156,7 @@ describe("Order Controller - Integration Tests", () => {
                     couponCodes: ["FIXED50"],
                 });
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Order created successfully");
             expect(response.body.data.order.discount).to.equal(50);
             expect(response.body.data.order.total).to.equal(150);
@@ -378,7 +375,7 @@ describe("Order Controller - Integration Tests", () => {
                 .get("/api/v2/orders")
                 .set("Authorization", `Bearer ${authToken}`);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.data.orders).to.be.an("array").with.lengthOf(2);
             expect(response.body.data.orders[0]).to.have.property("total");
         });
@@ -399,13 +396,8 @@ describe("Order Controller - Integration Tests", () => {
                 .get("/api/v2/orders")
                 .set("Authorization", `Bearer ${authToken}`);
 
-            // console.log("kkkkkkkkkkkkkkkkkkkkkkk", response.body.data.orders);
             expect(response.status).to.equal(200);
             const orders = response.body.data.orders;
-            console.log(
-                "Returned orders:",
-                orders.map((o) => o.createdAt)
-            );
             expect(new Date(orders[0].createdAt).getTime()).to.be.gte(
                 new Date(orders[1].createdAt).getTime()
             );
@@ -414,7 +406,6 @@ describe("Order Controller - Integration Tests", () => {
         it("should return 401 if not authenticated", async () => {
             const response = await request(app).get("/api/v2/orders");
 
-            // console.log("5555555555555555555555555", response.body);
             expect(response.body.status).to.equal(401);
             expect(response.body.message).to.equal("Invalid token.");
         });
@@ -448,7 +439,7 @@ describe("Order Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${authToken}`);
 
             // expect(response.status).to.equal(200);
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.data.order).to.have.property("_id");
             expect(response.body.data.order).to.have.property("items");
             expect(response.body.data.order.items).to.be.an("array").with.lengthOf(1);
@@ -502,7 +493,7 @@ describe("Order Controller - Integration Tests", () => {
                 .send({ status: "shipped" });
 
             expect(response.status).to.equal(200);
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.data.order.status).to.equal("shipped");
         });
 
@@ -512,7 +503,7 @@ describe("Order Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${adminToken}`)
                 .send({ status: "paid" });
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.data.order.status).to.equal("paid");
         });
 
@@ -535,7 +526,6 @@ describe("Order Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${adminToken}`)
                 .send({ status: "invalid-status" });
 
-            // console.log("ffffffffffffffffffffffff", response.body);
             expect(response.body.success).to.equal(false);
             expect(response.body.message).to.equal("Validation failed");
         });
@@ -617,7 +607,7 @@ describe("Order Controller - Integration Tests", () => {
                 .set("Authorization", `Bearer ${authToken}`);
 
             expect(response.status).to.equal(200);
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.data.order.status).to.equal("cancelled");
 
             // Vérifier que le stock est restauré
@@ -630,7 +620,7 @@ describe("Order Controller - Integration Tests", () => {
                 .delete(`/api/v2/orders/${orderId}`)
                 .set("Authorization", `Bearer ${adminToken}`);
 
-            expect(response.body.status).to.equal("success");
+            expect(response.body.success).to.equal(true);
             expect(response.body.message).to.equal("Order cancelled successfully");
             expect(response.body.data.order.status).to.equal("cancelled");
         });

@@ -34,11 +34,11 @@ const addReview = async (req, res, next) => {
         await cacheInvalidation.invalidateProductReviews(productId);
 
         res.status(201).json({
-            status: "success",
+            success: true,
             message: "Review added successfully",
             data: {
-                review: review,
-            },
+                review
+            }
         });
     } catch (error) {
         next(error);
@@ -59,12 +59,12 @@ const getProductReviews = async (req, res, next) => {
         const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Reviews retrieved successfully",
             data: {
-                reviews: reviews,
-                averageRating: averageRating,
-            },
+                reviews,
+                averageRating
+            }
         });
     } catch (error) {
         next(error);
@@ -89,11 +89,11 @@ const updateReview = async (req, res, next) => {
         await cacheInvalidation.invalidateProductReviews(review.productId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Review updated successfully",
             data: {
-                review: review,
-            },
+                review
+            }
         });
     } catch (error) {
         next(error);
@@ -120,11 +120,11 @@ const deleteReview = async (req, res, next) => {
         await cacheInvalidation.invalidateProductReviews(review.productId);
 
         res.status(200).json({
-            status: "success",
+            success: true,
             message: "Review soft-deleted successfully",
             data: {
-                review: review,
-            },
+                review
+            }
         });
     } catch (error) {
         next(error);

@@ -323,8 +323,11 @@ async function updateProductVisibility(req, res, next) {
         await cacheInvalidation.invalidateSpecificProduct(id);
 
         res.json({
+            success: true,
             message: `Product ${isVisible ? "shown" : "hidden"} successfully`,
-            product,
+            data: {
+                product
+            }
         });
     } catch (error) {
         next(error);
@@ -338,7 +341,13 @@ async function getPendingProducts(req, res, next) {
             deletedAt: null,
         }).populate("sellerId", "fullname email");
 
-        res.json(products);
+        res.json({
+            success: true,
+            message: 'Pending products retrieved successfully',
+            data: {
+                products
+            }
+        });
     } catch (error) {
         next(error);
     }
@@ -372,7 +381,13 @@ async function validateProduct(req, res, next) {
         // Invalidate products cache
         await cacheInvalidation.invalidateProducts();
 
-        res.json({ message: "Product approved successfully", product });
+        res.json({
+            success: true,
+            message: "Product approved successfully",
+            data: {
+                product
+            }
+        });
     } catch (error) {
         next(error);
     }
@@ -404,8 +419,11 @@ async function rejectProduct(req, res, next) {
         await cacheInvalidation.invalidateProducts();
 
         res.json({
+            success: true,
             message: "Product rejected successfully",
-            product,
+            data: {
+                product
+            }
         });
     } catch (error) {
         next(error);
