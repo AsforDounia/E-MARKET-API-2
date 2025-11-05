@@ -19,6 +19,7 @@ import logger from "./middlewares/logger.js";
 import notFound from "./middlewares/notFound.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { swaggerUi, specsV1, specsV2, swaggerOptions } from "./swagger/swagger.js";
+
 import {securityMiddlewares} from "./middlewares/security.js";
 import redis from './config/redis.js';
 import compression from "compression";
@@ -29,12 +30,6 @@ import { trackResponseTime } from './controllers/performanceController.js';
 import v1Routes from "./routes/api/v1/index.js";
 import v2Routes from "./routes/api/v2/index.js";
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// dotenvFlow.config();
 
 const app = express();
 
@@ -65,7 +60,7 @@ app.use(express.json());
 
 // Test route
 app.get("/", (req, res) => {
-  res.send("E-Market API is running 3!");
+  res.send("E-Market API is running new test!");
 });
 
 // API Versioning
